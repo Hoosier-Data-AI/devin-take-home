@@ -1,6 +1,6 @@
 # Fintech Operations Workbench
 
-A small, reusable internal-tools prototype centered on one explicit KYC review workflow. It uses React + TypeScript, Express + TypeScript, and SQLite in one repository.
+A small, reusable internal-tools prototype containing three explicit fintech operations applications: KYC review, refund approvals, and feature-flag administration. It uses React + TypeScript, Express + TypeScript, and SQLite in one repository.
 
 > **Synthetic-data demo only.** This project is not compliant, production-ready, or an authentication system. Its development persona selector permits impersonation by design. The server refuses to start when `NODE_ENV=production`.
 
@@ -24,8 +24,8 @@ npm run setup
 | Command | Purpose |
 | --- | --- |
 | `npm run setup` | Clean, lockfile-compatible dependency install |
-| `npm run seed` | Seed 12 synthetic cases only when the database is empty |
-| `npm run reset` | Explicitly replace demo data with the original 12 synthetic cases |
+| `npm run seed` | Add synthetic seed data for any empty application module |
+| `npm run reset` | Atomically replace all demo data with the original synthetic records |
 | `npm run dev` | Run the Vite client and Express API together |
 | `npm run build` | TypeScript server build plus optimized client build |
 | `npm start` | Run the built demo server; serves the built client when present |
@@ -33,7 +33,7 @@ npm run setup
 | `npm run typecheck` | Type-check server and client |
 | `npm run lint` | Run ESLint |
 
-Normal startup creates and seeds the database only when it is empty. It never resets existing data.
+Normal startup creates the schema and seeds only application modules that are empty. It never resets existing data.
 
 ## Local ports
 
@@ -60,22 +60,22 @@ That command exits with a clear demo-only error.
 
 The persona ID is sent in the `x-demo-persona-id` header and resolved against server-owned records:
 
-- `viewer-001`: can read KYC cases, cannot decide.
+- `viewer-001`: can read all three applications, cannot change state.
 - `kyc-reviewer-001`: can read and decide pending KYC cases.
 - `refund-reviewer-001`: has refund-domain permissions only and cannot access KYC routes.
+- `feature-flag-admin-001`: can read and change synthetic feature flags.
 
 Unknown identities are rejected. Roles or permissions in request bodies are never trusted.
 
-## KYC workflow
+## Application modules
 
-- The queue supports status and risk filters and is prioritized by risk.
-- Only `pending` cases may transition to `approved` or `rejected`.
-- Every decision requires a non-blank trimmed reason and `expectedVersion`.
-- The conditional state update and audit insert run in one SQLite transaction.
-- Stale or repeated decisions return HTTP `409`.
-- Audit events are append-only in the schema, and the API exposes no update or delete endpoint.
+- **KYC review:** status/risk queue, case detail, and pending-only approval or rejection.
+- **Refunds dashboard:** status/risk queue prioritized by risk and amount, with pending-only approval or rejection.
+- **Feature-flag admin:** environment/state filters and versioned enable/disable actions against synthetic flags only.
 
-The queue component, authorization policy helper, and audit writer are reusable. KYC route handlers and transition rules remain explicit rather than forming a generic workflow engine.
+Every state change requires a non-blank trimmed reason and `expectedVersion`. The conditional update and append-only audit insert run in one SQLite transaction; stale, repeated, and no-op requests return HTTP `409`.
+
+The shell, queue component, badges, audit history, authorization policy helper, audit writer, persistence, and test patterns are reusable. Domain services and routes remain explicit rather than forming a generic workflow engine. See [Architecture and extension guide](docs/architecture.md).
 
 ## Tests
 
@@ -90,6 +90,8 @@ Tests use a new in-memory SQLite database for each case. They cover:
 - rollback when replacement seeding fails during reset;
 - unknown identity and cross-domain permission denial;
 - JSON 404 responses for unknown API reads when serving the SPA;
+- refund authorization, validation, concurrency, and rollback;
+- feature-flag authorization, filtering, concurrency, no-op rejection, and rollback;
 - production-mode startup guard.
 
 Run:

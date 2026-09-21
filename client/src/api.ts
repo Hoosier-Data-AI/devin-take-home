@@ -1,8 +1,15 @@
 import type {
   DemoPersona,
+  FeatureFlag,
+  FeatureFlagDetail,
+  FeatureFlagEnvironment,
+  FeatureFlagState,
   KycCase,
   KycCaseDetail,
   KycStatus,
+  RefundRequest,
+  RefundRequestDetail,
+  RefundStatus,
   RiskLevel
 } from "./types";
 
@@ -92,4 +99,107 @@ export async function submitDecision(
     }
   );
   return body.case;
+}
+
+export async function fetchRefunds(
+  personaId: string,
+  filters: { status: RefundStatus | ""; risk: RiskLevel | "" }
+): Promise<RefundRequest[]> {
+  const search = new URLSearchParams();
+  if (filters.status) {
+    search.set("status", filters.status);
+  }
+  if (filters.risk) {
+    search.set("risk", filters.risk);
+  }
+  const query = search.size > 0 ? `?${search.toString()}` : "";
+  const body = await request<{ refunds: RefundRequest[] }>(
+    `/api/refunds${query}`,
+    personaId
+  );
+  return body.refunds;
+}
+
+export async function fetchRefund(
+  personaId: string,
+  refundId: string
+): Promise<RefundRequestDetail> {
+  const body = await request<{ refund: RefundRequestDetail }>(
+    `/api/refunds/${refundId}`,
+    personaId
+  );
+  return body.refund;
+}
+
+export async function submitRefundDecision(
+  personaId: string,
+  refundId: string,
+  input: {
+    decision: "approved" | "rejected";
+    reason: string;
+    expectedVersion: number;
+  }
+): Promise<RefundRequestDetail> {
+  const body = await request<{ refund: RefundRequestDetail }>(
+    `/api/refunds/${refundId}/decision`,
+    personaId,
+    {
+      method: "POST",
+      body: JSON.stringify(input)
+    }
+  );
+  return body.refund;
+}
+
+export async function fetchFeatureFlags(
+  personaId: string,
+  filters: {
+    environment: FeatureFlagEnvironment | "";
+    state: FeatureFlagState | "";
+  }
+): Promise<FeatureFlag[]> {
+  const search = new URLSearchParams();
+  if (filters.environment) {
+    search.set("environment", filters.environment);
+  }
+  if (filters.state) {
+    search.set("state", filters.state);
+  }
+  const query = search.size > 0 ? `?${search.toString()}` : "";
+  const body = await request<{ flags: FeatureFlag[] }>(
+    `/api/feature-flags${query}`,
+    personaId
+  );
+  return body.flags;
+}
+
+export async function fetchFeatureFlag(
+  personaId: string,
+  flagId: string
+): Promise<FeatureFlagDetail> {
+  const body = await request<{ flag: FeatureFlagDetail }>(
+    `/api/feature-flags/${flagId}`,
+    personaId
+  );
+  return body.flag;
+}
+
+export async function submitFeatureFlagToggle(
+  personaId: string,
+  flagId: string,
+  input: {
+    enabled: boolean;
+    reason: string;
+    expectedVersion: number;
+  }
+): Promise<FeatureFlagDetail> {
+  const body = await request<{ flag: FeatureFlagDetail }>(
+    `/api/feature-flags/${flagId}/toggle`,
+    personaId,
+    {
+      method: "POST",
+      body: JSON.stringify(input)
+    }
+  );
+  return body.flag;
 }

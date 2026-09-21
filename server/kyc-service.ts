@@ -1,7 +1,9 @@
 import type { AuditWriter } from "./audit.js";
-import { insertAuditEvent } from "./audit.js";
+import {
+  insertAuditEvent,
+  listAuditEvents
+} from "./audit.js";
 import type {
-  AuditEvent,
   KycCase,
   KycCaseDetail,
   KycStatus,
@@ -19,18 +21,6 @@ interface KycCaseRow {
   submitted_at: string;
   status: KycStatus;
   version: number;
-}
-
-interface AuditEventRow {
-  id: number;
-  actor_id: string;
-  entity_type: "kyc_case";
-  entity_id: string;
-  action: string;
-  old_status: KycStatus | null;
-  new_status: KycStatus;
-  reason: string;
-  created_at: string;
 }
 
 export interface QueueFilters {
@@ -55,20 +45,6 @@ function mapCase(row: KycCaseRow): KycCase {
     submittedAt: row.submitted_at,
     status: row.status,
     version: row.version
-  };
-}
-
-function mapAuditEvent(row: AuditEventRow): AuditEvent {
-  return {
-    id: row.id,
-    actorId: row.actor_id,
-    entityType: row.entity_type,
-    entityId: row.entity_id,
-    action: row.action,
-    oldStatus: row.old_status,
-    newStatus: row.new_status,
-    reason: row.reason,
-    createdAt: row.created_at
   };
 }
 
@@ -119,27 +95,9 @@ export function getKycCase(
     throw new NotFoundError(`KYC case ${caseId} was not found.`);
   }
 
-  const auditRows = database
-    .prepare(`
-      SELECT
-        id,
-        actor_id,
-        entity_type,
-        entity_id,
-        action,
-        old_status,
-        new_status,
-        reason,
-        created_at
-      FROM audit_events
-      WHERE entity_type = 'kyc_case' AND entity_id = ?
-      ORDER BY id DESC
-    `)
-    .all(caseId) as AuditEventRow[];
-
   return {
     ...mapCase(row),
-    auditEvents: auditRows.map(mapAuditEvent)
+    auditEvents: listAuditEvents(database, "kyc_case", caseId)
   };
 }
 

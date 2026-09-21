@@ -121,6 +121,51 @@ h2 {
   text-transform: none;
 }
 
+.module-nav {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: min(1500px, 92vw);
+  margin: 22px auto 0;
+  overflow: hidden;
+  border: 1px solid #c3ccc3;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.66);
+}
+
+.module-nav button {
+  display: grid;
+  gap: 3px;
+  padding: 13px 18px;
+  border: 0;
+  border-right: 1px solid #d4dad3;
+  color: #637067;
+  background: transparent;
+  text-align: left;
+}
+
+.module-nav button:last-child {
+  border-right: 0;
+}
+
+.module-nav button:hover {
+  background: #edf2e9;
+}
+
+.module-nav .active-module {
+  color: #173e28;
+  background: #dfeadd;
+  box-shadow: inset 0 -3px #3d6b4c;
+}
+
+.module-nav span {
+  font-weight: 800;
+}
+
+.module-nav small {
+  color: inherit;
+  font-size: 0.68rem;
+}
+
 main {
   width: min(1500px, 92vw);
   margin: 0 auto;
@@ -315,6 +360,31 @@ td strong {
   background: #f4ddda;
 }
 
+.status-enabled {
+  color: #225f3a;
+  background: #d5eddd;
+}
+
+.status-disabled {
+  color: #5f6762;
+  background: #e4e7e4;
+}
+
+.environment-production {
+  color: #7d322e;
+  background: #f3dcda;
+}
+
+.environment-staging {
+  color: #755915;
+  background: #f4e8c7;
+}
+
+.environment-development {
+  color: #305b73;
+  background: #dceaf1;
+}
+
 .detail-panel {
   min-width: 0;
   padding: 26px;
@@ -406,6 +476,14 @@ td strong {
   font-weight: 800;
 }
 
+.full-action {
+  min-height: 44px;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 800;
+}
+
 .approve-button {
   background: #2d6b43;
 }
@@ -416,6 +494,17 @@ td strong {
 
 .audit-section {
   margin-top: 30px;
+}
+
+.flag-key {
+  overflow-wrap: anywhere;
+}
+
+.detail-description {
+  margin: 18px 0 0;
+  color: #56635a;
+  font-size: 0.9rem;
+  line-height: 1.55;
 }
 
 .section-title-row h3 {
@@ -545,6 +634,19 @@ td strong {
 
   .persona-control {
     min-width: 0;
+  }
+
+  .module-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .module-nav button {
+    border-right: 0;
+    border-bottom: 1px solid #d4dad3;
+  }
+
+  .module-nav button:last-child {
+    border-bottom: 0;
   }
 
   .filters label {

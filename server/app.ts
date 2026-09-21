@@ -12,6 +12,11 @@ import { insertAuditEvent } from "./audit.js";
 import type { WorkbenchDatabase } from "./database.js";
 import { HttpError } from "./errors.js";
 import {
+  getFeatureFlag,
+  listFeatureFlags,
+  toggleFeatureFlag
+} from "./feature-flag-service.js";
+import {
   decideKycCase,
   getKycCase,
   listKycCases
@@ -21,6 +26,11 @@ import {
   requireKnownPersona
 } from "./personas.js";
 import { requirePermission } from "./policies.js";
+import {
+  decideRefundRequest,
+  getRefundRequest,
+  listRefundRequests
+} from "./refund-service.js";
 import { assertDemoRuntimeAllowed } from "./runtime.js";
 
 const filtersSchema = z.object({
@@ -31,6 +41,19 @@ const filtersSchema = z.object({
 const decisionSchema = z
   .object({
     decision: z.enum(["approved", "rejected"]),
+    reason: z.string().transform((value) => value.trim()).pipe(z.string().min(1).max(500)),
+    expectedVersion: z.number().int().positive()
+  })
+  .strict();
+
+const featureFlagFiltersSchema = z.object({
+  environment: z.enum(["development", "staging", "production"]).optional(),
+  state: z.enum(["enabled", "disabled"]).optional()
+});
+
+const featureFlagToggleSchema = z
+  .object({
+    enabled: z.boolean(),
     reason: z.string().transform((value) => value.trim()).pipe(z.string().min(1).max(500)),
     expectedVersion: z.number().int().positive()
   })
@@ -102,6 +125,90 @@ export function createApp(options: AppOptions): express.Express {
         auditWriter
       );
       response.json({ case: updatedCase });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.get("/api/refunds", (request, response, next) => {
+    try {
+      requirePermission(request.persona, "refund:read");
+      const filters = filtersSchema.parse(request.query);
+      response.json({
+        refunds: listRefundRequests(options.database, filters)
+      });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.get("/api/refunds/:refundId", (request, response, next) => {
+    try {
+      requirePermission(request.persona, "refund:read");
+      response.json({
+        refund: getRefundRequest(options.database, request.params.refundId)
+      });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.post("/api/refunds/:refundId/decision", (request, response, next) => {
+    try {
+      requirePermission(request.persona, "refund:decide");
+      const decision = decisionSchema.parse(request.body);
+      const refund = decideRefundRequest(
+        options.database,
+        {
+          refundId: request.params.refundId,
+          actorId: request.persona.id,
+          ...decision
+        },
+        auditWriter
+      );
+      response.json({ refund });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.get("/api/feature-flags", (request, response, next) => {
+    try {
+      requirePermission(request.persona, "feature_flag:read");
+      const filters = featureFlagFiltersSchema.parse(request.query);
+      response.json({
+        flags: listFeatureFlags(options.database, filters)
+      });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.get("/api/feature-flags/:flagId", (request, response, next) => {
+    try {
+      requirePermission(request.persona, "feature_flag:read");
+      response.json({
+        flag: getFeatureFlag(options.database, request.params.flagId)
+      });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.post("/api/feature-flags/:flagId/toggle", (request, response, next) => {
+    try {
+      requirePermission(request.persona, "feature_flag:manage");
+      const toggle = featureFlagToggleSchema.parse(request.body);
+      const flag = toggleFeatureFlag(
+        options.database,
+        {
+          flagId: request.params.flagId,
+          actorId: request.persona.id,
+          ...toggle
+        },
+        auditWriter
+      );
+      response.json({ flag });
     } catch (error) {
       next(error);
     }

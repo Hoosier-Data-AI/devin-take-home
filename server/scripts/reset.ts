@@ -9,4 +9,6 @@ const database = openDatabase();
 resetDatabase(database);
 database.close();
 
-console.log("Reset the demo database to 12 synthetic KYC cases.");
+console.log(
+  "Reset the demo database to the original synthetic KYC, refund, and feature-flag records."
+);

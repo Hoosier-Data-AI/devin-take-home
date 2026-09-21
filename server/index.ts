@@ -20,6 +20,6 @@ app.listen(port, "0.0.0.0", () => {
     "SYNTHETIC DATA DEMO — persona switching permits impersonation and is not authentication."
   );
   if (seeded) {
-    console.log("Seeded 12 synthetic KYC cases into the empty database.");
+    console.log("Seeded missing synthetic workbench modules.");
   }
 });

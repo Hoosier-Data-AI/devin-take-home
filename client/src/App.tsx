@@ -1,103 +1,54 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { FormEvent } from "react";
-import {
-  fetchCase,
-  fetchCases,
-  fetchPersonas,
-  submitDecision
-} from "./api";
-import {
-  QueueTable,
-  type QueueColumn
-} from "./components/QueueTable";
-import type {
-  DemoPersona,
-  KycCase,
-  KycCaseDetail,
-  KycStatus,
-  RiskLevel
-} from "./types";
+import { useEffect, useState } from "react";
+import { fetchPersonas } from "./api";
+import { FeatureFlagsWorkspace } from "./modules/FeatureFlagsWorkspace";
+import { KycWorkspace } from "./modules/KycWorkspace";
+import { RefundsWorkspace } from "./modules/RefundsWorkspace";
+import type { DemoPersona } from "./types";
 
-const defaultPersonaId = "kyc-reviewer-001";
+type WorkbenchModule = "kyc" | "refunds" | "feature-flags";
 
-function titleCase(value: string): string {
-  return value.replace(/[._]/g, " ").replace(/\b\w/g, (letter) =>
-    letter.toUpperCase()
-  );
-}
-
-function formatDate(value: string): string {
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    hour: "numeric",
-    minute: "2-digit"
-  }).format(new Date(value));
-}
-
-function Badge({
-  kind,
-  value
-}: {
-  kind: "risk" | "status";
-  value: string;
-}) {
-  return (
-    <span className={`badge ${kind}-${value}`}>{titleCase(value)}</span>
-  );
-}
+const moduleConfiguration: Record<
+  WorkbenchModule,
+  {
+    label: string;
+    shortLabel: string;
+    defaultPersonaId: string;
+  }
+> = {
+  kyc: {
+    label: "KYC review",
+    shortLabel: "KYC",
+    defaultPersonaId: "kyc-reviewer-001"
+  },
+  refunds: {
+    label: "Refunds dashboard",
+    shortLabel: "Refunds",
+    defaultPersonaId: "refund-reviewer-001"
+  },
+  "feature-flags": {
+    label: "Feature-flag admin",
+    shortLabel: "Feature flags",
+    defaultPersonaId: "feature-flag-admin-001"
+  }
+};
 
 export function App() {
-  const [personaId, setPersonaId] = useState(defaultPersonaId);
+  const [activeModule, setActiveModule] =
+    useState<WorkbenchModule>("kyc");
+  const [personaId, setPersonaId] = useState(
+    moduleConfiguration.kyc.defaultPersonaId
+  );
   const [personas, setPersonas] = useState<DemoPersona[]>([]);
-  const [statusFilter, setStatusFilter] = useState<KycStatus | "">("");
-  const [riskFilter, setRiskFilter] = useState<RiskLevel | "">("");
-  const [cases, setCases] = useState<KycCase[]>([]);
-  const [selectedCase, setSelectedCase] = useState<KycCaseDetail | null>(null);
-  const [reason, setReason] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [detailLoading, setDetailLoading] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
-  const [notice, setNotice] = useState("");
-  const queueRequestId = useRef(0);
-  const detailRequestId = useRef(0);
-
-  const loadCases = useCallback(async () => {
-    const requestId = ++queueRequestId.current;
-    setLoading(true);
-    setError("");
-    try {
-      const nextCases = await fetchCases(personaId, {
-        status: statusFilter,
-        risk: riskFilter
-      });
-      if (requestId !== queueRequestId.current) {
-        return;
-      }
-      setCases(nextCases);
-    } catch (loadError) {
-      if (requestId !== queueRequestId.current) {
-        return;
-      }
-      setCases([]);
-      setSelectedCase(null);
-      setError(
-        loadError instanceof Error ? loadError.message : "Could not load cases."
-      );
-    } finally {
-      if (requestId === queueRequestId.current) {
-        setLoading(false);
-      }
-    }
-  }, [personaId, riskFilter, statusFilter]);
+  const [personaError, setPersonaError] = useState("");
 
   useEffect(() => {
     void fetchPersonas(personaId)
-      .then(setPersonas)
+      .then((nextPersonas) => {
+        setPersonas(nextPersonas);
+        setPersonaError("");
+      })
       .catch((loadError: unknown) => {
-        setError(
+        setPersonaError(
           loadError instanceof Error
             ? loadError.message
             : "Could not load demo personas."
@@ -105,144 +56,31 @@ export function App() {
       });
   }, [personaId]);
 
-  useEffect(() => {
-    void loadCases();
-  }, [loadCases]);
-
-  async function openCase(item: KycCase): Promise<void> {
-    const requestId = ++detailRequestId.current;
-    setDetailLoading(true);
-    setError("");
-    setNotice("");
-    setReason("");
-    try {
-      const detail = await fetchCase(personaId, item.id);
-      if (requestId === detailRequestId.current) {
-        setSelectedCase(detail);
-      }
-    } catch (loadError) {
-      if (requestId !== detailRequestId.current) {
-        return;
-      }
-      setError(
-        loadError instanceof Error
-          ? loadError.message
-          : "Could not load the case."
-      );
-    } finally {
-      if (requestId === detailRequestId.current) {
-        setDetailLoading(false);
-      }
-    }
-  }
-
-  async function decide(
-    event: FormEvent,
-    decision: "approved" | "rejected"
-  ): Promise<void> {
-    event.preventDefault();
-    if (!selectedCase || reason.trim().length === 0) {
-      setError("Enter a reason before making a decision.");
-      return;
-    }
-
-    setSubmitting(true);
-    setError("");
-    setNotice("");
-    try {
-      const updated = await submitDecision(personaId, selectedCase.id, {
-        decision,
-        reason,
-        expectedVersion: selectedCase.version
-      });
-      setSelectedCase(updated);
-      setReason("");
-      setNotice(`Case ${updated.id} was ${decision}.`);
-      await loadCases();
-    } catch (decisionError) {
-      setError(
-        decisionError instanceof Error
-          ? decisionError.message
-          : "The decision could not be saved."
-      );
-      const refreshed = await fetchCase(personaId, selectedCase.id).catch(
-        () => null
-      );
-      if (refreshed) {
-        setSelectedCase(refreshed);
-      }
-    } finally {
-      setSubmitting(false);
-    }
-  }
-
-  const columns = useMemo<QueueColumn<KycCase>[]>(
-    () => [
-      {
-        key: "case",
-        label: "Case",
-        render: (item) => (
-          <div>
-            <strong>{item.id}</strong>
-            <span className="subtle">{item.customerId}</span>
-          </div>
-        )
-      },
-      {
-        key: "customer",
-        label: "Synthetic customer",
-        render: (item) => item.customerName
-      },
-      {
-        key: "risk",
-        label: "Risk",
-        render: (item) => <Badge kind="risk" value={item.risk} />
-      },
-      {
-        key: "status",
-        label: "Status",
-        render: (item) => <Badge kind="status" value={item.status} />
-      },
-      {
-        key: "submitted",
-        label: "Submitted",
-        className: "date-column",
-        render: (item) => formatDate(item.submittedAt)
-      }
-    ],
-    []
-  );
-
   const currentPersona = personas.find((persona) => persona.id === personaId);
-  const canDecide =
-    currentPersona?.permissions.includes("kyc:decide") === true &&
-    selectedCase?.status === "pending";
+
+  function selectModule(module: WorkbenchModule): void {
+    setActiveModule(module);
+    setPersonaId(moduleConfiguration[module].defaultPersonaId);
+  }
 
   return (
     <div className="app-shell">
       <div className="demo-banner" role="alert">
-        <strong>Synthetic-data demo.</strong> No real customers or production
-        credentials. Persona switching is not authentication and permits
-        impersonation by design.
+        <strong>Synthetic-data demo.</strong> No real customers, flags, or
+        production credentials. Persona switching is not authentication and
+        permits impersonation by design.
       </div>
 
       <header className="topbar">
         <div>
-          <p className="eyebrow">Internal operations prototype</p>
+          <p className="eyebrow">Reusable internal operations platform</p>
           <h1>Fintech Operations Workbench</h1>
         </div>
         <label className="persona-control">
           <span>Acting as</span>
           <select
             aria-label="Demo persona"
-            onChange={(event) => {
-              detailRequestId.current += 1;
-              queueRequestId.current += 1;
-              setPersonaId(event.target.value);
-              setSelectedCase(null);
-              setDetailLoading(false);
-              setNotice("");
-            }}
+            onChange={(event) => setPersonaId(event.target.value)}
             value={personaId}
           >
             {personas.length === 0 ? (
@@ -259,180 +97,48 @@ export function App() {
         </label>
       </header>
 
+      <nav className="module-nav" aria-label="Workbench applications">
+        {(Object.keys(moduleConfiguration) as WorkbenchModule[]).map(
+          (module) => (
+            <button
+              aria-current={activeModule === module ? "page" : undefined}
+              className={activeModule === module ? "active-module" : undefined}
+              key={module}
+              onClick={() => selectModule(module)}
+              type="button"
+            >
+              <span>{moduleConfiguration[module].shortLabel}</span>
+              <small>{moduleConfiguration[module].label}</small>
+            </button>
+          )
+        )}
+      </nav>
+
       <main>
-        <section className="workspace-heading">
-          <div>
-            <p className="eyebrow">KYC review</p>
-            <h2>Case queue</h2>
-            <p>Prioritized by risk, then submission time.</p>
-          </div>
-          <div className="queue-summary">
-            <strong>{cases.length}</strong>
-            <span>visible cases</span>
-          </div>
-        </section>
-
-        <section className="filters" aria-label="Queue filters">
-          <label>
-            Status
-            <select
-              onChange={(event) => {
-                queueRequestId.current += 1;
-                setStatusFilter(event.target.value as KycStatus | "")
-              }}
-              value={statusFilter}
-            >
-              <option value="">All statuses</option>
-              <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-              <option value="rejected">Rejected</option>
-            </select>
-          </label>
-          <label>
-            Risk
-            <select
-              onChange={(event) => {
-                queueRequestId.current += 1;
-                setRiskFilter(event.target.value as RiskLevel | "")
-              }}
-              value={riskFilter}
-            >
-              <option value="">All risks</option>
-              <option value="high">High</option>
-              <option value="medium">Medium</option>
-              <option value="low">Low</option>
-            </select>
-          </label>
-          <button className="secondary-button" onClick={() => void loadCases()}>
-            Refresh
-          </button>
-        </section>
-
-        {error ? <div className="message error-message">{error}</div> : null}
-        {notice ? <div className="message success-message">{notice}</div> : null}
-
-        <div className="workspace-grid">
-          <section className="queue-panel">
-            {loading ? (
-              <div className="loading-state">Loading KYC queue…</div>
-            ) : (
-              <QueueTable
-                columns={columns}
-                emptyMessage="No cases match these filters."
-                onSelect={(item) => void openCase(item)}
-                rows={cases}
-                selectedId={selectedCase?.id}
-              />
-            )}
-          </section>
-
-          <aside className="detail-panel">
-            {detailLoading ? (
-              <div className="loading-state">Loading case detail…</div>
-            ) : selectedCase ? (
-              <>
-                <div className="detail-heading">
-                  <div>
-                    <p className="eyebrow">Case detail</p>
-                    <h2>{selectedCase.id}</h2>
-                  </div>
-                  <Badge kind="status" value={selectedCase.status} />
-                </div>
-
-                <dl className="case-facts">
-                  <div>
-                    <dt>Synthetic customer</dt>
-                    <dd>{selectedCase.customerName}</dd>
-                  </div>
-                  <div>
-                    <dt>Customer ID</dt>
-                    <dd>{selectedCase.customerId}</dd>
-                  </div>
-                  <div>
-                    <dt>Risk</dt>
-                    <dd>
-                      <Badge kind="risk" value={selectedCase.risk} />
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>Version</dt>
-                    <dd>{selectedCase.version}</dd>
-                  </div>
-                  <div className="wide-fact">
-                    <dt>Submitted</dt>
-                    <dd>{formatDate(selectedCase.submittedAt)}</dd>
-                  </div>
-                </dl>
-
-                <form className="decision-form">
-                  <label htmlFor="decision-reason">Decision reason</label>
-                  <textarea
-                    disabled={!canDecide || submitting}
-                    id="decision-reason"
-                    maxLength={500}
-                    onChange={(event) => setReason(event.target.value)}
-                    placeholder={
-                      canDecide
-                        ? "Required for approval or rejection"
-                        : "Only a KYC reviewer can decide a pending case"
-                    }
-                    rows={4}
-                    value={reason}
-                  />
-                  <div className="decision-actions">
-                    <button
-                      className="approve-button"
-                      disabled={!canDecide || submitting || !reason.trim()}
-                      onClick={(event) => void decide(event, "approved")}
-                      type="submit"
-                    >
-                      Approve
-                    </button>
-                    <button
-                      className="reject-button"
-                      disabled={!canDecide || submitting || !reason.trim()}
-                      onClick={(event) => void decide(event, "rejected")}
-                      type="submit"
-                    >
-                      Reject
-                    </button>
-                  </div>
-                </form>
-
-                <section className="audit-section">
-                  <div className="section-title-row">
-                    <h3>Audit history</h3>
-                    <span>{selectedCase.auditEvents.length} events</span>
-                  </div>
-                  <ol className="audit-list">
-                    {selectedCase.auditEvents.map((event) => (
-                      <li key={event.id}>
-                        <div className="audit-dot" />
-                        <div>
-                          <div className="audit-title">
-                            <strong>{titleCase(event.action)}</strong>
-                            <span>{formatDate(event.createdAt)}</span>
-                          </div>
-                          <p>{event.reason}</p>
-                          <small>
-                            Actor: {event.actorId} · {event.oldStatus ?? "new"} →{" "}
-                            {event.newStatus}
-                          </small>
-                        </div>
-                      </li>
-                    ))}
-                  </ol>
-                </section>
-              </>
-            ) : (
-              <div className="detail-placeholder">
-                <div className="placeholder-mark">KYC</div>
-                <h2>Select a case</h2>
-                <p>Review case facts, make permitted decisions, and inspect the audit trail.</p>
-              </div>
-            )}
-          </aside>
-        </div>
+        {personaError ? (
+          <div className="message error-message">{personaError}</div>
+        ) : null}
+        {activeModule === "kyc" ? (
+          <KycWorkspace
+            key={`${activeModule}:${personaId}`}
+            persona={currentPersona}
+            personaId={personaId}
+          />
+        ) : null}
+        {activeModule === "refunds" ? (
+          <RefundsWorkspace
+            key={`${activeModule}:${personaId}`}
+            persona={currentPersona}
+            personaId={personaId}
+          />
+        ) : null}
+        {activeModule === "feature-flags" ? (
+          <FeatureFlagsWorkspace
+            key={`${activeModule}:${personaId}`}
+            persona={currentPersona}
+            personaId={personaId}
+          />
+        ) : null}
       </main>
     </div>
   );

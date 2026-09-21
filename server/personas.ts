@@ -1,12 +1,22 @@
 import type { NextFunction, Request, Response } from "express";
 import { AuthenticationError } from "./errors.js";
 
-export type Permission = "kyc:read" | "kyc:decide" | "refund:read" | "refund:decide";
+export type Permission =
+  | "kyc:read"
+  | "kyc:decide"
+  | "refund:read"
+  | "refund:decide"
+  | "feature_flag:read"
+  | "feature_flag:manage";
 
 export interface DemoPersona {
   id: string;
   label: string;
-  personaType: "viewer" | "kyc_reviewer" | "refund_reviewer";
+  personaType:
+    | "viewer"
+    | "kyc_reviewer"
+    | "refund_reviewer"
+    | "feature_flag_admin";
   permissions: readonly Permission[];
 }
 
@@ -15,7 +25,7 @@ const personas = [
     id: "viewer-001",
     label: "Operations viewer",
     personaType: "viewer",
-    permissions: ["kyc:read"]
+    permissions: ["kyc:read", "refund:read", "feature_flag:read"]
   },
   {
     id: "kyc-reviewer-001",
@@ -28,6 +38,12 @@ const personas = [
     label: "Refund reviewer",
     personaType: "refund_reviewer",
     permissions: ["refund:read", "refund:decide"]
+  },
+  {
+    id: "feature-flag-admin-001",
+    label: "Feature flag admin",
+    personaType: "feature_flag_admin",
+    permissions: ["feature_flag:read", "feature_flag:manage"]
   }
 ] as const satisfies readonly DemoPersona[];
 

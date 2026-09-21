@@ -1,10 +1,17 @@
 export type KycStatus = "pending" | "approved" | "rejected";
+export type RefundStatus = "pending" | "approved" | "rejected";
 export type RiskLevel = "low" | "medium" | "high";
+export type FeatureFlagEnvironment = "development" | "staging" | "production";
+export type FeatureFlagState = "enabled" | "disabled";
 
 export interface DemoPersona {
   id: string;
   label: string;
-  personaType: "viewer" | "kyc_reviewer" | "refund_reviewer";
+  personaType:
+    | "viewer"
+    | "kyc_reviewer"
+    | "refund_reviewer"
+    | "feature_flag_admin";
   permissions: string[];
 }
 
@@ -22,12 +29,44 @@ export interface AuditEvent {
   id: number;
   actorId: string;
   action: string;
-  oldStatus: KycStatus | null;
-  newStatus: KycStatus;
+  oldStatus: KycStatus | RefundStatus | FeatureFlagState | null;
+  newStatus: KycStatus | RefundStatus | FeatureFlagState;
   reason: string;
   createdAt: string;
 }
 
 export interface KycCaseDetail extends KycCase {
+  auditEvents: AuditEvent[];
+}
+
+export interface RefundRequest {
+  id: string;
+  customerId: string;
+  customerName: string;
+  amountCents: number;
+  currency: "USD";
+  category: "duplicate_charge" | "service_issue" | "fraud_claim";
+  risk: RiskLevel;
+  submittedAt: string;
+  status: RefundStatus;
+  version: number;
+}
+
+export interface RefundRequestDetail extends RefundRequest {
+  auditEvents: AuditEvent[];
+}
+
+export interface FeatureFlag {
+  id: string;
+  key: string;
+  description: string;
+  owner: string;
+  environment: FeatureFlagEnvironment;
+  enabled: boolean;
+  updatedAt: string;
+  version: number;
+}
+
+export interface FeatureFlagDetail extends FeatureFlag {
   auditEvents: AuditEvent[];
 }
