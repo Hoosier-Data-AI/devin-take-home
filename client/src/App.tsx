@@ -2,33 +2,55 @@ import { useEffect, useState } from "react";
 import { fetchPersonas } from "./api";
 import { FeatureFlagsWorkspace } from "./modules/FeatureFlagsWorkspace";
 import { KycWorkspace } from "./modules/KycWorkspace";
+import { PlatformWorkspace } from "./modules/PlatformWorkspace";
 import { RefundsWorkspace } from "./modules/RefundsWorkspace";
 import type { DemoPersona } from "./types";
 
-type WorkbenchModule = "kyc" | "refunds" | "feature-flags";
+type WorkbenchModule = "kyc" | "refunds" | "feature-flags" | "platform";
+
+const applicationModules: WorkbenchModule[] = [
+  "kyc",
+  "refunds",
+  "feature-flags"
+];
 
 const moduleConfiguration: Record<
   WorkbenchModule,
   {
     label: string;
     shortLabel: string;
+    description: string;
     defaultPersonaId: string;
+    relevantPersonaIds: string[];
   }
 > = {
   kyc: {
     label: "KYC review",
     shortLabel: "KYC",
-    defaultPersonaId: "kyc-reviewer-001"
+    description: "Identity operations",
+    defaultPersonaId: "kyc-reviewer-001",
+    relevantPersonaIds: ["kyc-reviewer-001", "viewer-001"]
   },
   refunds: {
     label: "Refunds dashboard",
     shortLabel: "Refunds",
-    defaultPersonaId: "refund-reviewer-001"
+    description: "Payment operations",
+    defaultPersonaId: "refund-reviewer-001",
+    relevantPersonaIds: ["refund-reviewer-001", "viewer-001"]
   },
   "feature-flags": {
     label: "Feature-flag admin",
     shortLabel: "Feature flags",
-    defaultPersonaId: "feature-flag-admin-001"
+    description: "Release operations",
+    defaultPersonaId: "feature-flag-admin-001",
+    relevantPersonaIds: ["feature-flag-admin-001", "viewer-001"]
+  },
+  platform: {
+    label: "Platform overview",
+    shortLabel: "Platform",
+    description: "Apps, access, and guardrails",
+    defaultPersonaId: "platform-admin-001",
+    relevantPersonaIds: ["platform-admin-001"]
   }
 };
 
@@ -57,6 +79,9 @@ export function App() {
   }, [personaId]);
 
   const currentPersona = personas.find((persona) => persona.id === personaId);
+  const relevantPersonas = personas.filter((persona) =>
+    moduleConfiguration[activeModule].relevantPersonaIds.includes(persona.id)
+  );
 
   function selectModule(module: WorkbenchModule): void {
     setActiveModule(module);
@@ -71,75 +96,128 @@ export function App() {
         permits impersonation by design.
       </div>
 
-      <header className="topbar">
-        <div>
-          <p className="eyebrow">Reusable internal operations platform</p>
-          <h1>Fintech Operations Workbench</h1>
-        </div>
-        <label className="persona-control">
-          <span>Acting as</span>
-          <select
-            aria-label="Demo persona"
-            onChange={(event) => setPersonaId(event.target.value)}
-            value={personaId}
-          >
-            {personas.length === 0 ? (
-              <option value={personaId}>Loading personas…</option>
-            ) : (
-              personas.map((persona) => (
-                <option key={persona.id} value={persona.id}>
-                  {persona.label}
-                </option>
-              ))
-            )}
-          </select>
-          <small>Development selector</small>
-        </label>
-      </header>
+      <div className="workbench-layout">
+        <aside className="app-sidebar">
+          <div className="workbench-brand">
+            <div className="brand-mark">FO</div>
+            <div>
+              <strong>Fintech Operations</strong>
+              <span>Workbench</span>
+            </div>
+          </div>
 
-      <nav className="module-nav" aria-label="Workbench applications">
-        {(Object.keys(moduleConfiguration) as WorkbenchModule[]).map(
-          (module) => (
+          <nav aria-label="Workbench applications">
+            <p className="sidebar-label">Applications</p>
+            {applicationModules.map((module) => (
+              <button
+                aria-current={activeModule === module ? "page" : undefined}
+                className={
+                  activeModule === module ? "active-module" : undefined
+                }
+                key={module}
+                onClick={() => selectModule(module)}
+                type="button"
+              >
+                <span className="app-monogram">
+                  {moduleConfiguration[module].shortLabel.slice(0, 2)}
+                </span>
+                <span>
+                  <strong>{moduleConfiguration[module].label}</strong>
+                  <small>{moduleConfiguration[module].description}</small>
+                </span>
+              </button>
+            ))}
+            <p className="sidebar-label platform-nav-label">Platform</p>
             <button
-              aria-current={activeModule === module ? "page" : undefined}
-              className={activeModule === module ? "active-module" : undefined}
-              key={module}
-              onClick={() => selectModule(module)}
+              aria-current={activeModule === "platform" ? "page" : undefined}
+              className={
+                activeModule === "platform" ? "active-module" : undefined
+              }
+              onClick={() => selectModule("platform")}
               type="button"
             >
-              <span>{moduleConfiguration[module].shortLabel}</span>
-              <small>{moduleConfiguration[module].label}</small>
+              <span className="app-monogram">
+                {moduleConfiguration.platform.shortLabel.slice(0, 2)}
+              </span>
+              <span>
+                <strong>{moduleConfiguration.platform.label}</strong>
+                <small>{moduleConfiguration.platform.description}</small>
+              </span>
             </button>
-          )
-        )}
-      </nav>
+          </nav>
 
-      <main>
-        {personaError ? (
-          <div className="message error-message">{personaError}</div>
-        ) : null}
-        {activeModule === "kyc" ? (
-          <KycWorkspace
-            key={`${activeModule}:${personaId}`}
-            persona={currentPersona}
-            personaId={personaId}
-          />
-        ) : null}
-        {activeModule === "refunds" ? (
-          <RefundsWorkspace
-            key={`${activeModule}:${personaId}`}
-            persona={currentPersona}
-            personaId={personaId}
-          />
-        ) : null}
-        {activeModule === "feature-flags" ? (
-          <FeatureFlagsWorkspace
-            key={`${activeModule}:${personaId}`}
-            persona={currentPersona}
-            personaId={personaId}
-          />
-        ) : null}
-      </main>
+          <div className="sidebar-foundation">
+            <p className="sidebar-label">Shared foundation</p>
+            <ul>
+              <li>Server authorization</li>
+              <li>Versioned writes</li>
+              <li>Append-only audit</li>
+            </ul>
+          </div>
+        </aside>
+
+        <div className="workbench-content">
+          <header className="topbar">
+            <div>
+              <p className="eyebrow">Current application</p>
+              <h1>{moduleConfiguration[activeModule].label}</h1>
+            </div>
+            <label className="persona-control">
+              <span>Acting as</span>
+              <select
+                aria-label="Demo persona"
+                onChange={(event) => setPersonaId(event.target.value)}
+                value={personaId}
+              >
+                {relevantPersonas.length === 0 ? (
+                  <option value={personaId}>Loading personas…</option>
+                ) : (
+                  relevantPersonas.map((persona) => (
+                    <option key={persona.id} value={persona.id}>
+                      {persona.label}
+                    </option>
+                  ))
+                )}
+              </select>
+              <small>Roles for this application</small>
+            </label>
+          </header>
+
+          <main>
+            {personaError ? (
+              <div className="message error-message">{personaError}</div>
+            ) : null}
+            {activeModule === "kyc" ? (
+              <KycWorkspace
+                key={`${activeModule}:${personaId}`}
+                persona={currentPersona}
+                personaId={personaId}
+              />
+            ) : null}
+            {activeModule === "refunds" ? (
+              <RefundsWorkspace
+                key={`${activeModule}:${personaId}`}
+                persona={currentPersona}
+                personaId={personaId}
+              />
+            ) : null}
+            {activeModule === "feature-flags" ? (
+              <FeatureFlagsWorkspace
+                key={`${activeModule}:${personaId}`}
+                persona={currentPersona}
+                personaId={personaId}
+              />
+            ) : null}
+            {activeModule === "platform" ? (
+              <PlatformWorkspace
+                key={`${activeModule}:${personaId}`}
+                persona={currentPersona}
+                personaId={personaId}
+              />
+            ) : null}
+          </main>
+        </div>
+      </div>
     </div>
   );
 }

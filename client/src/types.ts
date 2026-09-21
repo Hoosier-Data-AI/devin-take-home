@@ -11,7 +11,8 @@ export interface DemoPersona {
     | "viewer"
     | "kyc_reviewer"
     | "refund_reviewer"
-    | "feature_flag_admin";
+    | "feature_flag_admin"
+    | "platform_admin";
   permissions: string[];
 }
 
@@ -69,4 +70,22 @@ export interface FeatureFlag {
 
 export interface FeatureFlagDetail extends FeatureFlag {
   auditEvents: AuditEvent[];
+}
+
+export interface PlatformApplication {
+  id: string;
+  name: string;
+  owner: string;
+  description: string;
+  riskTier: "standard" | "elevated" | "critical";
+  dataClassification: "internal" | "restricted";
+  status: "prototype";
+  permissions: string[];
+}
+
+export interface PlatformOverview {
+  applications: PlatformApplication[];
+  personas: DemoPersona[];
+  sharedControls: string[];
+  extensionSteps: string[];
 }

@@ -7,6 +7,7 @@ import type {
   KycCase,
   KycCaseDetail,
   KycStatus,
+  PlatformOverview,
   RefundRequest,
   RefundRequestDetail,
   RefundStatus,
@@ -49,6 +50,12 @@ export async function fetchPersonas(
     personaId
   );
   return body.personas;
+}
+
+export function fetchPlatformOverview(
+  personaId: string
+): Promise<PlatformOverview> {
+  return request<PlatformOverview>("/api/platform/overview", personaId);
 }
 
 export async function fetchCases(

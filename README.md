@@ -64,6 +64,7 @@ The persona ID is sent in the `x-demo-persona-id` header and resolved against se
 - `kyc-reviewer-001`: can read and decide pending KYC cases.
 - `refund-reviewer-001`: has refund-domain permissions only and cannot access KYC routes.
 - `feature-flag-admin-001`: can read and change synthetic feature flags.
+- `platform-admin-001`: can read the application catalog, access model, and inherited controls.
 
 Unknown identities are rejected. Roles or permissions in request bodies are never trusted.
 
@@ -72,10 +73,16 @@ Unknown identities are rejected. Roles or permissions in request bodies are neve
 - **KYC review:** status/risk queue, case detail, and pending-only approval or rejection.
 - **Refunds dashboard:** status/risk queue prioritized by risk and amount, with pending-only approval or rejection.
 - **Feature-flag admin:** environment/state filters and versioned enable/disable actions against synthetic flags only.
+- **Platform overview:** read-only application inventory, ownership, risk, effective permissions, shared guardrails, and the app 4 extension path.
 
 Every state change requires a non-blank trimmed reason and `expectedVersion`. The conditional update and append-only audit insert run in one SQLite transaction; stale, repeated, and no-op requests return HTTP `409`.
 
 The shell, queue component, badges, audit history, authorization policy helper, audit writer, persistence, and test patterns are reusable. Domain services and routes remain explicit rather than forming a generic workflow engine. See [Architecture and extension guide](docs/architecture.md).
+
+Take-home deliverables:
+
+- [Key decisions one-pager](docs/key-decisions.md)
+- [Five-minute presentation outline](docs/loom-outline.md)
 
 ## Tests
 
@@ -92,6 +99,7 @@ Tests use a new in-memory SQLite database for each case. They cover:
 - JSON 404 responses for unknown API reads when serving the SPA;
 - refund authorization, validation, concurrency, and rollback;
 - feature-flag authorization, filtering, concurrency, no-op rejection, and rollback;
+- platform catalog authorization and inherited-control payload;
 - production-mode startup guard.
 
 Run:

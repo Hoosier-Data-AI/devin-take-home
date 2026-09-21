@@ -7,10 +7,11 @@ Keep the first wave of internal tools in one repository and one deployable workb
 ```text
 client/src/
   components/          shared queue, badges, and audit history
-  modules/             explicit KYC, refunds, and feature-flag workspaces
+  modules/             explicit domain workspaces plus platform overview
 server/
   app.ts               explicit HTTP routes and validation
   *-service.ts         domain queries and transactional commands
+  platform-catalog.ts  ownership, risk, permissions, and inherited controls
   policies.ts          shared permission and transition primitives
   audit.ts             shared append-only audit access
   database.ts          schema, additive migration, and synthetic seed data
@@ -29,7 +30,8 @@ This keeps setup, runtime, UI conventions, authorization, auditability, concurre
 5. Reuse `QueueTable`, `Badge`, `AuditHistory`, and formatting helpers.
 6. Add a workspace module and one shell navigation entry.
 7. Test direct authorization, forged payloads, validation, stale versions, and audit rollback.
-8. Update the architecture inventory and seed/reset documentation.
+8. Register ownership, risk, and permissions in the platform catalog.
+9. Update the architecture inventory and seed/reset documentation.
 
 A straightforward queue-and-decision application should require a domain service, a workspace, routes, seeds, and tests—not changes to the shared runtime model.
 
@@ -57,3 +59,5 @@ Use the next applications to measure:
 - whether specialized requirements force per-app exceptions.
 
 The decision should compare the avoided license cost with ongoing platform ownership, not prototype development cost alone.
+
+Power Apps also supplies a visual maker experience, Dataverse, managed connectors, identity and security administration, data policies, environments, audit, and deployment lifecycle tooling. The platform overview in this prototype makes a subset of those concerns visible; it does not implement enterprise IAM or administration. Production access should be mapped from the company's identity provider rather than managed in this workbench.

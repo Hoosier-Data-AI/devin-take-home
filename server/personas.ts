@@ -7,7 +7,8 @@ export type Permission =
   | "refund:read"
   | "refund:decide"
   | "feature_flag:read"
-  | "feature_flag:manage";
+  | "feature_flag:manage"
+  | "platform:read";
 
 export interface DemoPersona {
   id: string;
@@ -16,7 +17,8 @@ export interface DemoPersona {
     | "viewer"
     | "kyc_reviewer"
     | "refund_reviewer"
-    | "feature_flag_admin";
+    | "feature_flag_admin"
+    | "platform_admin";
   permissions: readonly Permission[];
 }
 
@@ -44,6 +46,12 @@ const personas = [
     label: "Feature flag admin",
     personaType: "feature_flag_admin",
     permissions: ["feature_flag:read", "feature_flag:manage"]
+  },
+  {
+    id: "platform-admin-001",
+    label: "Platform admin",
+    personaType: "platform_admin",
+    permissions: ["platform:read"]
   }
 ] as const satisfies readonly DemoPersona[];
 

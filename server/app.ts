@@ -25,6 +25,7 @@ import {
   listDemoPersonas,
   requireKnownPersona
 } from "./personas.js";
+import { getPlatformOverview } from "./platform-catalog.js";
 import { requirePermission } from "./policies.js";
 import {
   decideRefundRequest,
@@ -90,6 +91,15 @@ export function createApp(options: AppOptions): express.Express {
       actorId: request.persona.id,
       mode: "synthetic-demo"
     });
+  });
+
+  app.get("/api/platform/overview", (request, response, next) => {
+    try {
+      requirePermission(request.persona, "platform:read");
+      response.json(getPlatformOverview());
+    } catch (error) {
+      next(error);
+    }
   });
 
   app.get("/api/kyc/cases", (request, response, next) => {
