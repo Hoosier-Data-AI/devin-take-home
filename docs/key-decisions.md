@@ -15,6 +15,8 @@ This is intentionally not a low-code designer. Building a configurable workflow 
 - **App-oriented sidebar:** the three tools are separate applications inside one operations shell, not tabs in one workflow.
 - **Application-scoped roles:** the development persona selector shows only roles relevant to the active app.
 - **Narrow platform overview:** a read-only catalog shows application ownership, risk, permissions, inherited controls, and the steps to add app 4. It does not pretend to replace enterprise identity administration.
+- **Code-first accelerator:** a CLI generates a typed service/workspace/test starter, while an executable governance gate checks files, route permissions, assigned roles, and connector contracts. Engineering review still controls registration and deployment.
+- **Connector boundary, not a production integration:** a local OpenAPI fixture and strict synthetic adapter demonstrate how Devin can turn an API contract into typed code and tests without requiring credentials or external services.
 - **Feature flags remain synthetic:** the prototype demonstrates authorization and auditability but cannot change a real production system.
 - **Production refusal:** the process exits in production mode because demo impersonation is deliberately not authentication.
 

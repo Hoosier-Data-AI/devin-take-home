@@ -1,0 +1,68 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Synthetic Customer Profile API",
+    "version": "1.0.0",
+    "description": "Local contract fixture only. It is not connected to a production system."
+  },
+  "paths": {
+    "/customers/{customerId}": {
+      "get": {
+        "operationId": "getCustomerProfile",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Synthetic customer profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerProfile"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CustomerProfile": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "customerId",
+          "segment",
+          "accountAgeDays",
+          "supportTier"
+        ],
+        "properties": {
+          "customerId": {
+            "type": "string"
+          },
+          "segment": {
+            "type": "string",
+            "enum": ["consumer", "business"]
+          },
+          "accountAgeDays": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "supportTier": {
+            "type": "string",
+            "enum": ["standard", "priority"]
+          }
+        }
+      }
+    }
+  }
+}

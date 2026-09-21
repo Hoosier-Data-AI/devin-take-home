@@ -55,6 +55,78 @@ export function PlatformWorkspace({ personaId }: WorkspaceProps) {
         prototype only exposes server-owned demo personas.
       </div>
 
+      <section className="platform-section accelerator-showcase">
+        <div className="section-title-row">
+          <div>
+            <p className="eyebrow">Code-first acceleration</p>
+            <h3>App accelerator</h3>
+          </div>
+          <span
+            className={
+              overview.accelerator.passed
+                ? "gate-status gate-status-passed"
+                : "gate-status gate-status-failed"
+            }
+          >
+            {overview.accelerator.passingChecks}/
+            {overview.accelerator.totalChecks} gates passing
+          </span>
+        </div>
+        <p className="section-intro">
+          Devin starts from typed code and enforces the platform contract. The
+          generator creates a reviewable starting point; executable checks
+          prevent a new app from bypassing the shared controls.
+        </p>
+        <div className="accelerator-grid">
+          <article className="accelerator-card">
+            <p className="eyebrow">Generate</p>
+            <h4>Typed application starter</h4>
+            <pre>
+              <code>{overview.accelerator.scaffoldCommand}</code>
+            </pre>
+            <ul>
+              {overview.accelerator.generatedFiles.map((file) => (
+                <li key={file}>{file}</li>
+              ))}
+            </ul>
+          </article>
+
+          <article className="accelerator-card governance-card">
+            <p className="eyebrow">Enforce</p>
+            <h4>Governance as code</h4>
+            <strong>
+              {overview.accelerator.passingChecks}/
+              {overview.accelerator.totalChecks}
+            </strong>
+            <span>repository controls currently passing</span>
+            <code>{overview.accelerator.governanceCommand}</code>
+            <p>
+              Checks registered apps for services, workspaces, API tests,
+              route permissions, and assigned roles.
+            </p>
+          </article>
+
+          {overview.connectors.map((connector) => (
+            <article className="accelerator-card" key={connector.id}>
+              <p className="eyebrow">Connect</p>
+              <div className="connector-heading">
+                <h4>{connector.name}</h4>
+                <span>{titleCase(connector.status)}</span>
+              </div>
+              <p>
+                {connector.owner} · {titleCase(connector.direction)}
+              </p>
+              <code>{connector.contractPath}</code>
+              <ul>
+                {connector.controls.map((control) => (
+                  <li key={control}>{control}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="platform-section">
         <div className="section-title-row">
           <div>

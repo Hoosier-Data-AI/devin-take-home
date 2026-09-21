@@ -10,6 +10,9 @@ client/src/
   modules/             explicit domain workspaces plus platform overview
 server/
   app.ts               explicit HTTP routes and validation
+  app-scaffolder.ts    typed new-module starter generation
+  platform-governance.ts executable repository control checks
+  customer-profile-connector.ts synthetic typed connector adapter
   *-service.ts         domain queries and transactional commands
   platform-catalog.ts  ownership, risk, permissions, and inherited controls
   policies.ts          shared permission and transition primitives
@@ -17,6 +20,8 @@ server/
   database.ts          schema, additive migration, and synthetic seed data
 tests/
   *-api.test.ts        isolated domain authorization and transaction tests
+contracts/
+  *.openapi.json       local connector contracts with no external service
 ```
 
 This keeps setup, runtime, UI conventions, authorization, auditability, concurrency, and testing consistent without coupling every application to a configurable workflow abstraction.
@@ -34,6 +39,14 @@ This keeps setup, runtime, UI conventions, authorization, auditability, concurre
 9. Update the architecture inventory and seed/reset documentation.
 
 A straightforward queue-and-decision application should require a domain service, a workspace, routes, seeds, and tests—not changes to the shared runtime model.
+
+## App accelerator
+
+`npm run scaffold:app -- ...` generates a typed starter in a caller-selected directory. It includes an application manifest, service, workspace, test, and integration checklist, but it deliberately does not register routes or deploy code without engineering review.
+
+`npm run governance` provides the corresponding policy gate. It verifies that every registered application has a domain service, workspace, and API test; that each declared permission is enforced by a route and assigned to a server-owned persona; and that the scaffolder and connector contract remain covered.
+
+The customer-profile connector is a no-network example of the connector boundary Devin could build from an API contract: an OpenAPI fixture, strict Zod response schema, typed adapter, and contract tests. Production credentials, retries, timeouts, and a real upstream remain intentionally out of scope.
 
 ## When to split deployments
 

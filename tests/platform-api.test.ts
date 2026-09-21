@@ -37,6 +37,19 @@ describe("platform overview API", () => {
       "Atomic state and audit writes"
     );
     expect(response.body.extensionSteps).toHaveLength(6);
+    expect(response.body.accelerator).toMatchObject({
+      governanceCommand: "npm run governance",
+      passingChecks: 25,
+      totalChecks: 25,
+      passed: true
+    });
+    expect(response.body.connectors).toContainEqual(
+      expect.objectContaining({
+        id: "customer-profile",
+        status: "contract-verified",
+        contractPath: "contracts/customer-profile.openapi.json"
+      })
+    );
   });
 
   it("keeps the platform catalog restricted to the platform role", async () => {

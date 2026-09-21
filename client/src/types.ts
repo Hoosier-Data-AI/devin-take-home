@@ -88,4 +88,22 @@ export interface PlatformOverview {
   personas: DemoPersona[];
   sharedControls: string[];
   extensionSteps: string[];
+  connectors: Array<{
+    id: string;
+    name: string;
+    owner: string;
+    mode: "synthetic-contract";
+    status: "contract-verified";
+    direction: "read-only";
+    contractPath: string;
+    controls: string[];
+  }>;
+  accelerator: {
+    scaffoldCommand: string;
+    generatedFiles: string[];
+    governanceCommand: string;
+    passingChecks: number;
+    totalChecks: number;
+    passed: boolean;
+  };
 }

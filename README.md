@@ -26,6 +26,8 @@ npm run setup
 | `npm run setup` | Clean, lockfile-compatible dependency install |
 | `npm run seed` | Add synthetic seed data for any empty application module |
 | `npm run reset` | Atomically replace all demo data with the original synthetic records |
+| `npm run scaffold:app -- ...` | Generate a typed new-application starter outside the live workbench |
+| `npm run governance` | Verify registered apps, permissions, tests, and accelerator contracts |
 | `npm run dev` | Run the Vite client and Express API together |
 | `npm run build` | TypeScript server build plus optimized client build |
 | `npm start` | Run the built demo server; serves the built client when present |
@@ -73,11 +75,25 @@ Unknown identities are rejected. Roles or permissions in request bodies are neve
 - **KYC review:** status/risk queue, case detail, and pending-only approval or rejection.
 - **Refunds dashboard:** status/risk queue prioritized by risk and amount, with pending-only approval or rejection.
 - **Feature-flag admin:** environment/state filters and versioned enable/disable actions against synthetic flags only.
-- **Platform overview:** read-only application inventory, ownership, risk, effective permissions, shared guardrails, and the app 4 extension path.
+- **Platform overview:** read-only application inventory, ownership, risk, effective permissions, shared guardrails, app scaffolding, executable governance gates, a synthetic connector contract, and the app 4 extension path.
 
 Every state change requires a non-blank trimmed reason and `expectedVersion`. The conditional update and append-only audit insert run in one SQLite transaction; stale, repeated, and no-op requests return HTTP `409`.
 
 The shell, queue component, badges, audit history, authorization policy helper, audit writer, persistence, and test patterns are reusable. Domain services and routes remain explicit rather than forming a generic workflow engine. See [Architecture and extension guide](docs/architecture.md).
+
+Generate a reviewable starter outside the live application:
+
+```bash
+npm run scaffold:app -- \
+  --id disputes \
+  --label "Dispute review" \
+  --owner "Payment Operations" \
+  --risk elevated \
+  --data restricted \
+  --output ../dispute-review
+```
+
+The generator writes a manifest, typed service, React workspace, starter test, and integration checklist. It does not register or deploy the generated application automatically. `npm run governance` then checks that registered modules have services, workspaces, API tests, enforced route permissions, assigned roles, and the expected accelerator/connector assets.
 
 Take-home deliverables:
 
@@ -100,6 +116,9 @@ Tests use a new in-memory SQLite database for each case. They cover:
 - refund authorization, validation, concurrency, and rollback;
 - feature-flag authorization, filtering, concurrency, no-op rejection, and rollback;
 - platform catalog authorization and inherited-control payload;
+- application scaffolder validation and generated-file coverage;
+- executable platform-governance checks;
+- strict synthetic connector and OpenAPI fixture alignment;
 - production-mode startup guard.
 
 Run:

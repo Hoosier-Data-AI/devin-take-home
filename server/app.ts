@@ -26,6 +26,7 @@ import {
   requireKnownPersona
 } from "./personas.js";
 import { getPlatformOverview } from "./platform-catalog.js";
+import { runPlatformGovernanceChecks } from "./platform-governance.js";
 import { requirePermission } from "./policies.js";
 import {
   decideRefundRequest,
@@ -96,7 +97,26 @@ export function createApp(options: AppOptions): express.Express {
   app.get("/api/platform/overview", (request, response, next) => {
     try {
       requirePermission(request.persona, "platform:read");
-      response.json(getPlatformOverview());
+      const governance = runPlatformGovernanceChecks(resolve("."));
+      response.json({
+        ...getPlatformOverview(),
+        accelerator: {
+          scaffoldCommand:
+            "npm run scaffold:app -- --id disputes --label \"Dispute review\" --owner \"Payment Operations\" --risk elevated --data restricted --output ../dispute-review",
+          generatedFiles: [
+            "application manifest",
+            "typed service",
+            "React workspace",
+            "starter test",
+            "integration checklist"
+          ],
+          governanceCommand: "npm run governance",
+          passingChecks: governance.checks.filter((check) => check.passed)
+            .length,
+          totalChecks: governance.checks.length,
+          passed: governance.passed
+        }
+      });
     } catch (error) {
       next(error);
     }

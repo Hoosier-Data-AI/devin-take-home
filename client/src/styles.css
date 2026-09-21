@@ -424,6 +424,143 @@ h2 {
   margin: 20px 0;
 }
 
+.section-intro {
+  max-width: 820px;
+  margin: 8px 0 0;
+  color: #627066;
+  font-size: 0.84rem;
+}
+
+.gate-status {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.gate-status-passed {
+  color: #275839;
+  background: #dceee0;
+}
+
+.gate-status-failed {
+  color: #812f2d;
+  background: #f8ded9;
+}
+
+.accelerator-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 1fr;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.accelerator-card {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #d9dfd7;
+  border-radius: 10px;
+  background: #f8faf6;
+}
+
+.accelerator-card h4 {
+  margin: 3px 0 12px;
+  color: #25392c;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.accelerator-card > p:not(.eyebrow) {
+  color: #657168;
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+.accelerator-card pre {
+  margin: 0;
+  padding: 12px;
+  overflow-x: auto;
+  border-radius: 7px;
+  color: #dbe8dc;
+  background: #24372b;
+  font-size: 0.65rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.accelerator-card ul {
+  display: grid;
+  gap: 6px;
+  margin: 14px 0 0;
+  padding: 0;
+  color: #46544a;
+  font-size: 0.72rem;
+  list-style: none;
+}
+
+.accelerator-card li::before {
+  margin-right: 7px;
+  color: #327049;
+  content: "→";
+  font-weight: 900;
+}
+
+.governance-card > strong,
+.governance-card > span {
+  display: block;
+}
+
+.governance-card > strong {
+  color: #2e5d3c;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.7rem;
+  font-weight: 500;
+}
+
+.governance-card > span {
+  margin: -4px 0 14px;
+  color: #748078;
+  font-size: 0.68rem;
+}
+
+.governance-card > code,
+.accelerator-card > code {
+  display: inline-block;
+  max-width: 100%;
+  padding: 5px 7px;
+  overflow-wrap: anywhere;
+  border-radius: 5px;
+  color: #31513b;
+  background: #e3eae1;
+  font-size: 0.66rem;
+}
+
+.connector-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.connector-heading h4 {
+  margin-bottom: 4px;
+}
+
+.connector-heading span {
+  flex: none;
+  padding: 4px 7px;
+  border-radius: 999px;
+  color: #275839;
+  background: #dceee0;
+  font-size: 0.58rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
 .platform-columns .platform-section {
   margin: 0;
 }
@@ -949,6 +1086,10 @@ td strong {
   }
 
   .application-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .accelerator-grid {
     grid-template-columns: 1fr;
   }
 }

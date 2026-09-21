@@ -1,6 +1,23 @@
-import { listDemoPersonas } from "./personas.js";
+import { connectorDefinitions } from "./customer-profile-connector.js";
+import { listDemoPersonas, type Permission } from "./personas.js";
 
-const applications = [
+export interface PlatformApplicationDefinition {
+  id: string;
+  name: string;
+  owner: string;
+  description: string;
+  riskTier: "standard" | "elevated" | "critical";
+  dataClassification: "internal" | "restricted";
+  status: "prototype";
+  permissions: readonly Permission[];
+  implementation: {
+    service: string;
+    workspace: string;
+    apiTest: string;
+  };
+}
+
+export const applicationDefinitions = [
   {
     id: "kyc",
     name: "KYC review",
@@ -9,7 +26,12 @@ const applications = [
     riskTier: "elevated",
     dataClassification: "restricted",
     status: "prototype",
-    permissions: ["kyc:read", "kyc:decide"]
+    permissions: ["kyc:read", "kyc:decide"],
+    implementation: {
+      service: "server/kyc-service.ts",
+      workspace: "client/src/modules/KycWorkspace.tsx",
+      apiTest: "tests/kyc-api.test.ts"
+    }
   },
   {
     id: "refunds",
@@ -19,7 +41,12 @@ const applications = [
     riskTier: "elevated",
     dataClassification: "restricted",
     status: "prototype",
-    permissions: ["refund:read", "refund:decide"]
+    permissions: ["refund:read", "refund:decide"],
+    implementation: {
+      service: "server/refund-service.ts",
+      workspace: "client/src/modules/RefundsWorkspace.tsx",
+      apiTest: "tests/refund-api.test.ts"
+    }
   },
   {
     id: "feature-flags",
@@ -29,13 +56,21 @@ const applications = [
     riskTier: "critical",
     dataClassification: "internal",
     status: "prototype",
-    permissions: ["feature_flag:read", "feature_flag:manage"]
+    permissions: ["feature_flag:read", "feature_flag:manage"],
+    implementation: {
+      service: "server/feature-flag-service.ts",
+      workspace: "client/src/modules/FeatureFlagsWorkspace.tsx",
+      apiTest: "tests/feature-flags-api.test.ts"
+    }
   }
-] as const;
+] as const satisfies readonly PlatformApplicationDefinition[];
 
 export function getPlatformOverview() {
   return {
-    applications,
+    applications: applicationDefinitions.map(
+      ({ implementation: _implementation, ...application }) => application
+    ),
+    connectors: connectorDefinitions,
     personas: listDemoPersonas(),
     sharedControls: [
       "Server-owned authorization",
