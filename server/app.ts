@@ -40,6 +40,7 @@ export interface AppOptions {
   database: WorkbenchDatabase;
   auditWriter?: AuditWriter;
   nodeEnv?: string;
+  clientDirectory?: string;
 }
 
 export function createApp(options: AppOptions): express.Express {
@@ -106,7 +107,7 @@ export function createApp(options: AppOptions): express.Express {
     }
   });
 
-  const clientDirectory = resolve("dist/client");
+  const clientDirectory = options.clientDirectory ?? resolve("dist/client");
   if (existsSync(clientDirectory)) {
     app.use(express.static(clientDirectory));
     app.use(
@@ -115,7 +116,11 @@ export function createApp(options: AppOptions): express.Express {
         response: Response,
         next: NextFunction
       ): void => {
-        if (request.method === "GET" && request.accepts("html")) {
+        if (
+          request.method === "GET" &&
+          !request.path.startsWith("/api") &&
+          request.accepts("html")
+        ) {
           response.sendFile(resolve(clientDirectory, "index.html"));
           return;
         }

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import {
   fetchCase,
@@ -61,8 +61,11 @@ export function App() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const queueRequestId = useRef(0);
+  const detailRequestId = useRef(0);
 
   const loadCases = useCallback(async () => {
+    const requestId = ++queueRequestId.current;
     setLoading(true);
     setError("");
     try {
@@ -70,15 +73,23 @@ export function App() {
         status: statusFilter,
         risk: riskFilter
       });
+      if (requestId !== queueRequestId.current) {
+        return;
+      }
       setCases(nextCases);
     } catch (loadError) {
+      if (requestId !== queueRequestId.current) {
+        return;
+      }
       setCases([]);
       setSelectedCase(null);
       setError(
         loadError instanceof Error ? loadError.message : "Could not load cases."
       );
     } finally {
-      setLoading(false);
+      if (requestId === queueRequestId.current) {
+        setLoading(false);
+      }
     }
   }, [personaId, riskFilter, statusFilter]);
 
@@ -99,20 +110,29 @@ export function App() {
   }, [loadCases]);
 
   async function openCase(item: KycCase): Promise<void> {
+    const requestId = ++detailRequestId.current;
     setDetailLoading(true);
     setError("");
     setNotice("");
     setReason("");
     try {
-      setSelectedCase(await fetchCase(personaId, item.id));
+      const detail = await fetchCase(personaId, item.id);
+      if (requestId === detailRequestId.current) {
+        setSelectedCase(detail);
+      }
     } catch (loadError) {
+      if (requestId !== detailRequestId.current) {
+        return;
+      }
       setError(
         loadError instanceof Error
           ? loadError.message
           : "Could not load the case."
       );
     } finally {
-      setDetailLoading(false);
+      if (requestId === detailRequestId.current) {
+        setDetailLoading(false);
+      }
     }
   }
 
@@ -216,8 +236,11 @@ export function App() {
           <select
             aria-label="Demo persona"
             onChange={(event) => {
+              detailRequestId.current += 1;
+              queueRequestId.current += 1;
               setPersonaId(event.target.value);
               setSelectedCase(null);
+              setDetailLoading(false);
               setNotice("");
             }}
             value={personaId}
@@ -253,9 +276,10 @@ export function App() {
           <label>
             Status
             <select
-              onChange={(event) =>
+              onChange={(event) => {
+                queueRequestId.current += 1;
                 setStatusFilter(event.target.value as KycStatus | "")
-              }
+              }}
               value={statusFilter}
             >
               <option value="">All statuses</option>
@@ -267,9 +291,10 @@ export function App() {
           <label>
             Risk
             <select
-              onChange={(event) =>
+              onChange={(event) => {
+                queueRequestId.current += 1;
                 setRiskFilter(event.target.value as RiskLevel | "")
-              }
+              }}
               value={riskFilter}
             >
               <option value="">All risks</option>

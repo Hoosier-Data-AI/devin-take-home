@@ -1,4 +1,7 @@
 import request from "supertest";
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createApp } from "../server/app.js";
 import {
@@ -191,5 +194,30 @@ describe("KYC API", () => {
       .get("/api/kyc/cases")
       .set("x-demo-persona-id", "refund-reviewer-001")
       .expect(403);
+  });
+
+  it("keeps unknown API reads on the JSON 404 contract when serving the client", async () => {
+    const clientDirectory = mkdtempSync(join(tmpdir(), "workbench-client-"));
+    writeFileSync(
+      join(clientDirectory, "index.html"),
+      "<!doctype html><title>Test client</title>"
+    );
+    const app = createApp({
+      database,
+      nodeEnv: "test",
+      clientDirectory
+    });
+
+    const response = await request(app)
+      .get("/api/unknown")
+      .set("accept", "text/html")
+      .set("x-demo-persona-id", reviewer)
+      .expect("content-type", /json/)
+      .expect(404);
+
+    expect(response.body.error).toMatchObject({
+      code: "not_found"
+    });
+    rmSync(clientDirectory, { recursive: true, force: true });
   });
 });

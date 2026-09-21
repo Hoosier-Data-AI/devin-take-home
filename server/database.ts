@@ -186,7 +186,7 @@ export function openDatabase(
   return database;
 }
 
-export function seedDatabase(database: WorkbenchDatabase): void {
+function insertSeedData(database: WorkbenchDatabase): void {
   const insertCase = database.prepare(`
     INSERT INTO kyc_cases (
       id, customer_id, customer_name, risk, submitted_at, status, version
@@ -203,12 +203,14 @@ export function seedDatabase(database: WorkbenchDatabase): void {
     )
   `);
 
-  database.transaction(() => {
-    for (const seedCase of seedCases) {
-      insertCase.run(seedCase);
-      insertAudit.run(seedCase);
-    }
-  })();
+  for (const seedCase of seedCases) {
+    insertCase.run(seedCase);
+    insertAudit.run(seedCase);
+  }
+}
+
+export function seedDatabase(database: WorkbenchDatabase): void {
+  database.transaction(() => insertSeedData(database))();
 }
 
 export function seedDatabaseIfEmpty(database: WorkbenchDatabase): boolean {
@@ -236,6 +238,6 @@ export function resetDatabase(database: WorkbenchDatabase): void {
         SELECT RAISE(ABORT, 'audit events are append-only');
       END;
     `);
+    insertSeedData(database);
   })();
-  seedDatabase(database);
 }

@@ -87,7 +87,9 @@ Tests use a new in-memory SQLite database for each case. They cover:
 - blank trimmed reason;
 - stale and repeated decision conflicts;
 - rollback when audit insertion fails;
+- rollback when replacement seeding fails during reset;
 - unknown identity and cross-domain permission denial;
+- JSON 404 responses for unknown API reads when serving the SPA;
 - production-mode startup guard.
 
 Run:
