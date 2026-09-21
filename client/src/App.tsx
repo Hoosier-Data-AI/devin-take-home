@@ -21,7 +21,7 @@ import type {
 const defaultPersonaId = "kyc-reviewer-001";
 
 function titleCase(value: string): string {
-  return value.replaceAll("_", " ").replace(/\b\w/g, (letter) =>
+  return value.replace(/[._]/g, " ").replace(/\b\w/g, (letter) =>
     letter.toUpperCase()
   );
 }
@@ -71,12 +71,6 @@ export function App() {
         risk: riskFilter
       });
       setCases(nextCases);
-      if (
-        selectedCase &&
-        !nextCases.some((item) => item.id === selectedCase.id)
-      ) {
-        setSelectedCase(null);
-      }
     } catch (loadError) {
       setCases([]);
       setSelectedCase(null);
@@ -86,7 +80,7 @@ export function App() {
     } finally {
       setLoading(false);
     }
-  }, [personaId, riskFilter, selectedCase, statusFilter]);
+  }, [personaId, riskFilter, statusFilter]);
 
   useEffect(() => {
     void fetchPersonas(personaId)
