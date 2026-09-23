@@ -1,0 +1,76 @@
+# Architecture and extension guide
+
+## Recommendation
+
+Keep the first wave of internal tools in one repository and one deployable workbench while the team learns which primitives are genuinely shared. The code is a modular monolith, not a generic workflow engine:
+
+```text
+client/src/
+  components/          shared queue, badges, and audit history
+  modules/             explicit domain workspaces plus platform overview
+server/
+  app.ts               explicit HTTP routes and validation
+  app-scaffolder.ts    typed new-module starter generation
+  platform-governance.ts executable repository control checks
+  customer-profile-connector.ts synthetic typed connector adapter
+  *-service.ts         domain queries and transactional commands
+  platform-catalog.ts  ownership, risk, permissions, and inherited controls
+  policies.ts          shared permission and transition primitives
+  audit.ts             shared append-only audit access
+  database.ts          schema, additive migration, and synthetic seed data
+tests/
+  *-api.test.ts        isolated domain authorization and transaction tests
+contracts/
+  *.openapi.json       local connector contracts with no external service
+```
+
+This keeps setup, runtime, UI conventions, authorization, auditability, concurrency, and testing consistent without coupling every application to a configurable workflow abstraction.
+
+## Adding application 4 or 5
+
+1. Add domain-specific tables and deterministic synthetic seeds.
+2. Add domain types and an explicit service with list, detail, and command functions.
+3. Add server-owned read/write permissions and a demo persona when needed.
+4. Register explicit validated API routes.
+5. Reuse `QueueTable`, `Badge`, `AuditHistory`, and formatting helpers.
+6. Add a workspace module and one shell navigation entry.
+7. Test direct authorization, forged payloads, validation, stale versions, and audit rollback.
+8. Register ownership, risk, and permissions in the platform catalog.
+9. Update the architecture inventory and seed/reset documentation.
+
+A straightforward queue-and-decision application should require a domain service, a workspace, routes, seeds, and tests—not changes to the shared runtime model.
+
+## App accelerator
+
+`npm run scaffold:app -- ...` generates a typed starter in a caller-selected directory. It includes an application manifest, service, workspace, test, and integration checklist, but it deliberately does not register routes or deploy code without engineering review.
+
+`npm run governance` provides the corresponding policy gate. It verifies that every registered application has a domain service, workspace, and API test; that each declared permission is enforced by a route and assigned to a server-owned persona; and that the scaffolder and connector contract remain covered.
+
+The customer-profile connector is a no-network example of the connector boundary Devin could build from an API contract: an OpenAPI fixture, strict Zod response schema, typed adapter, and contract tests. Production credentials, retries, timeouts, and a real upstream remain intentionally out of scope.
+
+## When to split deployments
+
+Keep modules together while they share operators, release cadence, and operational risk. Split a module into a separate package or deployment when it needs materially different:
+
+- availability or scaling;
+- data residency or access controls;
+- release ownership;
+- incident blast radius;
+- external integrations.
+
+Feature-flag administration is the most likely early split because a real implementation would control production behavior. This prototype intentionally manages only local synthetic flags and connects to no SDK or production service.
+
+## Build-versus-buy evidence
+
+Use the next applications to measure:
+
+- implementation time by app and by reusable primitive;
+- percentage of domain code versus shared code;
+- maintenance and security ownership;
+- hosting, observability, and support cost;
+- change lead time compared with the licensed platform;
+- whether specialized requirements force per-app exceptions.
+
+The decision should compare the avoided license cost with ongoing platform ownership, not prototype development cost alone.
+
+Power Apps also supplies a visual maker experience, Dataverse, managed connectors, identity and security administration, data policies, environments, audit, and deployment lifecycle tooling. The platform overview in this prototype makes a subset of those concerns visible; it does not implement enterprise IAM or administration. Production access should be mapped from the company's identity provider rather than managed in this workbench.
