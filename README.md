@@ -97,15 +97,6 @@ npm run scaffold:app -- \
 
 The generator writes a manifest, typed service, React workspace, starter test, and integration checklist. It does not register or deploy the generated application automatically. `npm run governance` then checks that registered modules have services, workspaces, API tests, enforced route permissions, assigned roles, and the expected accelerator/connector assets.
 
-Take-home deliverables:
-
-- [Cognition-styled five-minute presentation](docs/presentation/vp-presentation.html)
-- [Cognition-styled build-vs-buy brief](docs/presentation/build-vs-buy-brief.html)
-- [Cognition-styled Key Decisions one-pager](docs/presentation/key-decisions.html)
-- [Cognition-styled App Accelerator demo guide](docs/presentation/app-accelerator-demo.html)
-- [Screen-share package guide](docs/presentation/README.md)
-- Source notes: [Key Decisions](docs/key-decisions.md) and [presentation outline](docs/loom-outline.md)
-
 ## Tests
 
 Tests use a new in-memory SQLite database for each case. They cover:
