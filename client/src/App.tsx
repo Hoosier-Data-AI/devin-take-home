@@ -91,24 +91,29 @@ export function App() {
   return (
     <div className="app-shell">
       <div className="demo-banner" role="alert">
-        <strong>Synthetic-data demo.</strong> No real customers, flags, or
-        production credentials. Persona switching is not authentication and
-        permits impersonation by design.
+        <strong>Demo environment</strong>
+        <span>
+          Synthetic data only. No real customers, flags, or production
+          credentials. Persona switching permits impersonation and is not
+          authentication.
+        </span>
       </div>
 
       <div className="workbench-layout">
         <aside className="app-sidebar">
           <div className="workbench-brand">
-            <div className="brand-mark">FO</div>
+            <div className="brand-mark" aria-hidden="true">
+              F/O
+            </div>
             <div>
-              <strong>Fintech Operations</strong>
-              <span>Workbench</span>
+              <strong>Fintech operations</strong>
+              <span>Internal workbench</span>
             </div>
           </div>
 
           <nav aria-label="Workbench applications">
             <p className="sidebar-label">Applications</p>
-            {applicationModules.map((module) => (
+            {applicationModules.map((module, index) => (
               <button
                 aria-current={activeModule === module ? "page" : undefined}
                 className={
@@ -118,11 +123,11 @@ export function App() {
                 onClick={() => selectModule(module)}
                 type="button"
               >
-                <span className="app-monogram">
-                  {moduleConfiguration[module].shortLabel.slice(0, 2)}
+                <span className="nav-index" aria-hidden="true">
+                  0{index + 1}
                 </span>
                 <span>
-                  <strong>{moduleConfiguration[module].label}</strong>
+                  <strong>{moduleConfiguration[module].shortLabel}</strong>
                   <small>{moduleConfiguration[module].description}</small>
                 </span>
               </button>
@@ -136,11 +141,11 @@ export function App() {
               onClick={() => selectModule("platform")}
               type="button"
             >
-              <span className="app-monogram">
-                {moduleConfiguration.platform.shortLabel.slice(0, 2)}
+              <span className="nav-index" aria-hidden="true">
+                04
               </span>
               <span>
-                <strong>{moduleConfiguration.platform.label}</strong>
+                <strong>{moduleConfiguration.platform.shortLabel}</strong>
                 <small>{moduleConfiguration.platform.description}</small>
               </span>
             </button>
@@ -159,11 +164,13 @@ export function App() {
         <div className="workbench-content">
           <header className="topbar">
             <div>
-              <p className="eyebrow">Current application</p>
+              <p className="eyebrow">
+                Operations / {moduleConfiguration[activeModule].description}
+              </p>
               <h1>{moduleConfiguration[activeModule].label}</h1>
             </div>
             <label className="persona-control">
-              <span>Acting as</span>
+              <span>Demo persona</span>
               <select
                 aria-label="Demo persona"
                 onChange={(event) => setPersonaId(event.target.value)}
@@ -179,7 +186,7 @@ export function App() {
                   ))
                 )}
               </select>
-              <small>Roles for this application</small>
+              <small>Switches the role used in this workspace</small>
             </label>
           </header>
 
