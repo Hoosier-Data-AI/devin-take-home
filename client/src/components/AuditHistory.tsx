@@ -1,12 +1,12 @@
 import type { AuditEvent } from "../types";
-import { formatDate, titleCase } from "../format";
+import { formatDate, pluralize, titleCase } from "../format";
 
 export function AuditHistory({ events }: { events: AuditEvent[] }) {
   return (
     <section className="audit-section">
       <div className="section-title-row">
         <h3>Audit history</h3>
-        <span>{events.length} events</span>
+        <span>{pluralize(events.length, "event")}</span>
       </div>
       <ol className="audit-list">
         {events.map((event) => (

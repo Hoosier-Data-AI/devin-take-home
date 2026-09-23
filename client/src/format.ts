@@ -4,6 +4,20 @@ export function titleCase(value: string): string {
   );
 }
 
+const entityTypeLabels: Record<string, string> = {
+  kyc_case: "KYC case",
+  refund_request: "Refund request",
+  feature_flag: "Feature flag"
+};
+
+export function entityTypeLabel(value: string): string {
+  return entityTypeLabels[value] ?? titleCase(value);
+}
+
+export function pluralize(count: number, noun: string): string {
+  return `${count} ${noun}${count === 1 ? "" : "s"}`;
+}
+
 export function formatDate(value: string): string {
   return new Intl.DateTimeFormat("en-US", {
     month: "short",

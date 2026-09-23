@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchPlatformAudit, fetchPlatformOverview } from "../api";
-import { formatDate, titleCase } from "../format";
+import { entityTypeLabel, formatDate, titleCase } from "../format";
 import type {
   AuditEntityType,
   AuditEvent,
@@ -293,7 +293,7 @@ export function PlatformWorkspace({ personaId }: WorkspaceProps) {
                       <td>{event.actorId}</td>
                       <td>
                         <strong>{event.entityId}</strong>
-                        <span>{titleCase(event.entityType)}</span>
+                        <span>{entityTypeLabel(event.entityType)}</span>
                       </td>
                       <td>
                         {event.oldStatus ?? "new"} → {event.newStatus}
