@@ -1587,6 +1587,9 @@ details.a-disclosure[open] > summary::before {
     document.getElementById("prevSlide").addEventListener("click", () => go(current - 1));
     document.getElementById("nextSlide").addEventListener("click", () => go(current + 1));
     document.addEventListener("keydown", (event) => {
+      if (event.target instanceof HTMLElement && event.target.closest("button, a, input, select, textarea")) {
+        return;
+      }
       if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(event.key)) {
         event.preventDefault();
         go(current + 1);

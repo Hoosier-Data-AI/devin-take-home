@@ -1280,7 +1280,7 @@ details.a-disclosure[open] > summary::before {
   const go=i=>{current=Math.max(0,Math.min(slides.length-1,i));slides[current].scrollIntoView({behavior:"smooth",block:"start"});count.textContent=`${current+1} / ${slides.length}`;history.replaceState(null,"",`#${current+1}`)};
   deck.addEventListener("scroll",()=>{clearTimeout(deck._t);deck._t=setTimeout(()=>{current=slides.reduce((best,slide,index)=>Math.abs(slide.offsetTop-deck.scrollTop)<Math.abs(slides[best].offsetTop-deck.scrollTop)?index:best,0);count.textContent=`${current+1} / ${slides.length}`},80)},{passive:true});
   document.getElementById("prevSlide").onclick=()=>go(current-1);document.getElementById("nextSlide").onclick=()=>go(current+1);
-  document.addEventListener("keydown",e=>{if(["ArrowRight","ArrowDown","PageDown"," "].includes(e.key)){e.preventDefault();go(current+1)}if(["ArrowLeft","ArrowUp","PageUp"].includes(e.key)){e.preventDefault();go(current-1)}if(e.key==="Home")go(0);if(e.key==="End")go(slides.length-1)});
+  document.addEventListener("keydown",e=>{if(e.target instanceof HTMLElement&&e.target.closest("button, a, input, select, textarea"))return;if(["ArrowRight","ArrowDown","PageDown"," "].includes(e.key)){e.preventDefault();go(current+1)}if(["ArrowLeft","ArrowUp","PageUp"].includes(e.key)){e.preventDefault();go(current-1)}if(e.key==="Home")go(0);if(e.key==="End")go(slides.length-1)});
   document.getElementById("themeButton").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="dark"?"light":"dark"};
   const h=Number(location.hash.slice(1))-1;if(Number.isInteger(h)&&h>=0&&h<slides.length)requestAnimationFrame(()=>go(h));})();
 </script>
