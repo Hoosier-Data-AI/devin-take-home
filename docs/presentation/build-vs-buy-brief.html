@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content="Devin artifact kit" />
-    <title>Build vs. buy: fintech internal tools</title>
+    <title>Build vs. buy brief</title>
     <style>
 /* Devin artifact kit — self-contained styles for standalone HTML artifacts.
    Tokens are translated from the Devin product design system. Light is the
@@ -1107,8 +1107,8 @@ details.a-disclosure[open] > summary::before {
     <main class="a-shell">
       <header class="a-header">
         <div>
-          <h1 class="a-header__title">Build vs. buy: fintech internal tools</h1>
-          <p class="a-header__subtitle">Recommendation, evidence, and a 90-day decision gate.</p>
+          <h1 class="a-header__title">Build vs. buy brief</h1>
+          <p class="a-header__subtitle">Five-page screen-share brief on the Power Apps decision, prototype evidence, and 90-day pilot.</p>
         </div>
         <button
           type="button"
@@ -1153,390 +1153,140 @@ details.a-disclosure[open] > summary::before {
       </section>
 
 <style>
-  .cog-masthead {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 24px;
-    padding: 14px 0 22px;
-    border-top: 1px solid currentColor;
-    border-bottom: 1px solid color-mix(in srgb, currentColor 16%, transparent);
-  }
-  .cog-brand, .cog-label, .cog-index, .cog-meta {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-  }
-  .cog-brand { font-size: .76rem; font-weight: 700; }
-  .cog-brand b { color: #2200ff; }
-  .cog-meta { font-size: .68rem; opacity: .58; text-align: right; }
-  .cog-hero {
-    display: grid;
-    grid-template-columns: minmax(70px, .32fr) minmax(0, 2.4fr);
-    gap: 28px;
-    padding: 34px 0 10px;
-  }
-  .cog-index { color: #2200ff; font-size: .7rem; padding-top: .55rem; }
-  .cog-hero h2 {
-    margin: 0;
-    max-width: 980px;
-    font-family: ui-sans-serif, system-ui, sans-serif;
-    font-size: clamp(2rem, 5vw, 4.8rem);
-    font-weight: 430;
-    line-height: .98;
-    letter-spacing: -.055em;
-  }
-  .cog-hero p {
-    max-width: 780px;
-    margin: 22px 0 0;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(1rem, 1.6vw, 1.28rem);
-    line-height: 1.45;
-  }
-  .cog-section-head {
-    display: grid;
-    grid-template-columns: minmax(70px, .32fr) minmax(0, 2.4fr);
-    gap: 28px;
-    align-items: baseline;
-    padding-top: 10px;
-  }
-  .cog-section-head h2 { margin: 0; }
-  .cog-decision {
-    border-top: 1px solid currentColor;
-    border-bottom: 1px solid currentColor;
-    padding: 22px 0;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(1.12rem, 2vw, 1.5rem);
-    line-height: 1.42;
-  }
-  .cog-decision strong {
-    display: block;
-    margin-bottom: 4px;
-    color: #2200ff;
-    font-family: ui-sans-serif, system-ui, sans-serif;
-    font-size: .7rem;
-    text-transform: uppercase;
-    letter-spacing: .09em;
-  }
-  .cog-number {
-    display: block;
-    font-family: ui-sans-serif, system-ui, sans-serif;
-    font-size: clamp(2rem, 4vw, 3.7rem);
-    letter-spacing: -.055em;
-    line-height: 1;
-  }
-  .cog-verdict { font-weight: 650; color: #2200ff; }
-  .cog-small { font-size: .84rem; opacity: .72; }
-  .a-section {
-    margin: 0;
-    padding: 34px 0 28px;
-    border-top: 1px solid color-mix(in srgb, currentColor 20%, transparent);
-  }
-  .a-section__title {
-    font-family: ui-sans-serif, system-ui, sans-serif;
-    font-size: clamp(1.45rem, 2.4vw, 2.15rem);
-    font-weight: 480;
-    line-height: 1.06;
-    letter-spacing: -.035em;
-  }
-  .a-grid {
-    gap: 0 !important;
-    margin-top: 20px;
-    border-top: 1px solid currentColor;
-    border-bottom: 1px solid currentColor;
-  }
-  .a-grid > .a-panel,
-  .a-grid > .a-metric,
-  .a-grid > .a-phase {
-    min-width: 0;
-    margin: 0;
-    padding: 22px;
-    border: 0;
-    border-right: 1px solid color-mix(in srgb, currentColor 18%, transparent);
-    border-radius: 0;
-    background: transparent;
-    box-shadow: none;
-  }
-  .a-grid > :last-child { border-right: 0; }
-  .a-panel__head { margin: 0 0 14px; padding: 0; border: 0; }
-  .a-panel__title,
-  .a-phase__title {
-    font-family: ui-sans-serif, system-ui, sans-serif;
-    font-size: 1rem;
-    font-weight: 650;
-    letter-spacing: -.015em;
-  }
-  .a-prose,
-  .a-panel li,
-  .a-phase p {
-    font-family: Georgia, "Times New Roman", serif;
-    line-height: 1.5;
-  }
-  .a-prose li + li { margin-top: .45rem; }
-  .a-metric__label,
-  .a-metric__delta,
-  .a-status {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    letter-spacing: .04em;
-  }
-  .a-metric__label {
-    font-size: .67rem;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-  .a-metric__delta { font-size: .68rem; opacity: .62; }
-  .a-phase { grid-template-columns: 42px minmax(0, 1fr); }
-  .a-phase__index {
-    color: #2200ff;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: .7rem;
-  }
-  .a-status {
-    border: 0;
-    border-radius: 0;
-    background: transparent;
-    color: #2200ff;
-    font-size: .66rem;
-    text-transform: uppercase;
-  }
-  .a-callout {
-    margin-top: 20px;
-    padding: 18px 20px;
-    border: 0;
-    border-top: 1px solid currentColor;
-    border-bottom: 1px solid currentColor;
-    border-left: 2px solid #2200ff;
-    border-radius: 0;
-    background: color-mix(in srgb, currentColor 3%, transparent);
-    box-shadow: none;
-    font-family: Georgia, "Times New Roman", serif;
-    line-height: 1.48;
-  }
-  .a-table-scroll {
-    margin-top: 20px;
-    border-top: 1px solid currentColor;
-    border-bottom: 1px solid currentColor;
-    border-radius: 0;
-  }
-  .a-table { font-family: Georgia, "Times New Roman", serif; }
-  .a-table thead th {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: .66rem;
-    text-transform: uppercase;
-    letter-spacing: .05em;
-  }
-  .a-table th,
-  .a-table td { border-color: color-mix(in srgb, currentColor 14%, transparent); }
-  @media (max-width: 620px) {
-    .cog-hero, .cog-section-head { grid-template-columns: 1fr; gap: 6px; }
-    .cog-meta { text-align: left; }
-    .cog-masthead { align-items: flex-start; flex-direction: column; gap: 8px; }
-    .a-section { padding: 28px 0 22px; }
-    .a-grid > .a-panel,
-    .a-grid > .a-metric,
-    .a-grid > .a-phase {
-      border-right: 0;
-      border-bottom: 1px solid color-mix(in srgb, currentColor 18%, transparent);
-    }
-    .a-grid > :last-child { border-bottom: 0; }
-  }
-  @media print {
-    @page { size: A4 landscape; margin: 8mm; }
-    .a-shell { max-width: none !important; zoom: .61; }
-    .a-section { margin-block: 8px !important; }
-    .a-panel, .a-callout, .a-metric { padding: 8px !important; }
-    .a-table { font-size: 8pt !important; }
-    .a-table th, .a-table td { padding: 4px 6px !important; }
-    .a-prose, li, p { font-size: 8.4pt !important; line-height: 1.24 !important; }
-    .cog-hero { padding-top: 14px; }
-    .cog-hero h2 { font-size: 30pt !important; }
-    .cog-decision { padding: 10px 0; }
-    footer { display: none !important; }
-  }
+  :root { --c-blue:#1616ff; --c-ink:#171717; --c-paper:#f7f6f2; --c-muted:#66635f; --c-rule:#222; --c-panel:#ecebe6; }
+  :root[data-theme="dark"] { --c-ink:#f4f3ef; --c-paper:#111; --c-muted:#aaa7a0; --c-rule:#f4f3ef; --c-panel:#1d1d1b; }
+  html,body{height:100%;overflow:hidden} body{background:var(--c-paper)!important;color:var(--c-ink)!important}
+  .a-shell{width:100%!important;max-width:none!important;height:100%!important;margin:0!important;padding:0!important}
+  .a-header,.a-footnote{display:none!important}
+  .deck{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:smooth;background:var(--c-paper);scrollbar-width:none}
+  .deck::-webkit-scrollbar{display:none}
+  .slide{position:relative;min-height:100vh;scroll-snap-align:start;overflow:hidden;padding:clamp(42px,5.2vw,88px) clamp(50px,7vw,118px);display:grid;grid-template-rows:auto 1fr auto;gap:clamp(24px,3vh,44px);background:var(--c-paper)}
+  .slide::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(to right,transparent 0,transparent calc(100% - 1px),color-mix(in srgb,var(--c-ink) 7%,transparent) calc(100% - 1px));background-size:25% 100%;opacity:.35}
+  .slide-head,.slide-body,.slide-foot{position:relative;z-index:1}
+  .slide-head{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-bottom:16px;border-bottom:1px solid var(--c-rule)}
+  .brand,.eyebrow,.meta,.label,.tag,.nav-count,.phase-no{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.12em;font-weight:700}
+  .brand{font-size:14px}.brand b{color:var(--c-blue);padding-inline:8px}.meta{color:var(--c-muted);font-size:12px;text-align:right;line-height:1.45}
+  .slide-body{display:grid;align-content:center;min-height:0}.slide-foot{padding-top:14px;border-top:1px solid color-mix(in srgb,var(--c-ink) 28%,transparent);color:var(--c-muted);font-size:clamp(13px,1.05vw,17px)}
+  .eyebrow{color:var(--c-blue);font-size:clamp(12px,1vw,16px);margin-bottom:clamp(14px,2vh,24px)}
+  h2{max-width:1280px;margin:0;font-size:clamp(46px,5.8vw,96px);line-height:.98;letter-spacing:-.055em;font-weight:650}
+  h3{margin:0;font-size:clamp(24px,2.25vw,39px);line-height:1.08;letter-spacing:-.035em}
+  p{margin:0}.lead{max-width:1060px;margin-top:clamp(22px,3vh,38px);font-family:Georgia,"Times New Roman",serif;font-size:clamp(23px,2.15vw,37px);line-height:1.27}
+  .recommendation{max-width:1180px;margin-top:clamp(24px,3vh,42px);padding:clamp(22px,2.4vw,40px);border-left:5px solid var(--c-blue);background:var(--c-panel);font-family:Georgia,"Times New Roman",serif;font-size:clamp(24px,2.4vw,42px);line-height:1.2}
+  .metrics,.two-up,.four-up{display:grid;gap:0;border-top:1px solid var(--c-rule);border-bottom:1px solid var(--c-rule);margin-top:clamp(24px,3.5vh,48px)}
+  .metrics{grid-template-columns:repeat(4,1fr)}.two-up{grid-template-columns:repeat(2,1fr)}.four-up{grid-template-columns:repeat(4,1fr)}
+  .metric,.card,.phase{min-width:0;padding:clamp(20px,2.4vw,38px);border-right:1px solid color-mix(in srgb,var(--c-ink) 23%,transparent)}
+  .metric:last-child,.card:last-child,.phase:last-child{border-right:0}
+  .label,.tag,.phase-no{color:var(--c-blue);font-size:12px}.metric-value{margin-top:10px;font-size:clamp(33px,3.8vw,64px);line-height:.95;letter-spacing:-.05em}.metric-note{margin-top:9px;color:var(--c-muted);font-family:var(--font-mono);font-size:11px}
+  .card p,.card li,.phase p{font-family:Georgia,"Times New Roman",serif;font-size:clamp(17px,1.45vw,25px);line-height:1.38}.card p{margin-top:18px}.card ul{margin:20px 0 0;padding-left:1.05em}.card li+li{margin-top:9px}.card .tag{margin-bottom:18px}
+  .callout{margin-top:clamp(20px,2.8vh,36px);padding:17px 21px;border:1px solid var(--c-rule);border-left:5px solid var(--c-blue);background:var(--c-panel);font-size:clamp(16px,1.3vw,22px);line-height:1.35}
+  .comparison{width:100%;border-collapse:collapse;border-top:1px solid var(--c-rule);border-bottom:1px solid var(--c-rule);font-family:Georgia,"Times New Roman",serif;font-size:clamp(14px,1.25vw,21px);line-height:1.25}
+  .comparison th,.comparison td{padding:clamp(9px,1.15vh,15px) clamp(10px,1.2vw,18px);text-align:left;border-bottom:1px solid color-mix(in srgb,var(--c-ink) 18%,transparent);vertical-align:top}
+  .comparison thead th{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--c-muted)}.comparison tbody tr:last-child>*{border-bottom:0}.comparison tbody th{font-family:var(--font-sans);font-weight:650}.win{color:var(--c-blue);font-family:var(--font-mono);font-size:.78em;font-weight:700;text-transform:uppercase;letter-spacing:.07em}
+  .phase h3{margin-top:14px;font-size:clamp(21px,1.9vw,32px)}.phase p{margin-top:12px;font-size:clamp(15px,1.17vw,20px)}
+  .decision{margin-top:clamp(20px,3vh,38px);display:grid;grid-template-columns:220px 1fr;border:1px solid var(--c-rule);background:var(--c-panel)}
+  .decision strong{padding:20px;color:var(--c-blue);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.12em}.decision p{padding:20px;border-left:1px solid var(--c-rule);font-family:Georgia,"Times New Roman",serif;font-size:clamp(18px,1.5vw,26px);line-height:1.32}
+  .deck-nav{position:fixed;right:22px;bottom:18px;z-index:20;display:flex;align-items:center;gap:8px;padding:7px;border:1px solid color-mix(in srgb,var(--c-ink) 28%,transparent);background:color-mix(in srgb,var(--c-paper) 92%,transparent)}
+  .deck-nav button{width:40px;height:36px;border:1px solid var(--c-rule);border-radius:0;background:transparent;color:var(--c-ink);cursor:pointer;font-size:19px}.deck-nav button:hover{background:var(--c-blue);color:#fff;border-color:var(--c-blue)}.nav-count{min-width:54px;text-align:center;font-size:11px}
+  .theme-button{position:fixed;left:22px;bottom:18px;z-index:20;width:42px;height:42px;border:1px solid var(--c-rule);border-radius:0;background:var(--c-paper);color:var(--c-ink);cursor:pointer}
+  @media(max-width:760px){html,body{overflow:auto}.deck{scroll-snap-type:none}.slide{min-height:100svh;padding:32px 22px 78px;gap:22px}.slide::before{display:none}.slide-head{align-items:flex-start}.meta{font-size:9px}h2{font-size:clamp(40px,12vw,62px)}.lead{font-size:22px}.metrics,.two-up,.four-up,.decision{grid-template-columns:1fr}.metric,.card,.phase{border-right:0;border-bottom:1px solid color-mix(in srgb,var(--c-ink) 23%,transparent)}.metric:last-child,.card:last-child,.phase:last-child{border-bottom:0}.decision p{border-left:0;border-top:1px solid var(--c-rule)}.comparison{font-size:13px}.comparison th,.comparison td{padding:8px 6px}.comparison th:nth-child(3),.comparison td:nth-child(3){display:none}.deck-nav{right:10px;bottom:10px}.theme-button{left:10px;bottom:10px}}
+  @media print{@page{size:13.333in 7.5in;margin:0}html,body{overflow:visible!important}.deck{height:auto;overflow:visible}.slide{width:13.333in;height:7.5in;min-height:0;break-after:page;padding:.55in .7in}.slide:last-child{break-after:auto}.deck-nav,.theme-button{display:none!important}h2{font-size:44pt}.lead{font-size:22pt}.card p,.card li{font-size:14pt}}
 </style>
 
-<div class="cog-masthead">
-  <div class="cog-brand">Cognition <b>/</b> Devin</div>
-  <div class="cog-meta">Fintech internal tools evaluation<br>VP engineering brief · September 2026</div>
+<div class="deck" id="deck">
+  <section class="slide">
+    <div class="slide-head"><div class="brand">Cognition <b>/</b> Devin</div><div class="meta">Build vs. buy brief<br />Fintech internal tools</div></div>
+    <div class="slide-body">
+      <div class="eyebrow">01 · Recommendation</div>
+      <h2>Keep Power Apps.<br />Run a 90-day pilot.</h2>
+      <div class="recommendation">Build two representative applications with the shared codebase. Reduce licenses only if delivery repeats, security review passes, and the operating model costs less.</div>
+      <div class="metrics">
+        <div class="metric"><div class="label">Current spend</div><div class="metric-value">$250K</div><div class="metric-note">per year · client-provided</div></div>
+        <div class="metric"><div class="label">Current apps</div><div class="metric-value">3</div><div class="metric-note">in Power Apps</div></div>
+        <div class="metric"><div class="label">Planned apps</div><div class="metric-value">10+</div><div class="metric-note">reuse can compound</div></div>
+        <div class="metric"><div class="label">Prototype gates</div><div class="metric-value">25/25</div><div class="metric-note">repository checks</div></div>
+      </div>
+    </div>
+    <div class="slide-foot">The license covers governance and operations in addition to screens.</div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-head"><div class="brand">Cognition <b>/</b> Devin</div><div class="meta">What each option includes</div></div>
+    <div class="slide-body">
+      <div class="eyebrow">02 · The actual purchase decision</div>
+      <h2>Managed leverage or full control.</h2>
+      <div class="two-up">
+        <article class="card"><div class="tag">Power Apps</div><h3>A managed application platform</h3><p>Visual makers, Dataverse, connectors, roles, policies, audit, environments, pipelines, backups, administration, and non-engineer autonomy. Microsoft operates the control plane.</p></article>
+        <article class="card"><div class="tag">Devin + owned code</div><h3>A customizable engineering system</h3><p>Full control of behavior and UX, native source control and tests, reusable company controls, and fewer platform constraints. The engineering team owns every production layer.</p></article>
+      </div>
+      <div class="callout"><strong>Production ownership:</strong> SSO, provisioning, secrets, deployments, observability, backups, security review, support, and incident response determine the real replacement cost.</div>
+    </div>
+    <div class="slide-foot">The prototype does not transfer those responsibilities back to a vendor.</div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-head"><div class="brand">Cognition <b>/</b> Devin</div><div class="meta">Capability comparison</div></div>
+    <div class="slide-body">
+      <div class="eyebrow">03 · Current advantage</div>
+      <h2>Different tools win different work.</h2>
+      <table class="comparison">
+        <thead><tr><th>Capability</th><th>Power Apps</th><th>Devin + owned code</th><th>Advantage</th></tr></thead>
+        <tbody>
+          <tr><th>Standard forms and CRUD</th><td>Fast immediately</td><td>Fast after the foundation exists</td><td class="win">Power Apps</td></tr>
+          <tr><th>Custom domain behavior</th><td>Platform-constrained</td><td>Full code control</td><td class="win">Owned code</td></tr>
+          <tr><th>Governance and administration</th><td>Managed and mature</td><td>Must be built and operated</td><td class="win">Power Apps</td></tr>
+          <tr><th>Testing and source control</th><td>Platform ALM</td><td>Native engineering workflow</td><td class="win">Owned code</td></tr>
+          <tr><th>Non-engineer autonomy</th><td>Core capability</td><td>Not provided</td><td class="win">Power Apps</td></tr>
+          <tr><th>Custom UX and integration logic</th><td>Within platform boundaries</td><td>Unconstrained standard code</td><td class="win">Owned code</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="slide-foot">Power Apps is strongest on managed governance; owned code is strongest on specialization.</div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-head"><div class="brand">Cognition <b>/</b> Devin</div><div class="meta">Evidence and remaining risk</div></div>
+    <div class="slide-body">
+      <div class="eyebrow">04 · What the prototype proves</div>
+      <h2>Feasible foundation.<br />Unproven operating model.</h2>
+      <div class="two-up">
+        <article class="card"><div class="tag">Working evidence</div><h3>Reusable application delivery</h3><ul><li>KYC, refunds, and feature flags share a modular foundation.</li><li>Authorization, validation, audit, concurrency, persistence, and tests are reusable.</li><li>The scaffold, policy checks, and connector contract make app 4 concrete.</li></ul></article>
+        <article class="card"><div class="tag">Open production work</div><h3>Systems the client must own</h3><ul><li>Identity, provisioning, secrets, and live integrations.</li><li>Deployment, monitoring, backups, incident response, and security review.</li><li>Compliance posture, support model, delivery timing, and total cost.</li></ul></article>
+      </div>
+    </div>
+    <div class="slide-foot">Synthetic data only. No production-readiness or compliance claim.</div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-head"><div class="brand">Cognition <b>/</b> Devin</div><div class="meta">90-day decision gate</div></div>
+    <div class="slide-body">
+      <div class="eyebrow">05 · Next step</div>
+      <h2>Measure before migrating.</h2>
+      <div class="four-up">
+        <article class="phase"><div class="phase-no">01 · Weeks 1–2</div><h3>Baseline</h3><p>Users, integrations, changes, incidents, support, and full current cost.</p></article>
+        <article class="phase"><div class="phase-no">02 · Weeks 2–5</div><h3>Productionize</h3><p>SSO, secrets, deployment, monitoring, backups, review, and runbooks.</p></article>
+        <article class="phase"><div class="phase-no">03 · Weeks 5–10</div><h3>Build two apps</h3><p>One ordinary queue and one integration-heavy workflow.</p></article>
+        <article class="phase"><div class="phase-no">04 · Weeks 11–13</div><h3>Decide</h3><p>Reliability, findings, operator burden, speed, and three-year cost.</p></article>
+      </div>
+      <div class="decision"><strong>Decision rule</strong><p>Build if delivery becomes repeatable, security review passes, and ownership is economically justified. Otherwise retain Power Apps and use Devin selectively.</p></div>
+    </div>
+    <div class="slide-foot">Keep current licenses throughout the pilot.</div>
+  </section>
 </div>
 
-<section class="cog-hero">
-  <div class="cog-index">01</div>
-  <div>
-    <h2>Keep Power Apps during a 90-day pilot.</h2>
-    <p>
-      Build two representative applications with the shared codebase. Reduce
-      licenses only if the team can deliver them repeatedly, pass security review,
-      and operate them for less than the managed platform.
-    </p>
-  </div>
-</section>
-
-<section class="a-section">
-  <div class="cog-decision">
-    <strong>Decision in one line</strong>
-    The license covers governance and operations in addition to screens.
-    Prove the replacement operating model before taking ownership of those systems.
-  </div>
-</section>
-
-<section class="a-section">
-  <div class="cog-section-head">
-    <div class="cog-index">02</div>
-    <h2 class="a-section__title">The decision context</h2>
-  </div>
-  <div class="a-grid">
-    <div class="a-metric">
-      <div class="a-metric__label">Current platform spend</div>
-      <div class="cog-number">$250K</div>
-      <div class="a-metric__delta">per year · client-provided</div>
-    </div>
-    <div class="a-metric">
-      <div class="a-metric__label">Application portfolio</div>
-      <div class="cog-number">3 → 10+</div>
-      <div class="a-metric__delta">shared code can compound</div>
-    </div>
-    <div class="a-metric">
-      <div class="a-metric__label">Prototype evidence</div>
-      <div class="cog-number">3 apps</div>
-      <div class="a-metric__delta">one modular workbench</div>
-    </div>
-    <div class="a-metric">
-      <div class="a-metric__label">Repository guardrails</div>
-      <div class="cog-number">25 / 25</div>
-      <div class="a-metric__delta">checks passing</div>
-    </div>
-  </div>
-</section>
-
-<section class="a-section">
-  <div class="cog-section-head">
-    <div class="cog-index">03</div>
-    <h2 class="a-section__title">What each option includes</h2>
-  </div>
-  <div class="a-grid a-grid--halves">
-    <article class="a-panel">
-      <div class="a-panel__head"><h3 class="a-panel__title">Power Apps</h3></div>
-      <p class="a-prose">
-        A visual maker, Dataverse, connectors, security roles, data policies,
-        audit, environments, pipelines, backups, administration, and
-        non-engineer autonomy. Microsoft operates the control plane.
-      </p>
-    </article>
-    <article class="a-panel">
-      <div class="a-panel__head"><h3 class="a-panel__title">Devin + owned code</h3></div>
-      <p class="a-prose">
-        Full control of domain behavior and UX, native source control and tests,
-        reusable company-specific controls, and fewer platform constraints.
-        The engineering team owns every production layer.
-      </p>
-    </article>
-  </div>
-  <div class="a-callout a-callout--risk">
-    <strong>Production ownership</strong> A replacement must cover SSO, provisioning,
-    secrets, deployments, observability, backups, security review, support, and
-    incident response. Those systems determine the operating cost.
-  </div>
-</section>
-
-<section class="a-section">
-  <div class="cog-section-head">
-    <div class="cog-index">04</div>
-    <h2 class="a-section__title">Comparison by capability</h2>
-  </div>
-  <div class="a-table-scroll">
-    <table class="a-table">
-      <caption class="a-visually-hidden">Power Apps compared with Devin-assisted owned code</caption>
-      <thead>
-        <tr>
-          <th scope="col">Capability</th>
-          <th scope="col">Power Apps</th>
-          <th scope="col">Devin + owned code</th>
-          <th scope="col">Current advantage</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><th scope="row">Standard forms and CRUD</th><td>Fast immediately</td><td>Fast after foundation</td><td class="cog-verdict">Power Apps</td></tr>
-        <tr><th scope="row">Custom domain behavior</th><td>Platform-constrained</td><td>Full code control</td><td class="cog-verdict">Owned code</td></tr>
-        <tr><th scope="row">Governance and administration</th><td>Managed and mature</td><td>Must be built and operated</td><td class="cog-verdict">Power Apps</td></tr>
-        <tr><th scope="row">Testing and source control</th><td>Available through platform ALM</td><td>Native engineering workflow</td><td class="cog-verdict">Owned code</td></tr>
-        <tr><th scope="row">Non-engineer autonomy</th><td>Core capability</td><td>Not provided</td><td class="cog-verdict">Power Apps</td></tr>
-        <tr><th scope="row">Custom UX and integration logic</th><td>Possible within platform boundaries</td><td>Unconstrained standard code</td><td class="cog-verdict">Owned code</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<section class="a-section">
-  <div class="cog-section-head">
-    <div class="cog-index">05</div>
-    <h2 class="a-section__title">What the prototype proves</h2>
-  </div>
-  <div class="a-grid a-grid--halves">
-    <article class="a-panel">
-      <div class="a-panel__head"><h3 class="a-panel__title">Evidence</h3></div>
-      <ul class="a-prose">
-        <li>KYC, refunds, and feature flags share navigation, queue UI, permissions, audit, and persistence.</li>
-        <li>Server authorization, validation, version conflicts, and atomic state/audit writes are reusable.</li>
-        <li>A typed scaffolder, 25 policy checks, and a contract-tested synthetic connector make the next-app path executable.</li>
-      </ul>
-    </article>
-    <article class="a-panel">
-      <div class="a-panel__head"><h3 class="a-panel__title">Open production work</h3></div>
-      <ul class="a-prose">
-        <li>Production identity, provisioning, secrets, and integrations.</li>
-        <li>Deployment, observability, backups, incident response, and security review.</li>
-        <li>Compliance posture, operating cost, and repeatable delivery timing.</li>
-      </ul>
-    </article>
-  </div>
-</section>
-
-<section class="a-section">
-  <div class="cog-section-head">
-    <div class="cog-index">06</div>
-    <h2 class="a-section__title">The 90-day decision gate</h2>
-  </div>
-  <div class="a-grid">
-    <article class="a-phase">
-      <div class="a-phase__index">01</div>
-      <div>
-        <div class="a-phase__head"><h3 class="a-phase__title">Baseline</h3><span class="a-status" data-state="planned">Weeks 1–2</span></div>
-        <p class="a-prose">Capture users, integrations, change volume, incidents, support burden, and full current cost.</p>
-      </div>
-    </article>
-    <article class="a-phase">
-      <div class="a-phase__index">02</div>
-      <div>
-        <div class="a-phase__head"><h3 class="a-phase__title">Productionize</h3><span class="a-status" data-state="planned">Weeks 2–5</span></div>
-        <p class="a-prose">Add SSO, group mapping, secrets, deployment, monitoring, backups, security review, and runbooks.</p>
-      </div>
-    </article>
-    <article class="a-phase">
-      <div class="a-phase__index">03</div>
-      <div>
-        <div class="a-phase__head"><h3 class="a-phase__title">Build two apps</h3><span class="a-status" data-state="planned">Weeks 5–10</span></div>
-        <p class="a-prose">Deliver one ordinary queue and one integration-heavy workflow; measure effort, exceptions, and reuse.</p>
-      </div>
-    </article>
-    <article class="a-phase">
-      <div class="a-phase__index">04</div>
-      <div>
-        <div class="a-phase__head"><h3 class="a-phase__title">Decide</h3><span class="a-status" data-state="planned">Weeks 11–13</span></div>
-        <p class="a-prose">Compare reliability, security findings, operator burden, delivery speed, and three-year total cost.</p>
-      </div>
-    </article>
-  </div>
-  <div class="cog-decision">
-    <strong>Decision rule</strong>
-    Build if delivery becomes repeatable, the foundation passes security review,
-    and ownership is economically justified. Otherwise retain Power Apps and use
-    Devin selectively for custom apps, extensions, testing, and migration.
-  </div>
-</section>
+<button class="theme-button" id="themeButton" type="button" aria-label="Switch color theme">◐</button>
+<nav class="deck-nav" aria-label="Page navigation"><button id="prevSlide" type="button" aria-label="Previous page">←</button><span class="nav-count" id="slideCount">1 / 5</span><button id="nextSlide" type="button" aria-label="Next page">→</button></nav>
+<script>
+  (()=>{const deck=document.getElementById("deck"),slides=[...document.querySelectorAll(".slide")],count=document.getElementById("slideCount");let current=0;
+  const go=i=>{current=Math.max(0,Math.min(slides.length-1,i));slides[current].scrollIntoView({behavior:"smooth",block:"start"});count.textContent=`${current+1} / ${slides.length}`;history.replaceState(null,"",`#${current+1}`)};
+  deck.addEventListener("scroll",()=>{clearTimeout(deck._t);deck._t=setTimeout(()=>{current=slides.reduce((best,slide,index)=>Math.abs(slide.offsetTop-deck.scrollTop)<Math.abs(slides[best].offsetTop-deck.scrollTop)?index:best,0);count.textContent=`${current+1} / ${slides.length}`},80)},{passive:true});
+  document.getElementById("prevSlide").onclick=()=>go(current-1);document.getElementById("nextSlide").onclick=()=>go(current+1);
+  document.addEventListener("keydown",e=>{if(["ArrowRight","ArrowDown","PageDown"," "].includes(e.key)){e.preventDefault();go(current+1)}if(["ArrowLeft","ArrowUp","PageUp"].includes(e.key)){e.preventDefault();go(current-1)}if(e.key==="Home")go(0);if(e.key==="End")go(slides.length-1)});
+  document.getElementById("themeButton").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="dark"?"light":"dark"};
+  const h=Number(location.hash.slice(1))-1;if(Number.isInteger(h)&&h>=0&&h<slides.length)requestAnimationFrame(()=>go(h));})();
+</script>
 
 
-      <footer class="a-footnote">Prepared from the working prototype and Microsoft Learn documentation for Power Apps, Dataverse, connectors, security, governance, and ALM. The $250K annual spend and planned portfolio were provided by the prospective client. Visual language is adapted from Cognition's public website; this is take-home material, not official brand collateral. Synthetic prototype only; no claim of compliance or production readiness.</footer>
+      <footer class="a-footnote">Claims are limited to the working synthetic prototype, client-provided context, and cited Microsoft Learn capabilities. Visual language is adapted from Cognition's public website; this is not official brand collateral.</footer>
     </main>
     <script>
 /* Devin artifact kit — self-contained behavior for standalone HTML artifacts.

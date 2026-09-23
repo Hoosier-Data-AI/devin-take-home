@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content="Devin artifact kit" />
-    <title>Key decisions: Fintech Operations Workbench</title>
+    <title>Key decisions</title>
     <style>
 /* Devin artifact kit — self-contained styles for standalone HTML artifacts.
    Tokens are translated from the Devin product design system. Light is the
@@ -1107,8 +1107,8 @@ details.a-disclosure[open] > summary::before {
     <main class="a-shell">
       <header class="a-header">
         <div>
-          <h1 class="a-header__title">Key decisions: Fintech Operations Workbench</h1>
-          <p class="a-header__subtitle">Why the prototype uses one modular repo, explicit domains, and a code-first extension path.</p>
+          <h1 class="a-header__title">Key decisions</h1>
+          <p class="a-header__subtitle">One-page explanation of the prototype scope, architecture, tradeoffs, and recommendation.</p>
         </div>
         <button
           type="button"
@@ -1153,149 +1153,88 @@ details.a-disclosure[open] > summary::before {
       </section>
 
 <style>
-  .cog-masthead { display:flex; justify-content:space-between; gap:24px; align-items:baseline; border-top:1px solid currentColor; border-bottom:1px solid color-mix(in srgb,currentColor 16%,transparent); padding:14px 0 22px; }
-  .cog-brand,.cog-index,.cog-meta { font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; text-transform:uppercase; letter-spacing:.08em; }
-  .cog-brand { font-size:.76rem; font-weight:700; } .cog-brand b,.cog-index,.cog-accent { color:#2200ff; }
-  .cog-meta { font-size:.68rem; opacity:.58; text-align:right; }
-  .cog-hero,.cog-section-head { display:grid; grid-template-columns:minmax(70px,.32fr) minmax(0,2.4fr); gap:28px; }
-  .cog-hero { padding:34px 0 16px; } .cog-section-head { align-items:baseline; padding-top:10px; }
-  .cog-index { font-size:.7rem; padding-top:.5rem; }
-  .cog-hero h2 { margin:0; font-family:ui-sans-serif,system-ui,sans-serif; font-size:clamp(2rem,5vw,4.6rem); font-weight:430; line-height:.98; letter-spacing:-.055em; }
-  .cog-hero p { max-width:800px; margin:22px 0 0; font-family:Georgia,"Times New Roman",serif; font-size:clamp(1rem,1.6vw,1.28rem); line-height:1.45; }
-  .cog-decision { border-top:1px solid currentColor; border-bottom:1px solid currentColor; padding:20px 0; font-family:Georgia,"Times New Roman",serif; font-size:1.18rem; line-height:1.42; }
-  .cog-decision strong { display:block; margin-bottom:4px; color:#2200ff; font:700 .68rem ui-monospace,SFMono-Regular,Menlo,monospace; text-transform:uppercase; letter-spacing:.09em; }
-  .cog-architecture { font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; font-size:.8rem; line-height:1.65; white-space:pre-wrap; border-left:2px solid #2200ff; padding-left:18px; }
-  .a-section { margin:0; padding:30px 0 24px; border-top:1px solid color-mix(in srgb,currentColor 20%,transparent); }
-  .a-section__title { font-family:ui-sans-serif,system-ui,sans-serif; font-size:clamp(1.4rem,2.3vw,2rem); font-weight:480; line-height:1.06; letter-spacing:-.035em; }
-  .a-grid { gap:0!important; margin-top:18px; border-top:1px solid currentColor; border-bottom:1px solid currentColor; }
-  .a-grid > .a-panel { min-width:0; margin:0; padding:20px; border:0; border-right:1px solid color-mix(in srgb,currentColor 18%,transparent); border-radius:0; background:transparent; box-shadow:none; }
-  .a-grid > :last-child { border-right:0; }
-  .a-panel__head { margin:0 0 12px; padding:0; border:0; }
-  .a-panel__title { font-family:ui-sans-serif,system-ui,sans-serif; font-size:.98rem; font-weight:650; letter-spacing:-.015em; }
-  .a-prose,.a-panel li { font-family:Georgia,"Times New Roman",serif; line-height:1.48; }
-  .a-prose li + li { margin-top:.4rem; }
-  .a-callout { margin-top:18px; padding:17px 19px; border:0; border-top:1px solid currentColor; border-bottom:1px solid currentColor; border-left:2px solid #2200ff; border-radius:0; background:color-mix(in srgb,currentColor 3%,transparent); box-shadow:none; font-family:Georgia,"Times New Roman",serif; line-height:1.46; }
-  .cog-architecture { margin-top:18px; padding:16px 0 16px 20px; border-top:1px solid currentColor; border-bottom:1px solid currentColor; background:color-mix(in srgb,currentColor 2%,transparent); }
-  @media(max-width:620px){
-    .cog-masthead{align-items:flex-start;flex-direction:column;gap:8px}
-    .cog-meta{text-align:left}
-    .cog-hero,.cog-section-head{grid-template-columns:1fr;gap:6px}
-    .a-section{padding:26px 0 20px}
-    .a-grid > .a-panel{border-right:0;border-bottom:1px solid color-mix(in srgb,currentColor 18%,transparent)}
-    .a-grid > :last-child{border-bottom:0}
-  }
-  @media print {
-    @page { size:A4 portrait; margin:10mm; }
-    .a-shell { max-width:none !important; zoom:.61; }
-    .a-section { margin-block:5px !important; padding-block:8px !important; }
-    .a-panel,.a-callout { padding:6px !important; }
-    .a-prose,li,p { font-size:8pt !important; line-height:1.2 !important; }
-    .cog-hero { padding-top:8px; } .cog-hero h2 { font-size:25pt !important; }
-    .cog-architecture { margin-top:8px; padding-block:8px; }
-    footer { display:none !important; }
-  }
+  :root{--c-blue:#1616ff;--c-ink:#171717;--c-paper:#f7f6f2;--c-muted:#66635f;--c-rule:#222;--c-panel:#ecebe6}
+  :root[data-theme="dark"]{--c-ink:#f4f3ef;--c-paper:#111;--c-muted:#aaa7a0;--c-rule:#f4f3ef;--c-panel:#1d1d1b}
+  html,body{height:100%;overflow:hidden}body{background:var(--c-paper)!important;color:var(--c-ink)!important}
+  .a-shell{width:100%!important;max-width:none!important;height:100%!important;margin:0!important;padding:0!important}.a-header,.a-footnote{display:none!important}
+  .page{position:relative;width:100%;height:100vh;overflow:hidden;padding:clamp(30px,4vw,62px) clamp(42px,6vw,94px);display:grid;grid-template-rows:auto auto 1fr auto;gap:clamp(16px,2.2vh,28px);background:var(--c-paper)}
+  .page::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(to right,transparent 0,transparent calc(100% - 1px),color-mix(in srgb,var(--c-ink) 7%,transparent) calc(100% - 1px));background-size:25% 100%;opacity:.35}
+  .mast,.hero,.content,.footer{position:relative;z-index:1}.mast{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-bottom:13px;border-bottom:1px solid var(--c-rule)}
+  .brand,.meta,.eyebrow,.label{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.12em;font-weight:700}.brand{font-size:13px}.brand b{color:var(--c-blue);padding-inline:8px}.meta{color:var(--c-muted);font-size:11px;text-align:right;line-height:1.4}
+  .hero{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(28px,5vw,76px);align-items:end}.eyebrow{color:var(--c-blue);font-size:11px;margin-bottom:12px}
+  h2{margin:0;font-size:clamp(39px,4.7vw,78px);line-height:.98;letter-spacing:-.055em;font-weight:650}h3{margin:0;font-size:clamp(18px,1.65vw,28px);line-height:1.08;letter-spacing:-.03em}p{margin:0}
+  .scope{padding:clamp(16px,1.7vw,26px);border-left:4px solid var(--c-blue);background:var(--c-panel);font-family:Georgia,"Times New Roman",serif;font-size:clamp(15px,1.25vw,21px);line-height:1.32}.scope strong{display:block;margin-bottom:8px;color:var(--c-blue);font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em}
+  .content{display:grid;grid-template-columns:1.05fr 1.05fr .9fr;grid-template-rows:auto auto;min-height:0;border-top:1px solid var(--c-rule);border-bottom:1px solid var(--c-rule)}
+  .panel{min-width:0;padding:clamp(14px,1.7vw,26px);border-right:1px solid color-mix(in srgb,var(--c-ink) 22%,transparent);border-bottom:1px solid color-mix(in srgb,var(--c-ink) 22%,transparent)}
+  .panel:nth-child(3),.panel:nth-child(6){border-right:0}.panel:nth-child(n+4){border-bottom:0}.panel p,.panel li{font-family:Georgia,"Times New Roman",serif;font-size:clamp(14px,1.12vw,18px);line-height:1.34}.panel p{margin-top:10px}.panel ul{margin:10px 0 0;padding-left:1em}.panel li+li{margin-top:5px}
+  .label{color:var(--c-blue);font-size:9px;margin-bottom:9px}.architecture{margin-top:10px;padding:9px 11px;border-left:3px solid var(--c-blue);background:var(--c-panel);font-family:var(--font-mono);font-size:clamp(10px,.82vw,13px);line-height:1.4;white-space:pre-line}
+  .product-list{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin-top:10px}.product-list div{font-family:Georgia,"Times New Roman",serif;font-size:clamp(13px,1.03vw,17px);line-height:1.3}.product-list strong{display:block;font-family:var(--font-sans);font-size:clamp(14px,1.1vw,18px);margin-bottom:3px}
+  .recommend{background:var(--c-panel)}.recommend h3{color:var(--c-blue)}.footer{display:flex;justify-content:space-between;gap:24px;padding-top:2px;color:var(--c-muted);font-size:clamp(11px,.9vw,14px)}
+  .theme-button{position:fixed;left:12px;bottom:12px;z-index:20;width:36px;height:36px;border:1px solid var(--c-rule);border-radius:0;background:var(--c-paper);color:var(--c-ink);cursor:pointer}
+  @media(max-width:760px){html,body{overflow:auto}.page{height:auto;min-height:100svh;padding:28px 20px 72px}.page::before{display:none}.hero,.content{grid-template-columns:1fr}.content{grid-template-rows:auto}.panel,.panel:nth-child(3),.panel:nth-child(6),.panel:nth-child(n+4){border-right:0;border-bottom:1px solid color-mix(in srgb,var(--c-ink) 22%,transparent)}.panel:last-child{border-bottom:0}.product-list{grid-template-columns:1fr}.footer{flex-direction:column}.meta{text-align:left}.mast{align-items:flex-start}}
+  @media print{@page{size:A4 landscape;margin:0}html,body{overflow:visible!important}.page{width:297mm;height:210mm;padding:13mm 17mm;gap:5mm}h2{font-size:34pt}.scope{font-size:10.5pt}.panel{padding:4mm}.panel p,.panel li{font-size:9.5pt}.product-list div{font-size:8.7pt}.product-list strong{font-size:9.5pt}.footer{font-size:8pt}.theme-button{display:none!important}}
 </style>
 
-<div class="cog-masthead">
-  <div class="cog-brand">Cognition <b>/</b> Devin</div>
-  <div class="cog-meta">Key decisions · one page<br>Fintech Operations Workbench</div>
-</div>
+<article class="page">
+  <header class="mast">
+    <div class="brand">Cognition <b>/</b> Devin</div>
+    <div class="meta">Key decisions · one page<br />Fintech Operations Workbench</div>
+  </header>
 
-<section class="cog-hero">
-  <div class="cog-index">01</div>
-  <div>
-    <h2>Two hours buys one honest answer, not a platform.</h2>
-    <p>
-      I rebuilt the three apps they already run, then spent the rest of the
-      budget on what decides build-vs-buy for them: what happens when they add
-      apps 4 through 13.
-    </p>
-  </div>
-</section>
+  <section class="hero">
+    <div><div class="eyebrow">01 · Direction</div><h2>Two hours buys one honest answer, not a platform.</h2></div>
+    <aside class="scope"><strong>Scope decision</strong>I rebuilt the three existing apps with synthetic data, then made the path from app 4 through app 13 executable. No form designer. No configurable workflow engine.</aside>
+  </section>
 
-<section class="a-section">
-  <div class="cog-decision">
-    <strong>Scope decision</strong>
-    Rebuild KYC review, refunds, and feature-flag admin on synthetic data, then
-    show the path to app 4 through a generator and executable governance checks.
-    No form designer and no configurable workflow engine: that is where a
-    two-hour budget goes to die, and it buries fintech domain rules in config.
-  </div>
-</section>
-
-<section class="a-section">
-  <div class="cog-section-head"><div class="cog-index">02</div><h2 class="a-section__title">System shape</h2></div>
-  <div class="a-grid a-grid--halves">
-    <article class="a-panel">
-      <div class="a-panel__head"><h3 class="a-panel__title">Modular monolith</h3></div>
-      <p class="a-prose">
-        One React shell, one Express API, one SQLite file. Ten more internal tools
-        at a 60-person company is not a microservices problem, and the repo has to
-        clone and run in a minute for this evaluation to mean anything.
-      </p>
+  <section class="content">
+    <article class="panel">
+      <div class="label">02 · System shape</div>
+      <h3>Modular monolith</h3>
+      <p>One React shell, one Express API, one SQLite file. Ten more internal tools at a 60-person company is not a microservices problem, and the repo must clone and run quickly for this evaluation to mean anything.</p>
     </article>
-    <article class="a-panel">
-      <div class="a-panel__head"><h3 class="a-panel__title">Explicit domains</h3></div>
-      <p class="a-prose">
-        Each domain keeps its own tables, service, routes, Zod schemas, and
-        permissions. Shared code owns only what is identical in every internal tool
-        and dangerous to reimplement: navigation, queue UI, permission checks,
-        validation, optimistic concurrency, and the audit write.
-      </p>
+    <article class="panel">
+      <div class="label">03 · Domain boundary</div>
+      <h3>Explicit applications</h3>
+      <p>Each domain keeps its own tables, service, routes, Zod schemas, permissions, and workspace. Shared code owns only the controls that are identical and dangerous to reimplement.</p>
+      <div class="architecture">SHARED SHELL + CONTROLS
+KYC · REFUNDS · FEATURE FLAGS
+PLATFORM OVERVIEW · APP ACCELERATOR</div>
     </article>
-  </div>
-  <div class="cog-architecture">SHARED SHELL + CONTROLS
-├── KYC review
-├── Refund approvals
-├── Feature-flag administration
-└── Platform overview + app accelerator</div>
-</section>
+    <article class="panel">
+      <div class="label">04 · Product choices</div>
+      <h3>Controls live in code</h3>
+      <div class="product-list">
+        <div><strong>App navigation</strong>Separate tools in one workbench; personas follow the active app.</div>
+        <div><strong>One audit query</strong>A filterable feed shows who changed what across all three apps.</div>
+        <div><strong>Generator + gate</strong>Create the standard files; fail CI when a registered app skips controls.</div>
+        <div><strong>Contract boundary</strong>Type integration work without credentials or network access.</div>
+      </div>
+    </article>
+    <article class="panel">
+      <div class="label">05 · Tradeoff</div>
+      <h3>Platform responsibility moves in-house</h3>
+      <p>They get custom UX, real source control, real tests, and readable domain logic. They also take on deployment, SSO, secrets, observability, backups, security review, on-call, and foundation maintenance.</p>
+    </article>
+    <article class="panel">
+      <div class="label">06 · Prototype boundary</div>
+      <h3>What I left out on purpose</h3>
+      <p>Persona switching is impersonation, not authentication. The server refuses production mode. There is no SSO, live connector, deployment pipeline, compliance claim, or production-readiness claim.</p>
+    </article>
+    <article class="panel recommend">
+      <div class="label">07 · Recommendation</div>
+      <h3>Do not rip out Power Apps because a prototype worked.</h3>
+      <p>Keep paying for it during a 90-day pilot. Ship one ordinary queue and one integration-heavy workflow. Migrate only if delivery repeats and someone owns the platform on-call.</p>
+    </article>
+  </section>
 
-<section class="a-section">
-  <div class="cog-section-head"><div class="cog-index">03</div><h2 class="a-section__title">Product choices</h2></div>
-  <div class="a-grid">
-    <article class="a-panel"><div class="a-panel__head"><h3 class="a-panel__title">App-oriented navigation</h3></div><p class="a-prose">The tools are separate applications in one workbench, with personas scoped to the active app.</p></article>
-    <article class="a-panel"><div class="a-panel__head"><h3 class="a-panel__title">One audit table, one query</h3></div><p class="a-prose">All three apps write to the same append-only table, so “who changed what across every internal tool” is a single query, surfaced as a filterable activity feed. In Power Apps that is a feature you buy.</p></article>
-    <article class="a-panel"><div class="a-panel__head"><h3 class="a-panel__title">Generator plus a gate</h3></div><p class="a-prose">A CLI creates a typed service, workspace, test, manifest, and checklist. CI fails if a registered app skips a route permission check, a test, or a role assignment. Fast standard path, loud non-standard path.</p></article>
-    <article class="a-panel"><div class="a-panel__head"><h3 class="a-panel__title">Contract boundary</h3></div><p class="a-prose">A local OpenAPI fixture, strict Zod adapter, and contract tests demonstrate integration work without credentials or network access.</p></article>
-  </div>
-</section>
+  <footer class="footer"><span>Power Apps' durable value is Microsoft operating the control plane.</span><span>Otherwise use Devin for the custom applications.</span></footer>
+</article>
 
-<section class="a-section">
-  <div class="cog-section-head"><div class="cog-index">04</div><h2 class="a-section__title">Tradeoff accepted</h2></div>
-  <div class="a-callout a-callout--risk">
-    <strong>Owned code exchanges platform constraints for platform responsibility.</strong>
-    They get custom UX, real source control, real tests, and domain logic they can
-    read. They also take on deployment, SSO, secrets, observability, backups,
-    security review, on-call, and maintenance of the shared foundation itself.
-  </div>
-  <p class="a-prose">
-    Power Apps' durable value is not form generation. It is Microsoft operating the
-    control plane and non-engineers building without filing a ticket. Persona
-    switching here is impersonation, not authentication, so the server refuses to
-    boot in production mode. No SSO, no live integrations, no deployment pipeline,
-    no compliance claim.
-  </p>
-</section>
-
-<section class="a-section">
-  <div class="cog-section-head"><div class="cog-index">05</div><h2 class="a-section__title">Recommendation</h2></div>
-  <div class="cog-decision">
-    <strong>90-day pilot</strong>
-    Do not rip out Power Apps because a prototype worked. Keep paying for it,
-    productionize this foundation, and ship two new apps with Devin: one ordinary
-    queue and one integration-heavy workflow. Measure delivery time, security
-    findings, operator complaints, and three-year cost.
-  </div>
-  <p class="a-prose">
-    Migrate only if delivery is repeatable and someone owns the platform on-call.
-    Otherwise keep Power Apps for commodity and citizen-built tools and use Devin
-    for the custom ones.
-  </p>
-</section>
+<button class="theme-button" id="themeButton" type="button" aria-label="Switch color theme">◐</button>
+<script>document.getElementById("themeButton").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="dark"?"light":"dark"};</script>
 
 
-      <footer class="a-footnote">Take-home decision record based on the working synthetic prototype. Visual language is adapted from Cognition's public website; this is not official brand collateral. No claim of compliance or production readiness.</footer>
+      <footer class="a-footnote">Synthetic-data proof of concept. No production identity, live integration, deployment system, compliance assessment, or production-readiness claim. Visual language is adapted from Cognition's public website; this is not official brand collateral.</footer>
     </main>
     <script>
 /* Devin artifact kit — self-contained behavior for standalone HTML artifacts.

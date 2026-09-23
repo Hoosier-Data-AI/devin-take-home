@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content="Devin artifact kit" />
-    <title>App Accelerator: live demo guide</title>
+    <title>App Accelerator demo guide</title>
     <style>
 /* Devin artifact kit — self-contained styles for standalone HTML artifacts.
    Tokens are translated from the Devin product design system. Light is the
@@ -1107,8 +1107,8 @@ details.a-disclosure[open] > summary::before {
     <main class="a-shell">
       <header class="a-header">
         <div>
-          <h1 class="a-header__title">App Accelerator: live demo guide</h1>
-          <p class="a-header__subtitle">Exact commands and speaker notes for the Generate, Enforce, and Connect demo.</p>
+          <h1 class="a-header__title">App Accelerator demo guide</h1>
+          <p class="a-header__subtitle">Five-slide guide to Generate, Enforce, and Connect for the next internal application.</p>
         </div>
         <button
           type="button"
@@ -1153,187 +1153,133 @@ details.a-disclosure[open] > summary::before {
       </section>
 
 <style>
-  .cog-masthead { display:flex; justify-content:space-between; gap:24px; align-items:baseline; border-top:1px solid currentColor; border-bottom:1px solid color-mix(in srgb,currentColor 16%,transparent); padding:14px 0 22px; }
-  .cog-brand,.cog-index,.cog-meta,.cog-command-label { font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; text-transform:uppercase; letter-spacing:.08em; }
-  .cog-brand { font-size:.76rem; font-weight:700; } .cog-brand b,.cog-index,.cog-accent { color:#2200ff; }
-  .cog-meta { font-size:.68rem; opacity:.58; text-align:right; }
-  .cog-hero,.cog-section-head { display:grid; grid-template-columns:minmax(70px,.32fr) minmax(0,2.4fr); gap:28px; }
-  .cog-hero { padding:34px 0 16px; } .cog-section-head { align-items:baseline; padding-top:10px; }
-  .cog-index { font-size:.7rem; padding-top:.5rem; }
-  .cog-hero h2 { margin:0; font-family:ui-sans-serif,system-ui,sans-serif; font-size:clamp(2rem,5vw,4.6rem); font-weight:430; line-height:.98; letter-spacing:-.055em; }
-  .cog-hero p { max-width:820px; margin:22px 0 0; font-family:Georgia,"Times New Roman",serif; font-size:clamp(1rem,1.6vw,1.28rem); line-height:1.45; }
-  .cog-flow { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border-top:1px solid currentColor; border-bottom:1px solid currentColor; }
-  .cog-flow article { padding:22px; border-right:1px solid color-mix(in srgb,currentColor 18%,transparent); }
-  .cog-flow article:last-child { border-right:0; }
-  .cog-flow strong { display:block; margin-bottom:8px; font-size:1.18rem; }
-  .cog-flow span { font-family:Georgia,"Times New Roman",serif; line-height:1.4; }
-  .cog-command { overflow-wrap:anywhere; padding:18px; border-left:2px solid #2200ff; background:color-mix(in srgb,currentColor 4%,transparent); font: .8rem/1.65 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; white-space:pre-wrap; }
-  .cog-command-label { color:#2200ff; font-size:.66rem; margin-bottom:8px; }
-  .cog-script { font-family:Georgia,"Times New Roman",serif; font-size:1.08rem; line-height:1.48; border-top:1px solid color-mix(in srgb,currentColor 18%,transparent); padding-top:14px; }
-  .cog-script::before { content:"SAY"; display:block; margin-bottom:8px; color:#2200ff; font:700 .66rem ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.09em; }
-  .cog-boundary { border-top:1px solid currentColor; border-bottom:1px solid currentColor; padding:18px 0; }
-  .cog-boundary strong { color:#2200ff; }
-  .a-section { margin:0; padding:34px 0 28px; border-top:1px solid color-mix(in srgb,currentColor 20%,transparent); }
-  .a-section__title { font-family:ui-sans-serif,system-ui,sans-serif; font-size:clamp(1.45rem,2.4vw,2.15rem); font-weight:480; line-height:1.06; letter-spacing:-.035em; }
-  .a-grid { gap:0!important; margin-top:20px; border-top:1px solid currentColor; border-bottom:1px solid currentColor; }
-  .a-grid > .a-panel { min-width:0; margin:0; padding:22px; border:0; border-right:1px solid color-mix(in srgb,currentColor 18%,transparent); border-radius:0; background:transparent; box-shadow:none; }
-  .a-grid > :last-child { border-right:0; }
-  .a-panel__head { margin:0 0 14px; padding:0; border:0; }
-  .a-panel__title { font-family:ui-sans-serif,system-ui,sans-serif; font-size:1rem; font-weight:650; letter-spacing:-.015em; }
-  .a-prose,.a-panel li { font-family:Georgia,"Times New Roman",serif; line-height:1.5; }
-  .a-prose li + li { margin-top:.45rem; }
-  .a-callout { margin-top:20px; padding:18px 20px; border:0; border-top:1px solid currentColor; border-bottom:1px solid currentColor; border-left:2px solid #2200ff; border-radius:0; background:color-mix(in srgb,currentColor 3%,transparent); box-shadow:none; font-family:Georgia,"Times New Roman",serif; line-height:1.48; }
-  .a-disclosure { margin-top:28px; border:0; border-top:1px solid currentColor; border-bottom:1px solid currentColor; border-radius:0; background:transparent; }
-  .a-disclosure summary { font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; }
-  @media(max-width:700px){.cog-flow{grid-template-columns:1fr}.cog-flow article{border-right:0;border-bottom:1px solid color-mix(in srgb,currentColor 18%,transparent)}.cog-flow article:last-child{border-bottom:0}}
-  @media(max-width:620px){
-    .cog-masthead{align-items:flex-start;flex-direction:column;gap:8px}
-    .cog-meta{text-align:left}
-    .cog-hero,.cog-section-head{grid-template-columns:1fr;gap:6px}
-    .a-section{padding:28px 0 22px}
-    .a-grid > .a-panel{border-right:0;border-bottom:1px solid color-mix(in srgb,currentColor 18%,transparent)}
-    .a-grid > :last-child{border-bottom:0}
-  }
-  @media print { @page{size:A4 portrait;margin:10mm}.a-shell{max-width:none!important;zoom:.68}.a-section{margin-block:8px!important}.a-panel,.a-callout{padding:8px!important}.a-prose,li,p{font-size:8.2pt!important;line-height:1.22!important}.cog-hero{padding-top:12px}.cog-hero h2{font-size:26pt!important}.cog-command{font-size:7.5pt!important;padding:8px}.cog-flow article{padding:9px}footer{display:none!important} }
+  :root{--c-blue:#1616ff;--c-ink:#171717;--c-paper:#f7f6f2;--c-muted:#66635f;--c-rule:#222;--c-panel:#ecebe6}
+  :root[data-theme="dark"]{--c-ink:#f4f3ef;--c-paper:#111;--c-muted:#aaa7a0;--c-rule:#f4f3ef;--c-panel:#1d1d1b}
+  html,body{height:100%;overflow:hidden}body{background:var(--c-paper)!important;color:var(--c-ink)!important}.a-shell{width:100%!important;max-width:none!important;height:100%!important;margin:0!important;padding:0!important}.a-header,.a-footnote{display:none!important}
+  .deck{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:smooth;background:var(--c-paper);scrollbar-width:none}.deck::-webkit-scrollbar{display:none}
+  .slide{position:relative;min-height:100vh;scroll-snap-align:start;overflow:hidden;padding:clamp(42px,5.2vw,88px) clamp(50px,7vw,118px);display:grid;grid-template-rows:auto 1fr auto;gap:clamp(24px,3vh,44px);background:var(--c-paper)}
+  .slide::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(to right,transparent 0,transparent calc(100% - 1px),color-mix(in srgb,var(--c-ink) 7%,transparent) calc(100% - 1px));background-size:25% 100%;opacity:.35}
+  .slide-head,.slide-body,.slide-foot{position:relative;z-index:1}.slide-head{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-bottom:16px;border-bottom:1px solid var(--c-rule)}
+  .brand,.eyebrow,.meta,.tag,.nav-count,.step-no,.code-label{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.12em;font-weight:700}.brand{font-size:14px}.brand b{color:var(--c-blue);padding-inline:8px}.meta{color:var(--c-muted);font-size:12px;text-align:right;line-height:1.45}
+  .slide-body{display:grid;align-content:center;min-height:0}.slide-foot{padding-top:14px;border-top:1px solid color-mix(in srgb,var(--c-ink) 28%,transparent);color:var(--c-muted);font-size:clamp(13px,1.05vw,17px)}
+  .eyebrow{color:var(--c-blue);font-size:clamp(12px,1vw,16px);margin-bottom:clamp(14px,2vh,24px)}
+  h2{max-width:1280px;margin:0;font-size:clamp(46px,5.8vw,96px);line-height:.98;letter-spacing:-.055em;font-weight:650}h3{margin:0;font-size:clamp(24px,2.25vw,39px);line-height:1.08;letter-spacing:-.035em}p{margin:0}
+  .lead{max-width:1080px;margin-top:clamp(22px,3vh,38px);font-family:Georgia,"Times New Roman",serif;font-size:clamp(23px,2.15vw,37px);line-height:1.27}
+  .flow,.two-up,.five-files{display:grid;gap:0;border-top:1px solid var(--c-rule);border-bottom:1px solid var(--c-rule);margin-top:clamp(24px,3.5vh,48px)}.flow{grid-template-columns:repeat(3,1fr)}.two-up{grid-template-columns:repeat(2,1fr)}.five-files{grid-template-columns:repeat(5,1fr)}
+  .card,.step,.file{min-width:0;padding:clamp(20px,2.4vw,38px);border-right:1px solid color-mix(in srgb,var(--c-ink) 23%,transparent)}.card:last-child,.step:last-child,.file:last-child{border-right:0}
+  .tag,.step-no,.code-label{color:var(--c-blue);font-size:11px}.step strong{display:block;margin-top:13px;font-size:clamp(28px,2.65vw,45px);letter-spacing:-.04em}.step p,.card p,.card li{margin-top:14px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(17px,1.42vw,24px);line-height:1.36}
+  .card .tag{margin-bottom:16px}.card ul,.card ol{margin:16px 0 0;padding-left:1.05em}.card li+li{margin-top:8px}
+  .file{padding:clamp(15px,1.7vw,26px)}.file strong{display:block;font-size:clamp(15px,1.25vw,21px);line-height:1.15}.file span{display:block;margin-top:8px;color:var(--c-muted);font-family:Georgia,"Times New Roman",serif;font-size:clamp(13px,1vw,17px);line-height:1.3}
+  .command{margin-top:clamp(22px,3vh,38px);padding:clamp(18px,2vw,30px);border-left:5px solid var(--c-blue);background:#171717;color:#f7f6f2;font-family:var(--font-mono);font-size:clamp(13px,1.15vw,19px);line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}.command .code-label{display:block;margin-bottom:10px;color:#7777ff}
+  .callout{margin-top:clamp(20px,2.8vh,36px);padding:17px 21px;border:1px solid var(--c-rule);border-left:5px solid var(--c-blue);background:var(--c-panel);font-size:clamp(16px,1.3vw,22px);line-height:1.35}
+  .quote{margin-top:clamp(18px,2.5vh,32px);font-family:Georgia,"Times New Roman",serif;font-size:clamp(20px,1.75vw,30px);line-height:1.3}.quote::before{content:"SAY";display:block;margin-bottom:9px;color:var(--c-blue);font:700 11px var(--font-mono);letter-spacing:.12em}
+  .claim{display:grid;grid-template-columns:1fr 1fr;margin-top:clamp(26px,4vh,54px);border:1px solid var(--c-rule)}.claim article{padding:clamp(24px,3vw,46px)}.claim article+article{border-left:1px solid var(--c-rule);background:var(--c-panel)}.claim p{margin-top:16px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(19px,1.65vw,28px);line-height:1.35}
+  .deck-nav{position:fixed;right:22px;bottom:18px;z-index:20;display:flex;align-items:center;gap:8px;padding:7px;border:1px solid color-mix(in srgb,var(--c-ink) 28%,transparent);background:color-mix(in srgb,var(--c-paper) 92%,transparent)}.deck-nav button{width:40px;height:36px;border:1px solid var(--c-rule);border-radius:0;background:transparent;color:var(--c-ink);cursor:pointer;font-size:19px}.deck-nav button:hover{background:var(--c-blue);color:#fff;border-color:var(--c-blue)}.nav-count{min-width:54px;text-align:center;font-size:11px}
+  .theme-button{position:fixed;left:22px;bottom:18px;z-index:20;width:42px;height:42px;border:1px solid var(--c-rule);border-radius:0;background:var(--c-paper);color:var(--c-ink);cursor:pointer}
+  @media(max-width:760px){html,body{overflow:auto}.deck{scroll-snap-type:none}.slide{min-height:100svh;padding:32px 22px 78px;gap:22px}.slide::before{display:none}.slide-head{align-items:flex-start}.meta{font-size:9px}h2{font-size:clamp(40px,12vw,62px)}.lead{font-size:22px}.flow,.two-up,.five-files,.claim{grid-template-columns:1fr}.card,.step,.file{border-right:0;border-bottom:1px solid color-mix(in srgb,var(--c-ink) 23%,transparent)}.card:last-child,.step:last-child,.file:last-child{border-bottom:0}.claim article+article{border-left:0;border-top:1px solid var(--c-rule)}.deck-nav{right:10px;bottom:10px}.theme-button{left:10px;bottom:10px}}
+  @media print{@page{size:13.333in 7.5in;margin:0}html,body{overflow:visible!important}.deck{height:auto;overflow:visible}.slide{width:13.333in;height:7.5in;min-height:0;break-after:page;padding:.55in .7in}.slide:last-child{break-after:auto}.deck-nav,.theme-button{display:none!important}h2{font-size:44pt}.lead{font-size:22pt}.card p,.card li{font-size:14pt}}
 </style>
 
-<div class="cog-masthead">
-  <div class="cog-brand">Cognition <b>/</b> Devin</div>
-  <div class="cog-meta">App Accelerator<br>Speaker + live demo guide</div>
-</div>
+<div class="deck" id="deck">
+  <section class="slide">
+    <div class="slide-head"><div class="brand">Cognition <b>/</b> Devin</div><div class="meta">App Accelerator<br />speaker + demo guide</div></div>
+    <div class="slide-body">
+      <div class="eyebrow">01 · Extension path</div>
+      <h2>A code-first starting point for app 4.</h2>
+      <p class="lead">Every new application starts with the same ownership, permission, service, workspace, and test structure. Engineers still write and review domain behavior.</p>
+      <div class="flow">
+        <article class="step"><div class="step-no">01</div><strong>Generate</strong><p>Create a typed starter and integration checklist.</p></article>
+        <article class="step"><div class="step-no">02</div><strong>Enforce</strong><p>Run executable repository policy checks.</p></article>
+        <article class="step"><div class="step-no">03</div><strong>Connect</strong><p>Build integrations behind tested contracts.</p></article>
+      </div>
+    </div>
+    <div class="slide-foot">A golden path for engineers, not a low-code designer.</div>
+  </section>
 
-<section class="cog-hero">
-  <div class="cog-index">01</div>
-  <div>
-    <h2>A code-first starting point for app 4.</h2>
-    <p>
-      Every new app starts with the same ownership, permission, service, workspace,
-      and test structure. Engineers still write and review the domain behavior.
-    </p>
-  </div>
-</section>
-
-<section class="a-section">
-  <div class="cog-flow" aria-label="Generate, enforce, and connect">
-    <article><strong><span class="cog-accent">01</span> Generate</strong><span>Create a typed starter with ownership, permissions, risk, service, workspace, test, and checklist.</span></article>
-    <article><strong><span class="cog-accent">02</span> Enforce</strong><span>Run executable repository checks for app structure, route permissions, assigned roles, and contract coverage.</span></article>
-    <article><strong><span class="cog-accent">03</span> Connect</strong><span>Implement integrations behind API contracts, strict validation, synthetic fixtures, and contract tests.</span></article>
-  </div>
-</section>
-
-<section class="a-section">
-  <div class="cog-section-head"><div class="cog-index">02</div><h2 class="a-section__title">Demo: generate the starter</h2></div>
-  <div class="cog-command-label">Run from the repository root</div>
-  <div class="cog-command">DEMO_DIR="/tmp/dispute-review-$(date +%s)"
-
-npm run scaffold:app -- \
+  <section class="slide">
+    <div class="slide-head"><div class="brand">Cognition <b>/</b> Devin</div><div class="meta">Generate<br />typed starter files</div></div>
+    <div class="slide-body">
+      <div class="eyebrow">02 · Demo</div>
+      <h2>Start with validated metadata.</h2>
+      <div class="command"><span class="code-label">Run from the repository root</span>npm run scaffold:app -- \
   --id disputes \
   --label "Dispute review" \
   --owner "Payment Operations" \
   --risk elevated \
   --data restricted \
-  --output "$DEMO_DIR"
+  --output ../dispute-review</div>
+      <div class="five-files">
+        <div class="file"><strong>app.manifest.json</strong><span>Owner, risk, data, permissions, controls</span></div>
+        <div class="file"><strong>service.ts</strong><span>Typed domain service</span></div>
+        <div class="file"><strong>Workspace.tsx</strong><span>React workspace</span></div>
+        <div class="file"><strong>service.test.ts</strong><span>Starter test</span></div>
+        <div class="file"><strong>README.md</strong><span>Integration checklist</span></div>
+      </div>
+      <p class="quote">Before domain logic, the repository records ownership, risk, permissions, and the files that must be reviewed.</p>
+    </div>
+    <div class="slide-foot">The generator validates inputs and refuses to overwrite an existing output.</div>
+  </section>
 
-find "$DEMO_DIR" -maxdepth 2 -type f | sort
-cat "$DEMO_DIR/app.manifest.json"</div>
-  <div class="a-grid a-grid--halves">
-    <article class="a-panel">
-      <div class="a-panel__head"><h3 class="a-panel__title">Five generated files</h3></div>
-      <ol class="a-prose">
-        <li>Application manifest.</li>
-        <li>Typed server service.</li>
-        <li>React workspace.</li>
-        <li>Starter test.</li>
-        <li>Integration checklist.</li>
-      </ol>
-    </article>
-    <article class="a-panel">
-      <div class="a-panel__head"><h3 class="a-panel__title">Manifest records</h3></div>
-      <ul class="a-prose">
-        <li>Owner, risk tier, and data classification.</li>
-        <li>Read and manage permissions.</li>
-        <li>Inherited authorization, validation, concurrency, and audit controls.</li>
-      </ul>
-    </article>
-  </div>
-  <p class="cog-script">“Before anyone writes domain logic, the repo knows who owns the app, how risky it is, which permissions it needs, and which starter files must be reviewed.”</p>
-</section>
+  <section class="slide">
+    <div class="slide-head"><div class="brand">Cognition <b>/</b> Devin</div><div class="meta">Enforce<br />repository policy</div></div>
+    <div class="slide-body">
+      <div class="eyebrow">03 · Demo</div>
+      <h2>Make the boring controls executable.</h2>
+      <div class="command"><span class="code-label">Run the same checks shown in the Platform UI</span>npm run governance
 
-<section class="a-section">
-  <div class="cog-section-head"><div class="cog-index">03</div><h2 class="a-section__title">Demo: enforce the contract</h2></div>
-  <div class="cog-command">npm run governance</div>
-  <div class="a-grid a-grid--halves">
-    <article class="a-panel">
-      <div class="a-panel__head"><h3 class="a-panel__title">Per registered application</h3></div>
-      <ul class="a-prose">
-        <li>Domain service, React workspace, and API test exist.</li>
-        <li>Every declared permission appears on a server route.</li>
-        <li>Every permission belongs to a server-owned persona.</li>
-      </ul>
-    </article>
-    <article class="a-panel">
-      <div class="a-panel__head"><h3 class="a-panel__title">Platform checks</h3></div>
-      <ul class="a-prose">
-        <li>Scaffolder implementation and tests exist.</li>
-        <li>Connector contract and contract tests exist.</li>
-        <li>The Platform UI calls this same function to show <strong>25/25</strong>.</li>
-      </ul>
-    </article>
-  </div>
-  <p class="cog-script">“These checks can run in CI. Remove a test, service, route permission, or assigned role and the command fails.”</p>
-  <div class="a-callout a-callout--risk"><strong>Gate scope</strong> `25/25` reports repository policy checks. It does not measure security, compliance, or production readiness.</div>
-</section>
+25/25 governance checks passed</div>
+      <div class="two-up">
+        <article class="card"><div class="tag">Each registered app</div><h3>Structure and access</h3><ul><li>Domain service, workspace, and API test exist.</li><li>Declared permissions appear on server routes.</li><li>Permissions belong to server-owned personas.</li></ul></article>
+        <article class="card"><div class="tag">Shared platform</div><h3>Accelerator and contract</h3><ul><li>Scaffolder implementation and tests exist.</li><li>Connector contract and contract tests exist.</li><li>The command exits non-zero when a check fails.</li></ul></article>
+      </div>
+      <div class="callout"><strong>Scope:</strong> 25/25 means repository policy checks passed. It does not measure security, compliance, or production readiness.</div>
+    </div>
+    <div class="slide-foot">The same function drives the CLI and the read-only Platform view.</div>
+  </section>
 
-<section class="a-section">
-  <div class="cog-section-head"><div class="cog-index">04</div><h2 class="a-section__title">Demo: show the connector boundary</h2></div>
-  <div class="a-grid a-grid--halves">
-    <article class="a-panel">
-      <div class="a-panel__head"><h3 class="a-panel__title">Implemented in the prototype</h3></div>
-      <ul class="a-prose">
-        <li>Local OpenAPI contract.</li>
-        <li>Strict Zod response schema.</li>
-        <li>Typed read-only adapter.</li>
-        <li>Synthetic fixtures and contract tests.</li>
-      </ul>
-    </article>
-    <article class="a-panel">
-      <div class="a-panel__head"><h3 class="a-panel__title">Production work omitted</h3></div>
-      <ul class="a-prose">
-        <li>No network call or production secret.</li>
-        <li>No automatic OpenAPI code generation.</li>
-        <li>No production retries, timeouts, or operations.</li>
-        <li>No live customer data.</li>
-      </ul>
-    </article>
-  </div>
-  <p class="cog-script">“Devin can implement against an API contract. This demo stops at local fixtures, validation, and tests; there is no live integration.”</p>
-</section>
+  <section class="slide">
+    <div class="slide-head"><div class="brand">Cognition <b>/</b> Devin</div><div class="meta">Connect<br />contract boundary</div></div>
+    <div class="slide-body">
+      <div class="eyebrow">04 · Demo</div>
+      <h2>Constrain integrations before adding credentials.</h2>
+      <div class="two-up">
+        <article class="card"><div class="tag">Implemented</div><h3>Local, typed, testable</h3><ul><li>Local OpenAPI contract</li><li>Strict Zod response schema</li><li>Typed read-only adapter</li><li>Synthetic fixtures and contract tests</li></ul></article>
+        <article class="card"><div class="tag">Production work omitted</div><h3>Deliberately outside the demo</h3><ul><li>No network call or production secret</li><li>No automatic OpenAPI code generation</li><li>No production retries, timeouts, or operations</li><li>No live customer data</li></ul></article>
+      </div>
+      <p class="quote">Devin can implement against an API contract. This prototype stops at local fixtures, strict validation, and tests.</p>
+    </div>
+    <div class="slide-foot">The connector demonstrates the boundary, not a live integration.</div>
+  </section>
 
-<section class="a-section">
-  <div class="cog-section-head"><div class="cog-index">05</div><h2 class="a-section__title">Use a precise claim</h2></div>
-  <div class="cog-boundary">
-    <strong>Accurate claim</strong> “The prototype gives engineers a repeatable
-    starting point, repository checks, a contract-driven integration pattern,
-    and source code they can review and change.”
-  </div>
-  <div class="cog-boundary">
-    <strong>Boundaries</strong> The demo does not include a production-ready fourth
-    app, live connector, security certification, generic workflow engine, or
-    complete Power Apps replacement.
-  </div>
-</section>
+  <section class="slide">
+    <div class="slide-head"><div class="brand">Cognition <b>/</b> Devin</div><div class="meta">Precise claim<br />and boundaries</div></div>
+    <div class="slide-body">
+      <div class="eyebrow">05 · How to position it</div>
+      <h2>Say exactly what the prototype does.</h2>
+      <div class="claim">
+        <article><div class="tag">Accurate claim</div><h3>Repeatable engineering delivery</h3><p>The accelerator gives engineers a consistent starting point, executable repository checks, a contract-driven integration pattern, and source code they can review and change.</p></article>
+        <article><div class="tag">Boundaries</div><h3>What it does not provide</h3><p>No production-ready fourth app, live connector, security certification, generic workflow engine, automatic deployment, or complete Power Apps replacement.</p></article>
+      </div>
+      <div class="callout"><strong>Where Devin adds value:</strong> turn an application specification into reviewed domain code while the scaffold and policy gate constrain the result.</div>
+    </div>
+    <div class="slide-foot">Generate removes setup toil; it does not build the whole application.</div>
+  </section>
+</div>
 
-<details class="a-disclosure">
-  <summary>Likely questions</summary>
-  <div class="a-prose">
-    <p><strong>Does it build the whole app?</strong> No. It removes setup toil; Devin or an engineer still implements domain tables, rules, routes, tests, and UX in a reviewed pull request.</p>
-    <p><strong>Why not copy a folder?</strong> Inputs become validated metadata, output is consistent and overwrite-safe, and the result is checked independently by the repository gate.</p>
-    <p><strong>Where does Devin add value?</strong> Devin can turn the app specification into the domain implementation while the scaffold and policy gate constrain the result.</p>
-  </div>
-</details>
+<button class="theme-button" id="themeButton" type="button" aria-label="Switch color theme">◐</button>
+<nav class="deck-nav" aria-label="Slide navigation"><button id="prevSlide" type="button" aria-label="Previous slide">←</button><span class="nav-count" id="slideCount">1 / 5</span><button id="nextSlide" type="button" aria-label="Next slide">→</button></nav>
+<script>
+  (()=>{const deck=document.getElementById("deck"),slides=[...document.querySelectorAll(".slide")],count=document.getElementById("slideCount");let current=0;
+  const go=i=>{current=Math.max(0,Math.min(slides.length-1,i));slides[current].scrollIntoView({behavior:"smooth",block:"start"});count.textContent=`${current+1} / ${slides.length}`;history.replaceState(null,"",`#${current+1}`)};
+  deck.addEventListener("scroll",()=>{clearTimeout(deck._t);deck._t=setTimeout(()=>{current=slides.reduce((best,slide,index)=>Math.abs(slide.offsetTop-deck.scrollTop)<Math.abs(slides[best].offsetTop-deck.scrollTop)?index:best,0);count.textContent=`${current+1} / ${slides.length}`},80)},{passive:true});
+  document.getElementById("prevSlide").onclick=()=>go(current-1);document.getElementById("nextSlide").onclick=()=>go(current+1);
+  document.addEventListener("keydown",e=>{if(["ArrowRight","ArrowDown","PageDown"," "].includes(e.key)){e.preventDefault();go(current+1)}if(["ArrowLeft","ArrowUp","PageUp"].includes(e.key)){e.preventDefault();go(current-1)}if(e.key==="Home")go(0);if(e.key==="End")go(slides.length-1)});
+  document.getElementById("themeButton").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="dark"?"light":"dark"};
+  const h=Number(location.hash.slice(1))-1;if(Number.isInteger(h)&&h>=0&&h<slides.length)requestAnimationFrame(()=>go(h));})();
+</script>
 
 
-      <footer class="a-footnote">Commands and claims are based on the working repository at the time of preparation. The connector is synthetic and makes no network calls. Visual language is adapted from Cognition's public website; this is not official brand collateral.</footer>
+      <footer class="a-footnote">The App Accelerator is a code-first prototype using synthetic data and local contracts. It is not a low-code designer, production connector platform, or complete Power Apps replacement. Visual language is adapted from Cognition's public website; this is not official brand collateral.</footer>
     </main>
     <script>
 /* Devin artifact kit — self-contained behavior for standalone HTML artifacts.
