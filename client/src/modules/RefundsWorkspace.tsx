@@ -88,6 +88,7 @@ export function RefundsWorkspace({ personaId, persona }: WorkspaceProps) {
       if (requestId !== detailRequestId.current) {
         return;
       }
+      setSelectedRefund(null);
       setError(
         loadError instanceof Error
           ? loadError.message

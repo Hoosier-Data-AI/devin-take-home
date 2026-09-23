@@ -81,6 +81,7 @@ export function KycWorkspace({ personaId, persona }: WorkspaceProps) {
       if (requestId !== detailRequestId.current) {
         return;
       }
+      setSelectedCase(null);
       setError(
         loadError instanceof Error
           ? loadError.message

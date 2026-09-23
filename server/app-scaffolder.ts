@@ -76,7 +76,7 @@ export function list${symbol}Records(
   return (
     <section>
       <p>New application</p>
-      <h2>${parsed.label}</h2>
+      <h2>{${JSON.stringify(parsed.label)}}</h2>
       <p>Connect this workspace to explicit domain routes and policies.</p>
     </section>
   );
@@ -88,7 +88,7 @@ export function list${symbol}Records(
       content: `import { describe, expect, it } from "vitest";
 import { list${symbol}Records } from "../server/${parsed.id}-service.js";
 
-describe("${parsed.label} service", () => {
+describe(${JSON.stringify(`${parsed.label} service`)}, () => {
   it("returns typed domain records", () => {
     expect(
       list${symbol}Records([

@@ -88,6 +88,7 @@ export function FeatureFlagsWorkspace({
       if (requestId !== detailRequestId.current) {
         return;
       }
+      setSelectedFlag(null);
       setError(
         loadError instanceof Error
           ? loadError.message

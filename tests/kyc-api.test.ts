@@ -112,6 +112,19 @@ describe("KYC API", () => {
     });
   });
 
+  it("answers malformed JSON with a validation error, not a server error", async () => {
+    const app = createApp({ database, nodeEnv: "test" });
+
+    const response = await request(app)
+      .post("/api/kyc/cases/KYC-1001/decision")
+      .set("x-demo-persona-id", reviewer)
+      .set("content-type", "application/json")
+      .send('{"decision":')
+      .expect(400);
+
+    expect(response.body.error.code).toBe("invalid_request");
+  });
+
   it("returns conflicts for stale and repeated decisions", async () => {
     const app = createApp({ database, nodeEnv: "test" });
 

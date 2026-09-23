@@ -70,6 +70,19 @@ const featureFlagToggleSchema = z
   })
   .strict();
 
+interface JsonBodyParseError extends SyntaxError {
+  status: number;
+  body: string;
+}
+
+function isJsonBodyParseError(error: unknown): error is JsonBodyParseError {
+  return (
+    error instanceof SyntaxError &&
+    "status" in error &&
+    "body" in error
+  );
+}
+
 export interface AppOptions {
   database: WorkbenchDatabase;
   auditWriter?: AuditWriter;
@@ -306,6 +319,16 @@ export function createApp(options: AppOptions): express.Express {
           code: "invalid_request",
           message: "Request validation failed.",
           issues: error.issues
+        }
+      });
+      return;
+    }
+
+    if (isJsonBodyParseError(error)) {
+      response.status(400).json({
+        error: {
+          code: "invalid_request",
+          message: "Request body is not valid JSON."
         }
       });
       return;

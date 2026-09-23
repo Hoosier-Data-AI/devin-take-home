@@ -38,6 +38,23 @@ describe("application scaffolder", () => {
     );
   });
 
+  it("escapes labels that would otherwise break the generated code", () => {
+    const files = createAppScaffold({
+      id: "disputes",
+      label: 'Customer\'s "</h2>" disputes',
+      owner: "Payment Operations",
+      riskTier: "elevated",
+      dataClassification: "restricted"
+    });
+
+    expect(files[2]?.content).toContain(
+      '<h2>{"Customer\'s \\"</h2>\\" disputes"}</h2>'
+    );
+    expect(files[3]?.content).toContain(
+      'describe("Customer\'s \\"</h2>\\" disputes service"'
+    );
+  });
+
   it("writes the scaffold without touching the live application", () => {
     const parent = mkdtempSync(join(tmpdir(), "workbench-scaffold-"));
     temporaryDirectories.push(parent);
