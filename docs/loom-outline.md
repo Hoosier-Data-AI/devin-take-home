@@ -12,6 +12,8 @@ Power Apps combines canvas and model-driven builders, Dataverse, connectors, wor
 
 Show the application sidebar and the three explicit tools. In one workflow, demonstrate a filtered queue, required reason, versioned state change, and appended audit history. Then open the platform overview to show application ownership, risk classification, permissions, inherited controls, and the six-step app 4 path.
 
+Point at the cross-application activity feed on that page: the decision just made in the KYC queue appears there, because every app writes to one append-only audit table. In Power Apps that reporting is a platform feature; here it is a schema choice.
+
 Emphasize that Devin helped create standard code with tests and full customization; it did not generate a low-code platform.
 
 ## 2:40–3:40 — Honest comparison

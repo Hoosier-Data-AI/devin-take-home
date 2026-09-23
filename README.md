@@ -126,7 +126,8 @@ Tests use a new in-memory SQLite database for each case. They cover:
 - executable platform-governance checks;
 - strict synthetic connector and OpenAPI fixture alignment;
 - production-mode startup guard;
-- cross-application audit feed authorization, filtering, and validation.
+- cross-application audit feed authorization, filtering, and validation;
+- malformed JSON bodies answered as validation errors rather than server errors.
 
 GitHub Actions runs `lint`, `typecheck`, `test`, `governance`, and `build` on every pull request (`.github/workflows/ci.yml`), so the platform guardrails are enforced by the pipeline rather than by review habit.
 
