@@ -11,7 +11,8 @@ type WorkbenchModule = "kyc" | "refunds" | "feature-flags" | "platform";
 const applicationModules: WorkbenchModule[] = [
   "kyc",
   "refunds",
-  "feature-flags"
+  "feature-flags",
+  "platform"
 ];
 
 const moduleConfiguration: Record<
@@ -46,9 +47,9 @@ const moduleConfiguration: Record<
     relevantPersonaIds: ["feature-flag-admin-001", "viewer-001"]
   },
   platform: {
-    label: "Platform overview",
-    shortLabel: "Platform",
-    description: "Apps, access, and guardrails",
+    label: "Admin",
+    shortLabel: "Admin",
+    description: "Audit and access",
     defaultPersonaId: "platform-admin-001",
     relevantPersonaIds: ["platform-admin-001"]
   }
@@ -111,8 +112,8 @@ export function App() {
             </div>
           </div>
 
-          <nav aria-label="Workbench applications">
-            <p className="sidebar-label">Applications</p>
+          <nav aria-label="Workspaces">
+            <p className="sidebar-label">Workspaces</p>
             {applicationModules.map((module, index) => (
               <button
                 aria-current={activeModule === module ? "page" : undefined}
@@ -132,33 +133,7 @@ export function App() {
                 </span>
               </button>
             ))}
-            <p className="sidebar-label platform-nav-label">Platform</p>
-            <button
-              aria-current={activeModule === "platform" ? "page" : undefined}
-              className={
-                activeModule === "platform" ? "active-module" : undefined
-              }
-              onClick={() => selectModule("platform")}
-              type="button"
-            >
-              <span className="nav-index" aria-hidden="true">
-                04
-              </span>
-              <span>
-                <strong>{moduleConfiguration.platform.shortLabel}</strong>
-                <small>{moduleConfiguration.platform.description}</small>
-              </span>
-            </button>
           </nav>
-
-          <div className="sidebar-foundation">
-            <p className="sidebar-label">Shared foundation</p>
-            <ul>
-              <li>Server authorization</li>
-              <li>Versioned writes</li>
-              <li>Append-only audit</li>
-            </ul>
-          </div>
         </aside>
 
         <div className="workbench-content">

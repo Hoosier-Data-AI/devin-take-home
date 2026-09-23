@@ -62,11 +62,14 @@ export function fetchPlatformOverview(
 
 export async function fetchPlatformAudit(
   personaId: string,
-  filters: { entityType: AuditEntityType | "" }
+  filters: { entityType: AuditEntityType | ""; actorId: string }
 ): Promise<AuditEvent[]> {
   const search = new URLSearchParams();
   if (filters.entityType) {
     search.set("entityType", filters.entityType);
+  }
+  if (filters.actorId) {
+    search.set("actorId", filters.actorId);
   }
   const query = search.size > 0 ? `?${search.toString()}` : "";
   const body = await request<{ events: AuditEvent[] }>(

@@ -75,7 +75,7 @@ Unknown identities are rejected. Roles or permissions in request bodies are neve
 - **KYC review:** status/risk queue, case detail, and pending-only approval or rejection.
 - **Refunds dashboard:** status/risk queue prioritized by risk and amount, with pending-only approval or rejection.
 - **Feature-flag admin:** environment/state filters and versioned enable/disable actions against synthetic flags only.
-- **Platform overview:** read-only application inventory, ownership, risk, effective permissions, shared guardrails, app scaffolding, executable governance gates, a synthetic connector contract, a cross-application activity log, and the app 4 extension path.
+- **Admin:** cross-application audit history filtered by application or actor, plus a read-only view of demo personas and their effective permissions.
 
 Because every application writes to one append-only audit table, `GET /api/platform/audit` answers "who changed what" across all of them without per-application reporting code. It requires `platform:read` and accepts `entityType`, `actorId`, and `limit` filters.
 
