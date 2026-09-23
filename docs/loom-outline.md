@@ -1,27 +1,27 @@
-# VP Engineering walkthrough (aim for 4:50)
+# VP Engineering Loom walkthrough (target: 4:50)
 
-Use the slides as prompts, then switch to the running workbench for the demo. Don't read the tables aloud.
+Follow the five slides in order. Switch to the workbench during slide 3. The slides are for the VP; the click sequence is here.
 
-## 0:00–0:35 — Recommendation
+## 0:00–0:25 — The question (slide 1)
 
-I'd keep the three existing apps in Power Apps for now and build the next two with Devin. You spend $250K a year and have more than ten apps planned, so it's worth finding out what it would take to own them. That includes engineering time and ongoing support.
+You have three Power Apps today: KYC reviews, refunds, and feature flags. At least ten more are planned, and the platform costs about $250K a year. I looked at what you're getting for that spend and whether Devin could help your team build the next apps in code.
 
-## 0:35–1:15 — What Power Apps provides
+## 0:25–1:05 — Power Apps (slide 2)
 
-Power Apps gives people outside engineering a way to make and change apps. Dataverse and connectors help with data access; environments, policies, and pipelines help you manage the apps. I'd want to know which of these you actually use, and what your current contract covers.
+Power Apps lets people build and change apps through visual editors. Dataverse and connectors handle data access, while environments, data policies, and pipelines help admins manage releases and data movement. Microsoft operates the service underneath. I'd want to know who actually edits your apps, which connectors you depend on, and which features your license covers before pricing a replacement.
 
-## 1:15–2:45 — Prototype and live workbench
+## 1:05–2:40 — What I built (slide 3 and live workbench)
 
-I built the three use cases you described: KYC, refunds, and feature flags. They share server-side access checks, validation, version checks, and an audit record that commits with each change. Each app's rules are still code an engineer can review.
+I built the three workflows in a React and Express workbench with SQLite. They share server-side permission checks, validated writes, version checks, and one audit log. The repo also generates a starter for a new app and checks that registered apps follow the same rules. Devin helped build the code; engineers would still review the rules and changes.
 
-Switch to the workbench. Pick a pending KYC case, enter a reason, decide it, then open Platform overview and find the new event in the shared audit feed. Mention that the repo also has a starter generator and checks for the next app. Devin helped build this code and could help with each new app; an engineer still owns the rules and reviews the changes. The data is synthetic and the persona selector is for the demo.
+In the workbench, select the KYC reviewer persona, open a pending case, enter a reason, and approve or reject it. Switch to the platform admin persona, open Platform overview, and find that decision in the activity feed. Keep the demo short; the point is that the event is recorded across apps without a separate audit implementation for each one.
 
-## 2:45–3:40 — What the team would own
+## 2:40–3:35 — What the demo leaves out (slide 4)
 
-Owned code gives you more freedom with KYC rules, UX, testing, and releases. Before any real users move over, we'd need SSO, group mapping, real integrations, deployment, secrets, monitoring, backups, and an on-call owner. The prototype's connector is a local fixture; I haven't tested a production integration.
+These are synthetic records. The persona picker allows impersonation, and the connector uses a local fixture. To handle real users and data, your team would need SSO and group mapping, real integrations, deployment, secrets, monitoring, backups, security review, and someone to support the apps. That includes maintaining the shared code as the app count grows. This prototype hasn't measured that cost or the product work those engineers would give up.
 
-## 3:40–4:50 — The pilot and decision
+## 3:35–4:50 — Recommendation and next step (slide 5)
 
-For 90 days, keep existing apps on Power Apps. Check usage and license terms, add the missing production controls, and ship two new apps: one straightforward and one with a real integration. Measure delivery and support time. Compare the full three-year cost, including hosting, security, on-call, migration, and the product work those engineers could have done instead. Check which licenses you can cancel under the contract.
+I'd leave the existing apps in Power Apps and run a 90-day pilot on two new ones with Devin: one straightforward and one with a real integration. First check usage and contract terms so we know what spend could actually go away. Put production access and an operations owner in place before live use. Track build time, support work, security findings, and the full three-year cost.
 
-If the team can operate this safely and the cost makes sense, migrate gradually. Otherwise keep Power Apps for the routine apps. Devin can still help with extensions, integrations, tests, and custom apps.
+If the team can run the new apps safely and the numbers work, move others over gradually. If they don't, keep Power Apps for the routine tools and use Devin where custom code earns its keep.

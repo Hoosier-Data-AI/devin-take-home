@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Internal tools: build or buy?</title>
+  <title>Internal tools | VP Engineering</title>
   <style>
     :root {
       color-scheme: light;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      background: #f7f7f5;
+      background: #fafaf8;
       color: #202a32;
     }
     * { box-sizing: border-box; }
@@ -30,9 +30,8 @@
       scroll-snap-align: start;
       display: flex;
       flex-direction: column;
-      background: #f7f7f5;
+      background: #fafaf8;
     }
-    .slide:nth-child(even) { background: #f4f5f3; }
     .slide-inner {
       width: min(100%, 1100px);
       min-height: 0;
@@ -54,48 +53,45 @@
       color: #52616a;
       font-size: 13px;
     }
-    .topic { font-weight: 650; color: #202a32; }
-    .content { margin: auto 0; padding: 34px 0; }
+    .topic { font-weight: 600; color: #202a32; }
+    .content { margin: auto 0; padding: 38px 0; }
     h1, h2, h3, p { margin: 0; }
-    h1, h2 { font-size: clamp(26px, 2.35vw, 34px); line-height: 1.2; letter-spacing: -.015em; font-weight: 600; }
-    h3 { font-size: 18px; line-height: 1.3; font-weight: 630; }
-    .intro { max-width: 890px; margin-top: 22px; color: #465862; font-size: clamp(17px, 1.6vw, 21px); line-height: 1.5; }
-    .section-label { margin-bottom: 13px; font-size: 14px; font-weight: 650; color: #225582; }
-    .panel {
-      border: 1px solid #bbc3c6;
-      background: #fff;
-      padding: clamp(18px, 2vw, 28px);
+    h1, h2 { font-size: clamp(27px, 2.4vw, 35px); line-height: 1.22; letter-spacing: -.015em; font-weight: 600; }
+    h3 { font-size: 18px; line-height: 1.3; font-weight: 600; }
+    .intro, .closing { max-width: 880px; color: #465862; font-size: clamp(17px, 1.5vw, 20px); line-height: 1.5; }
+    .intro { margin-top: 16px; }
+    .closing { margin-top: 28px; }
+    .facts, .apps, .comparison { display: grid; gap: 24px; margin-top: 35px; }
+    .facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .facts div { border-top: 1px solid #bbc3c6; padding-top: 15px; }
+    .facts strong { display: block; font-size: clamp(29px, 3vw, 42px); font-weight: 550; line-height: 1.15; }
+    .facts span { display: block; margin-top: 7px; color: #465862; font-size: 17px; }
+    .apps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .apps div { border-top: 2px solid #225582; padding-top: 15px; }
+    .apps p { margin-top: 10px; color: #465862; font-size: 17px; line-height: 1.45; }
+    .rows { margin-top: 26px; border-top: 1px solid #bbc3c6; }
+    .row {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 26px;
+      padding: 17px 0;
+      border-bottom: 1px solid #bbc3c6;
+      font-size: clamp(17px, 1.5vw, 20px);
+      line-height: 1.42;
     }
-    .panel p, .panel li { font-size: clamp(16px, 1.4vw, 19px); line-height: 1.43; }
-    .panel p + p { margin-top: 14px; }
-    .feature { border-left: 3px solid #225582; }
-    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 25px; }
-    .grid .panel { height: 100%; }
-    .grid h3 { margin-bottom: 10px; }
-    .panel ul { padding-left: 22px; margin: 10px 0 0; }
-    .panel li + li { margin-top: 8px; }
+    .row strong { font-weight: 600; }
+    .row span { color: #465862; }
+    .shared { margin-top: 30px; padding: 18px 0; border-top: 1px solid #bbc3c6; border-bottom: 1px solid #bbc3c6; }
+    .shared strong { font-weight: 600; }
+    .shared p { margin-top: 8px; color: #465862; font-size: 18px; line-height: 1.45; }
+    .comparison { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 44px; }
+    .comparison div { border-top: 2px solid #225582; padding-top: 15px; }
+    .comparison ul { padding-left: 21px; margin: 15px 0 0; color: #465862; font-size: 18px; line-height: 1.45; }
+    .comparison li + li { margin-top: 11px; }
     .note { color: #52616a; font-size: 15px; line-height: 1.4; }
     .aside { margin-top: 20px; }
-    .table-wrap { margin-top: 24px; border-top: 1px solid #bbc3c6; }
-    table { border-collapse: collapse; width: 100%; text-align: left; }
-    th, td { border-bottom: 1px solid #bbc3c6; padding: 16px 14px 16px 0; vertical-align: top; line-height: 1.38; }
-    th { width: 22%; font-size: 17px; font-weight: 650; }
-    td { font-size: clamp(16px, 1.35vw, 19px); }
-    thead th { color: #52616a; font-size: 14px; font-weight: 600; }
-    .sources { margin-top: 15px; font-size: 13px; line-height: 1.6; }
+    .sources { margin-top: 18px; font-size: 13px; line-height: 1.6; }
     .sources a + a { margin-left: 14px; }
-    .summary { margin-top: 25px; max-width: 910px; font-size: clamp(17px, 1.5vw, 20px); line-height: 1.5; }
-    .step-list { display: grid; gap: 0; margin: 22px 0 0; padding: 0; list-style: none; border-top: 1px solid #bbc3c6; }
-    .step-list li {
-      display: grid;
-      grid-template-columns: 100px 1fr;
-      gap: 18px;
-      border-bottom: 1px solid #bbc3c6;
-      padding: 15px 0;
-      font-size: clamp(16px, 1.4vw, 19px);
-      line-height: 1.4;
-    }
-    .step-list strong { font-size: 16px; }
     .controls {
       position: fixed;
       bottom: 16px;
@@ -114,13 +110,11 @@
     @media (max-width: 760px) {
       .deck { scroll-snap-type: none; }
       .slide { min-height: 100svh; }
-      .grid { grid-template-columns: 1fr; }
+      .facts, .apps, .comparison { grid-template-columns: 1fr; gap: 16px; }
+      .row { grid-template-columns: 1fr; gap: 5px; }
       .top, .bottom { gap: 12px; }
       .top span:last-child { text-align: right; }
       .content { padding: 30px 0 60px; }
-      .table-wrap { overflow-x: auto; }
-      table { min-width: 600px; }
-      .step-list li { grid-template-columns: 76px 1fr; }
       .bottom { padding-bottom: 32px; }
     }
     @media (prefers-reduced-motion: no-preference) {
@@ -134,9 +128,10 @@
       .controls { display: none; }
       .content { padding: 20px 0; }
       .bottom { padding-bottom: 0; }
-      .grid { gap: 12px; margin-top: 16px; }
-      th, td { padding: 10px 10px 10px 0; }
-      .step-list li { padding: 10px 0; }
+      .facts, .apps, .comparison { margin-top: 20px; gap: 18px; }
+      .row { padding: 11px 0; }
+      .shared { margin-top: 16px; padding: 10px 0; }
+      .closing { margin-top: 16px; }
     }
   </style>
 </head>
@@ -144,84 +139,86 @@
 <main class="deck" id="deck" aria-label="VP engineering presentation">
   <section class="slide" id="slide-1" aria-labelledby="title-1">
     <div class="slide-inner">
-      <header class="top"><span class="topic">Internal tools</span><span>VP Engineering · 1 of 5</span></header>
+      <header class="top"><span class="topic">Internal tools</span><span>VP Engineering</span></header>
       <div class="content">
-        <div class="section-label">Recommendation</div>
-        <h1 id="title-1">Keep the current apps on Power Apps. Build the next two with Devin.</h1>
-        <p class="intro">You have three internal apps, more than ten planned, and a $250K annual platform bill. I think it's worth testing whether your engineers can own the new apps for less, including the work of running them.</p>
-        <div class="grid">
-          <div class="panel feature"><h3>For the next 90 days</h3><p>Leave existing workflows alone. Build one straightforward app and one that needs a real integration, then measure delivery and support effort.</p></div>
-          <div class="panel"><h3>Before moving anything</h3><p>Check the security and operations burden, the full cost over three years, and how much of the license bill can actually be removed.</p></div>
+        <h1 id="title-1">The next ten internal apps</h1>
+        <div class="facts">
+          <div><strong>3</strong><span>apps on Power Apps today</span></div>
+          <div><strong>10+</strong><span>more planned</span></div>
+          <div><strong>$250K</strong><span>annual platform spend</span></div>
         </div>
+        <p class="closing">The current apps handle KYC reviews, refunds, and feature flags. Could your engineers use Devin to build the next ones and take on the work Power Apps handles today?</p>
       </div>
-      <footer class="bottom"><span>Current spend and app counts are from the client scenario.</span><span>01 / 05</span></footer>
+      <footer class="bottom"><span>Figures from the scenario you shared.</span><span>01 / 05</span></footer>
     </div>
   </section>
 
   <section class="slide" id="slide-2" aria-labelledby="title-2">
     <div class="slide-inner">
-      <header class="top"><span class="topic">Power Apps</span><span>2 of 5</span></header>
+      <header class="top"><span class="topic">Power Apps</span><span>VP Engineering</span></header>
       <div class="content">
-        <div class="section-label">What you're paying for</div>
-        <h2 id="title-2">What Power Apps provides today</h2>
-        <div class="table-wrap">
-          <table>
-            <tbody>
-              <tr><th scope="row">Building</th><td>Canvas and model-driven designers let people outside engineering create and change apps.</td></tr>
-              <tr><th scope="row">Data</th><td>Dataverse and connectors can put existing systems behind those apps.</td></tr>
-              <tr><th scope="row">Administration</th><td>Environments, data policies, and deployment pipelines give the team a place to manage changes across apps.</td></tr>
-            </tbody>
-          </table>
+        <h2 id="title-2">What Power Apps does for the team</h2>
+        <div class="rows">
+          <div class="row"><strong>Build</strong><span>Visual editors let people outside engineering make and change apps.</span></div>
+          <div class="row"><strong>Connect</strong><span>Dataverse can store app data; connectors link to other systems.</span></div>
+          <div class="row"><strong>Manage</strong><span>Environments, data policies, and deployment pipelines help admins separate apps, restrict data flows, and release changes. Microsoft runs the underlying service.</span></div>
         </div>
-        <p class="summary">I'd first find out who builds your apps, which connectors they use, and how you manage access and releases today. Those details determine how much work a replacement creates.</p>
-        <p class="note aside">Available features depend on your licenses and configuration.</p>
+        <p class="closing">I'd check who edits the current apps and which of these features you use before assuming code is cheaper.</p>
         <div class="sources">Microsoft Learn:
           <a href="https://learn.microsoft.com/en-us/power-apps/powerapps-overview">Power Apps overview</a>
           <a href="https://learn.microsoft.com/en-us/power-platform/admin/wp-data-loss-prevention">Data policies</a>
           <a href="https://learn.microsoft.com/en-us/power-platform/alm/pipelines">Pipelines</a>
         </div>
       </div>
-      <footer class="bottom"><span></span><span>02 / 05</span></footer>
+      <footer class="bottom"><span>Features depend on your licenses and setup.</span><span>02 / 05</span></footer>
     </div>
   </section>
 
   <section class="slide" id="slide-3" aria-labelledby="title-3">
     <div class="slide-inner">
-      <header class="top"><span class="topic">Prototype</span><span>3 of 5</span></header>
+      <header class="top"><span class="topic">Prototype</span><span>VP Engineering</span></header>
       <div class="content">
-        <div class="section-label">What Devin helped me build</div>
-        <h2 id="title-3">I built your three existing use cases on a shared codebase.</h2>
-        <div class="table-wrap">
-          <table>
-            <tbody>
-              <tr><th scope="row">Apps</th><td>KYC review, refunds, and feature-flag administration. Each has its own business rules and permissions.</td></tr>
-              <tr><th scope="row">Shared code</th><td>Backend access checks, validation, version checks, and an audit record written with each change.</td></tr>
-              <tr><th scope="row">New apps</th><td>A starter generator and repository checks provide a consistent beginning. Engineers still implement and review the business logic.</td></tr>
-            </tbody>
-          </table>
+        <h2 id="title-3">I built the three workflows in one workbench</h2>
+        <div class="apps">
+          <div><h3>KYC review</h3><p>Review a case and record a decision.</p></div>
+          <div><h3>Refunds</h3><p>Review a request and approve or reject it.</p></div>
+          <div><h3>Feature flags</h3><p>Change the state of a synthetic flag.</p></div>
         </div>
-        <p class="note aside">React, Express, and SQLite with synthetic records. Demo personas stand in for sign-in; the customer connector uses a local fixture.</p>
+        <div class="shared">
+          <strong>Shared across the apps</strong>
+          <p>Server-side permissions, validated changes, version checks, and one audit log. For app four, the repo generates a typed starter and checks that the expected controls are in place.</p>
+        </div>
+        <p class="note aside">Built with Devin using React, Express, and SQLite. The records are synthetic.</p>
       </div>
-      <footer class="bottom"><span>Source and tests are in the accompanying repository.</span><span>03 / 05</span></footer>
+      <footer class="bottom"><span>Code and tests are in the accompanying repository.</span><span>03 / 05</span></footer>
     </div>
   </section>
 
   <section class="slide" id="slide-4" aria-labelledby="title-4">
     <div class="slide-inner">
-      <header class="top"><span class="topic">Tradeoffs</span><span>4 of 5</span></header>
+      <header class="top"><span class="topic">Build versus buy</span><span>VP Engineering</span></header>
       <div class="content">
-        <div class="section-label">Build versus buy</div>
-        <h2 id="title-4">What we'd need to run these ourselves</h2>
-        <div class="table-wrap">
-          <table>
-            <tbody>
-              <tr><th scope="row">Owned code</th><td>You can tailor KYC rules and UX, review changes in git, and test them. Engineers must maintain each app and the common code.</td></tr>
-              <tr><th scope="row">Production access</th><td>You'll need SSO, group mapping, user provisioning, and a security review before using real customer data.</td></tr>
-              <tr><th scope="row">Operations</th><td>Your team will handle deployment, secrets, monitoring, backups, incidents, and support. Power Apps supplies platform services; you still configure your apps.</td></tr>
-            </tbody>
-          </table>
+        <h2 id="title-4">What the prototype shows, and what it leaves open</h2>
+        <div class="comparison">
+          <div>
+            <h3>Working in the demo</h3>
+            <ul>
+              <li>Review and decision flows with rules in code</li>
+              <li>Server-side permissions and an audit trail</li>
+              <li>Starter code and repository checks for another app</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Your team would still need</h3>
+            <ul>
+              <li>SSO, group access, and a security review</li>
+              <li>Real connectors, deployment, and secrets</li>
+              <li>Monitoring, backups, support, and someone on call</li>
+            </ul>
+          </div>
         </div>
-        <p class="summary">We still need to test real integrations and work through the operating costs before choosing this route.</p>
+        <p class="closing">Engineers would maintain both the apps and their shared code. That time comes out of other product work.</p>
+        <p class="note aside">Demo personas can impersonate users. The connector is a local fixture. No real customer data is used.</p>
       </div>
       <footer class="bottom"><span></span><span>04 / 05</span></footer>
     </div>
@@ -229,19 +226,18 @@
 
   <section class="slide" id="slide-5" aria-labelledby="title-5">
     <div class="slide-inner">
-      <header class="top"><span class="topic">Next steps</span><span>5 of 5</span></header>
+      <header class="top"><span class="topic">Recommendation</span><span>VP Engineering</span></header>
       <div class="content">
-        <div class="section-label">Proposed 90-day pilot</div>
-        <h2 id="title-5">Build two new apps while the existing ones stay put.</h2>
-        <ol class="step-list">
-          <li><strong>Weeks 1–2</strong><span>Check app usage, license terms, integrations, support load, and security requirements.</span></li>
-          <li><strong>Weeks 2–5</strong><span>Add SSO, deployment, monitoring, backups, and an on-call owner to the prototype foundation.</span></li>
-          <li><strong>Weeks 5–10</strong><span>Use Devin to help build one straightforward app and one with a real integration. Track engineering and support time.</span></li>
-          <li><strong>Weeks 11–13</strong><span>Review security, reliability, and three-year cost. Count license savings only where the contract allows them.</span></li>
-        </ol>
-        <p class="summary">If the cost and operating burden make sense, move apps gradually. If they don't, keep Power Apps for the routine work and use Devin for custom apps, extensions, and tests.</p>
+        <h2 id="title-5">Keep the three current apps. Test owned code on the next two.</h2>
+        <p class="intro">Run a 90-day pilot with Devin while the existing apps stay on Power Apps.</p>
+        <div class="rows">
+          <div class="row"><strong>Before building</strong><span>Check app usage, connectors, security requirements, and which licenses the contract would let you remove.</span></div>
+          <div class="row"><strong>Build and run</strong><span>Ship one straightforward app and one with a real integration. Add production access, deployment, monitoring, and a support owner.</span></div>
+          <div class="row"><strong>Decide</strong><span>Compare delivery time, support load, security findings, and three-year cost, including engineers' time away from product work.</span></div>
+        </div>
+        <p class="closing">Move apps gradually if the team can operate them safely and the numbers work. Otherwise, keep Power Apps for routine tools and use Devin for custom work.</p>
       </div>
-      <footer class="bottom"><span>Review with security, platform, and the app owners.</span><span>05 / 05</span></footer>
+      <footer class="bottom"><span>Review the pilot with app owners, security, and platform engineering.</span><span>05 / 05</span></footer>
     </div>
   </section>
 </main>
