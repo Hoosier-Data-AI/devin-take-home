@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Internal tools: build or buy?</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #f7f7f5;
+      color: #202a32;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    button, a { font: inherit; }
+    a { color: #225582; text-underline-offset: 3px; }
+    a:focus-visible, button:focus-visible { outline: 3px solid #225582; outline-offset: 3px; }
+    .deck {
+      height: 100vh;
+      height: 100svh;
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+      scrollbar-width: thin;
+    }
+    .slide {
+      min-height: 100vh;
+      min-height: 100svh;
+      padding: clamp(26px, 3.5vw, 56px) clamp(30px, 5.5vw, 90px);
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      background: #f7f7f5;
+    }
+    .slide:nth-child(even) { background: #f1f3f2; }
+    .slide-inner {
+      width: min(100%, 1100px);
+      min-height: 0;
+      margin: auto;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+    }
+    .top, .bottom { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; }
+    .top {
+      border-bottom: 1px solid #bbc3c6;
+      padding-bottom: 14px;
+      color: #465862;
+      font-size: 14px;
+    }
+    .bottom {
+      border-top: 1px solid #bbc3c6;
+      padding-top: 13px;
+      color: #52616a;
+      font-size: 13px;
+    }
+    .topic { font-weight: 650; color: #202a32; }
+    .content { margin: auto 0; padding: 34px 0; }
+    h1, h2, h3, p { margin: 0; }
+    h1, h2 { font-size: clamp(27px, 2.65vw, 37px); line-height: 1.16; letter-spacing: -.025em; font-weight: 620; }
+    h3 { font-size: 18px; line-height: 1.3; font-weight: 630; }
+    .intro { max-width: 860px; margin-top: 16px; color: #465862; font-size: clamp(17px, 1.6vw, 21px); line-height: 1.45; }
+    .section-label { margin-bottom: 13px; font-size: 14px; font-weight: 650; color: #225582; }
+    .panel {
+      border: 1px solid #bbc3c6;
+      background: #fff;
+      padding: clamp(18px, 2vw, 28px);
+    }
+    .panel p, .panel li { font-size: clamp(16px, 1.4vw, 19px); line-height: 1.43; }
+    .panel p + p { margin-top: 14px; }
+    .feature { border-left: 4px solid #225582; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 25px; }
+    .grid .panel { height: 100%; }
+    .grid h3 { margin-bottom: 10px; }
+    .panel ul { padding-left: 22px; margin: 10px 0 0; }
+    .panel li + li { margin-top: 8px; }
+    .note { color: #52616a; font-size: 15px; line-height: 1.4; }
+    .aside { margin-top: 20px; }
+    .table-wrap { margin-top: 24px; border-top: 1px solid #bbc3c6; }
+    table { border-collapse: collapse; width: 100%; text-align: left; }
+    th, td { border-bottom: 1px solid #bbc3c6; padding: 16px 14px 16px 0; vertical-align: top; line-height: 1.38; }
+    th { width: 22%; font-size: 17px; font-weight: 650; }
+    td { font-size: clamp(16px, 1.35vw, 19px); }
+    thead th { color: #52616a; font-size: 14px; font-weight: 600; }
+    .sources { margin-top: 15px; font-size: 13px; line-height: 1.6; }
+    .sources a + a { margin-left: 14px; }
+    .demo { margin-top: 22px; padding: 20px 24px; border-left: 4px solid #225582; background: #e8eef2; }
+    .demo p { font-size: clamp(17px, 1.5vw, 20px); line-height: 1.42; }
+    .demo p + p { margin-top: 8px; }
+    .step-list { display: grid; gap: 0; margin: 22px 0 0; padding: 0; list-style: none; border-top: 1px solid #bbc3c6; }
+    .step-list li {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 18px;
+      border-bottom: 1px solid #bbc3c6;
+      padding: 15px 0;
+      font-size: clamp(16px, 1.4vw, 19px);
+      line-height: 1.4;
+    }
+    .step-list strong { font-size: 16px; }
+    .controls {
+      position: fixed;
+      bottom: 16px;
+      right: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px;
+      border: 1px solid #bbc3c6;
+      background: #fff;
+      box-shadow: 0 2px 10px #202a321a;
+    }
+    .controls button { background: #fff; color: #202a32; border: 1px solid #bbc3c6; width: 38px; height: 34px; cursor: pointer; }
+    .controls button:disabled { opacity: .4; cursor: default; }
+    .controls span { min-width: 47px; text-align: center; font-size: 13px; }
+    @media (max-width: 760px) {
+      .deck { scroll-snap-type: none; }
+      .slide { min-height: 100svh; }
+      .grid { grid-template-columns: 1fr; }
+      .top, .bottom { gap: 12px; }
+      .top span:last-child { text-align: right; }
+      .content { padding: 30px 0 60px; }
+      .table-wrap { overflow-x: auto; }
+      table { min-width: 600px; }
+      .step-list li { grid-template-columns: 76px 1fr; }
+      .bottom { padding-bottom: 32px; }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .deck { scroll-behavior: smooth; }
+    }
+    @media print {
+      @page { size: 13.333in 7.5in; margin: 0; }
+      .deck { height: auto; overflow: visible; scroll-snap-type: none; }
+      .slide { width: 13.333in; height: 7.5in; min-height: 0; break-after: page; padding: .48in .7in; print-color-adjust: exact; }
+      .slide:last-child { break-after: auto; }
+      .controls { display: none; }
+      .content { padding: 20px 0; }
+      .bottom { padding-bottom: 0; }
+      .grid { gap: 12px; margin-top: 16px; }
+      th, td { padding: 10px 10px 10px 0; }
+      .step-list li { padding: 10px 0; }
+    }
+  </style>
+</head>
+<body>
+<main class="deck" id="deck" aria-label="VP engineering presentation">
+  <section class="slide" id="slide-1" aria-labelledby="title-1">
+    <div class="slide-inner">
+      <header class="top"><span class="topic">Internal tools / decision brief</span><span>VP of Engineering · 1 of 6</span></header>
+      <div class="content">
+        <div class="section-label">Recommendation</div>
+        <h1 id="title-1">Keep Power Apps during a 90-day pilot.</h1>
+        <p class="intro">You pay $250K/year for three internal apps and expect at least ten more. That makes owned code worth testing. A two-hour prototype cannot tell us whether it is cheaper to operate.</p>
+        <div class="grid">
+          <div class="panel feature"><h3>What I would do</h3><p>Build two new apps on a shared foundation while the existing apps stay on Power Apps. Include one ordinary queue and one with a difficult integration.</p></div>
+          <div class="panel"><h3>What would change the recommendation</h3><p>Repeatable delivery, an approved security and operations model, and a lower three-year cost that includes engineers' time. Check the actual license terms before counting savings.</p></div>
+        </div>
+      </div>
+      <footer class="bottom"><span>$250K and app counts are from the client scenario.</span><span>01 / 06</span></footer>
+    </div>
+  </section>
+
+  <section class="slide" id="slide-2" aria-labelledby="title-2">
+    <div class="slide-inner">
+      <header class="top"><span class="topic">Power Apps / what the license buys</span><span>2 of 6</span></header>
+      <div class="content">
+        <div class="section-label">Research</div>
+        <h2 id="title-2">The product is more than a UI builder.</h2>
+        <div class="table-wrap">
+          <table>
+            <tbody>
+              <tr><th scope="row">Build</th><td>Canvas and model-driven app designers let makers create forms and workflows without waiting for an engineering team.</td></tr>
+              <tr><th scope="row">Connect</th><td>Dataverse, connectors, and custom connectors provide paths into existing systems. Each integration still needs access and data-policy decisions.</td></tr>
+              <tr><th scope="row">Run</th><td>Environments, admin controls, data policies, and deployment pipelines reduce the amount of platform machinery the team must own.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note aside">Exact controls and entitlements depend on the client's licensing and configuration. Audit, backup, identity, and support obligations need an inventory before any migration plan.</p>
+        <div class="sources">Microsoft Learn:
+          <a href="https://learn.microsoft.com/en-us/power-apps/powerapps-overview">Power Apps overview</a>
+          <a href="https://learn.microsoft.com/en-us/power-platform/admin/wp-data-loss-prevention">Data policies</a>
+          <a href="https://learn.microsoft.com/en-us/power-platform/alm/pipelines">Pipelines</a>
+        </div>
+      </div>
+      <footer class="bottom"><span>For this team, maker autonomy and managed administration are the hardest things to replace.</span><span>02 / 06</span></footer>
+    </div>
+  </section>
+
+  <section class="slide" id="slide-3" aria-labelledby="title-3">
+    <div class="slide-inner">
+      <header class="top"><span class="topic">Prototype / synthetic data</span><span>3 of 6</span></header>
+      <div class="content">
+        <div class="section-label">What I built with Devin</div>
+        <h2 id="title-3">Three explicit apps and one shared set of controls.</h2>
+        <p class="intro">The workbench includes KYC review, refund approvals, and feature-flag administration. The apps share a React shell, an Express API, and SQLite for the demo.</p>
+        <div class="grid">
+          <div class="panel"><h3>In each app</h3><p>Domain-specific routes and permissions; state changes require a reason and expected version. The change and its audit event commit in one transaction.</p></div>
+          <div class="panel"><h3>For app 4</h3><p>A scaffolder produces a service, workspace, manifest, and starter test. A repository check catches missing permissions and test coverage. Engineers still implement and review the app.</p></div>
+        </div>
+        <div class="demo"><p><strong>Show live:</strong> decide a KYC case, then open Platform overview and find the new entry in the cross-app audit feed.</p><p>This demonstrates shared code and an audit schema. It does not demonstrate production identity or a low-code designer.</p></div>
+      </div>
+      <footer class="bottom"><span>Persona switching is a demo shortcut, not authentication.</span><span>03 / 06</span></footer>
+    </div>
+  </section>
+
+  <section class="slide" id="slide-4" aria-labelledby="title-4">
+    <div class="slide-inner">
+      <header class="top"><span class="topic">Comparison / what changes hands</span><span>4 of 6</span></header>
+      <div class="content">
+        <div class="section-label">Assessment</div>
+        <h2 id="title-4">Devin can help build the apps. Your team would run them.</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Need</th><th scope="col">Owned code with Devin</th><th scope="col">Power Apps</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">KYC rules and UX</th><td>Code you can review, test, and change to fit your process.</td><td>Configurable apps and extensions, within platform constraints.</td></tr>
+              <tr><th scope="row">App 4 through 13</th><td>Reuse patterns, but engineers own each app and the shared foundation.</td><td>Makers can build on a managed platform; complexity varies by app.</td></tr>
+              <tr><th scope="row">Operations</th><td>Team owns SSO, access lifecycle, secrets, deployment, monitoring, backups, incidents, and support.</td><td>Microsoft supplies platform services; the team still configures and governs its apps.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note aside">The prototype has no real SSO, live connector, deployment pipeline, disaster recovery, or compliance evidence. It cannot settle the cost question.</p>
+      </div>
+      <footer class="bottom"><span>Custom logic is the easy part to demonstrate; ongoing ownership is the decision.</span><span>04 / 06</span></footer>
+    </div>
+  </section>
+
+  <section class="slide" id="slide-5" aria-labelledby="title-5">
+    <div class="slide-inner">
+      <header class="top"><span class="topic">Economics / what to measure</span><span>5 of 6</span></header>
+      <div class="content">
+        <div class="section-label">Build versus buy</div>
+        <h2 id="title-5">$250K/year is a baseline, not a savings estimate.</h2>
+        <p class="intro">The license only becomes avoidable if the team can retire enough seats or capacity under its contract. Building ten more apps also consumes engineering time that could go to the core product.</p>
+        <div class="grid">
+          <div class="panel"><h3>Price the owned path</h3><p>Initial platform work + per-app delivery + integrations + security review + hosting + maintenance and on-call + migration.</p></div>
+          <div class="panel"><h3>Price the Power Apps path</h3><p>Renewal and incremental licensing + maker and admin time + custom extensions + support. Ask what spend disappears as apps move.</p></div>
+        </div>
+        <div class="demo"><p><strong>Compare over three years:</strong> money spent, engineer-hours, time to ship, incidents, and who can make a change without an engineer. Use contract and pilot data rather than an assumed per-app savings figure.</p></div>
+      </div>
+      <footer class="bottom"><span>The pilot should include time from the engineers who build and operate the foundation.</span><span>05 / 06</span></footer>
+    </div>
+  </section>
+
+  <section class="slide" id="slide-6" aria-labelledby="title-6">
+    <div class="slide-inner">
+      <header class="top"><span class="topic">Next step / decision gate</span><span>6 of 6</span></header>
+      <div class="content">
+        <div class="section-label">90-day pilot</div>
+        <h2 id="title-6">Keep the current apps in place. Test two new ones.</h2>
+        <ol class="step-list">
+          <li><strong>Weeks 1–2</strong><span>Inventory app usage, license terms, integrations, current support load, and security requirements.</span></li>
+          <li><strong>Weeks 2–5</strong><span>Add SSO and group mapping, secrets, deployment, monitoring, backup, review, and an on-call owner to the foundation.</span></li>
+          <li><strong>Weeks 5–10</strong><span>Ship a queue app and an integration-heavy app with Devin helping write code and tests. Track delivery and support time.</span></li>
+          <li><strong>Weeks 11–13</strong><span>Review security and reliability; compare full three-year costs. Migrate only if the team can own operations and the numbers hold up.</span></li>
+        </ol>
+        <p class="note aside">If the pilot fails, retain Power Apps for standard apps. Devin can still help with custom extensions, integrations, tests, and tools that exceed the platform's limits.</p>
+      </div>
+      <footer class="bottom"><span>Decision owner: VP Engineering, with security, platform, and app owners.</span><span>06 / 06</span></footer>
+    </div>
+  </section>
+</main>
+<nav class="controls" aria-label="Slide navigation">
+  <button id="previous" type="button" aria-label="Previous slide">←</button>
+  <span id="position" aria-live="polite">1 / 6</span>
+  <button id="next" type="button" aria-label="Next slide">→</button>
+</nav>
+<script>
+  const deck = document.getElementById("deck");
+  const slides = [...deck.querySelectorAll(".slide")];
+  const position = document.getElementById("position");
+  const previous = document.getElementById("previous");
+  const next = document.getElementById("next");
+  let current = 0;
+
+  function update(index) {
+    current = Math.max(0, Math.min(slides.length - 1, index));
+    position.textContent = `${current + 1} / ${slides.length}`;
+    previous.disabled = current === 0;
+    next.disabled = current === slides.length - 1;
+  }
+
+  function go(index) {
+    update(index);
+    slides[current].scrollIntoView({ block: "start" });
+    history.replaceState(null, "", `#slide-${current + 1}`);
+  }
+
+  previous.addEventListener("click", () => go(current - 1));
+  next.addEventListener("click", () => go(current + 1));
+  document.addEventListener("keydown", (event) => {
+    if (event.target instanceof HTMLElement && event.target.closest("button, a, input, textarea, select")) return;
+    if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(event.key)) {
+      event.preventDefault();
+      go(current + 1);
+    }
+    if (["ArrowLeft", "ArrowUp", "PageUp"].includes(event.key)) {
+      event.preventDefault();
+      go(current - 1);
+    }
+    if (event.key === "Home") go(0);
+    if (event.key === "End") go(slides.length - 1);
+  });
+  deck.addEventListener("scroll", () => {
+    const index = slides.reduce((best, slide, i) =>
+      Math.abs(slide.offsetTop - deck.scrollTop) < Math.abs(slides[best].offsetTop - deck.scrollTop) ? i : best, 0);
+    update(index);
+  }, { passive: true });
+  const initial = Number(location.hash.match(/^#slide-(\d+)$/)?.[1]) - 1;
+  if (Number.isInteger(initial) && initial >= 0 && initial < slides.length) go(initial);
+  else update(0);
+</script>
+</body>
+</html>
