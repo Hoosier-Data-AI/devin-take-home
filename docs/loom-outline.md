@@ -1,31 +1,27 @@
-# VP Engineering walkthrough (aim for 4:45)
+# VP Engineering walkthrough (aim for 4:50)
 
 Use the slides as prompts, then switch to the running workbench for the demo. Don't read the tables aloud.
 
-## 0:00–0:35 — Slide 1: recommendation
+## 0:00–0:35 — Recommendation
 
-I'd keep Power Apps for now and run a 90-day pilot with two *new* apps. The company spends $250K a year, uses three apps, and expects at least ten more. That is enough potential spend to investigate, but this prototype says nothing about the cost of running an alternative.
+I'd keep the three existing apps in Power Apps for now and build the next two with Devin. You spend $250K a year and have more than ten apps planned, so it's worth finding out what it would take to own them. That includes engineering time and ongoing support.
 
-## 0:35–1:15 — Slide 2: what they're buying
+## 0:35–1:15 — What Power Apps provides
 
-Power Apps provides canvas and model-driven builders, Dataverse and connectors, and administrative tooling around environments, data policies, and deployment. Non-engineers can build and change apps. Ask which of these the client uses and what its contract includes before treating the license as a line item to remove.
+Power Apps gives people outside engineering a way to make and change apps. Dataverse and connectors help with data access; environments, policies, and pipelines help you manage the apps. I'd want to know which of these you actually use, and what your current contract covers.
 
-## 1:15–2:30 — Slide 3 and live workbench: what Devin helped build
+## 1:15–2:45 — Prototype and live workbench
 
-The three synthetic apps are KYC review, refund approvals, and feature-flag administration. They share the shell and server-side controls, but the domain rules are explicit code.
+I built the three use cases you described: KYC, refunds, and feature flags. They share server-side access checks, validation, version checks, and an audit record that commits with each change. Each app's rules are still code an engineer can review.
 
-In the KYC queue, choose a pending case, enter a reason, and make a decision. Open Platform overview and find the entry in the cross-app audit feed. Every write requires a reason and expected version; the state change and audit event commit together. Show the app 4 path briefly: scaffolding, repository checks, then an engineer implementing and reviewing the real integration. Devin helped write this foundation and can help build subsequent apps. This is a working code prototype with synthetic data, not a production system or a visual builder.
+Switch to the workbench. Pick a pending KYC case, enter a reason, decide it, then open Platform overview and find the new event in the shared audit feed. Mention that the repo also has a starter generator and checks for the next app. Devin helped build this code and could help with each new app; an engineer still owns the rules and reviews the changes. The data is synthetic and the persona selector is for the demo.
 
-## 2:30–3:20 — Slide 4: boundary of the proof
+## 2:45–3:40 — What the team would own
 
-Custom KYC rules, UX, source control, tests, and reusable patterns are feasible. The team would still own identity, access lifecycle, deployments, secrets, monitoring, backup, support, and incidents. Persona switching is not authentication; the connector is a fixture. Microsoft supplies platform services, while the customer still configures and governs its Power Apps.
+Owned code gives you more freedom with KYC rules, UX, testing, and releases. Before any real users move over, we'd need SSO, group mapping, real integrations, deployment, secrets, monitoring, backups, and an on-call owner. The prototype's connector is a local fixture; I haven't tested a production integration.
 
-## 3:20–4:00 — Slide 5: economics
+## 3:40–4:50 — The pilot and decision
 
-The $250K is current spend, not projected savings. Check whether licenses can actually be reduced. Compare three years of license and admin spend against engineers' build time, integrations, hosting, security review, maintenance, on-call, and migration. Track what product work those engineers would otherwise ship.
+For 90 days, keep existing apps on Power Apps. Check usage and license terms, add the missing production controls, and ship two new apps: one straightforward and one with a real integration. Measure delivery and support time. Compare the full three-year cost, including hosting, security, on-call, migration, and the product work those engineers could have done instead. Check which licenses you can cancel under the contract.
 
-## 4:00–4:45 — Slide 6: the decision
-
-Keep the current apps during the pilot. Inventory usage and contract terms; make the foundation operable; ship one ordinary queue and one integration-heavy app. Have security and platform owners review the result. Migrate only if repeatable delivery, reliability, operational ownership, and full cost all make sense.
-
-If the pilot doesn't clear that bar, keep Power Apps for standard apps. Devin can still help with extensions, integrations, tests, and custom apps that don't fit Power Apps.
+If the team can operate this safely and the cost makes sense, migrate gradually. Otherwise keep Power Apps for the routine apps. Devin can still help with extensions, integrations, tests, and custom apps.
