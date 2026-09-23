@@ -1,12 +1,26 @@
 import { useEffect, useState } from "react";
-import { fetchPlatformOverview } from "../api";
-import { titleCase } from "../format";
-import type { PlatformOverview } from "../types";
+import { fetchPlatformAudit, fetchPlatformOverview } from "../api";
+import { formatDate, titleCase } from "../format";
+import type {
+  AuditEntityType,
+  AuditEvent,
+  PlatformOverview
+} from "../types";
 import type { WorkspaceProps } from "./types";
+
+const auditSources: Array<{ value: AuditEntityType | ""; label: string }> = [
+  { value: "", label: "All applications" },
+  { value: "kyc_case", label: "KYC review" },
+  { value: "refund_request", label: "Refunds dashboard" },
+  { value: "feature_flag", label: "Feature-flag admin" }
+];
 
 export function PlatformWorkspace({ personaId }: WorkspaceProps) {
   const [overview, setOverview] = useState<PlatformOverview | null>(null);
   const [error, setError] = useState("");
+  const [auditSource, setAuditSource] = useState<AuditEntityType | "">("");
+  const [auditEvents, setAuditEvents] = useState<AuditEvent[]>([]);
+  const [auditError, setAuditError] = useState("");
 
   useEffect(() => {
     void fetchPlatformOverview(personaId)
@@ -23,6 +37,32 @@ export function PlatformWorkspace({ personaId }: WorkspaceProps) {
         );
       });
   }, [personaId]);
+
+  useEffect(() => {
+    let active = true;
+    void fetchPlatformAudit(personaId, { entityType: auditSource })
+      .then((events) => {
+        if (!active) {
+          return;
+        }
+        setAuditEvents(events);
+        setAuditError("");
+      })
+      .catch((loadError: unknown) => {
+        if (!active) {
+          return;
+        }
+        setAuditEvents([]);
+        setAuditError(
+          loadError instanceof Error
+            ? loadError.message
+            : "Could not load the activity log."
+        );
+      });
+    return () => {
+      active = false;
+    };
+  }, [auditSource, personaId]);
 
   if (error) {
     return <div className="message error-message">{error}</div>;
@@ -200,6 +240,73 @@ export function PlatformWorkspace({ personaId }: WorkspaceProps) {
           </ol>
         </section>
       </div>
+
+      <section className="platform-section">
+        <div className="section-title-row">
+          <div>
+            <p className="eyebrow">Oversight</p>
+            <h3>Activity across every application</h3>
+          </div>
+          <label className="audit-source-filter">
+            <span>Application</span>
+            <select
+              onChange={(event) =>
+                setAuditSource(event.target.value as AuditEntityType | "")
+              }
+              value={auditSource}
+            >
+              {auditSources.map((source) => (
+                <option key={source.value} value={source.value}>
+                  {source.label}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <p className="section-intro">
+          Every application writes to the same append-only audit table, so one
+          query answers who changed what without per-app reporting work.
+        </p>
+        {auditError ? (
+          <div className="message error-message">{auditError}</div>
+        ) : (
+          <div className="access-table-wrap">
+            <table className="access-table activity-table">
+              <thead>
+                <tr>
+                  <th>When</th>
+                  <th>Actor</th>
+                  <th>Record</th>
+                  <th>Change</th>
+                  <th>Reason</th>
+                </tr>
+              </thead>
+              <tbody>
+                {auditEvents.length === 0 ? (
+                  <tr>
+                    <td colSpan={5}>No recorded activity for this filter.</td>
+                  </tr>
+                ) : (
+                  auditEvents.map((event) => (
+                    <tr key={event.id}>
+                      <td>{formatDate(event.createdAt)}</td>
+                      <td>{event.actorId}</td>
+                      <td>
+                        <strong>{event.entityId}</strong>
+                        <span>{titleCase(event.entityType)}</span>
+                      </td>
+                      <td>
+                        {event.oldStatus ?? "new"} → {event.newStatus}
+                      </td>
+                      <td>{event.reason}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
 
       <section className="platform-section">
         <div className="section-title-row">

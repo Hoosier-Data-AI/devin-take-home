@@ -59,6 +59,65 @@ export const insertAuditEvent: AuditWriter = (database, event) => {
     .run(event);
 };
 
+function mapAuditEvent(row: AuditEventRow): AuditEvent {
+  return {
+    id: row.id,
+    actorId: row.actor_id,
+    entityType: row.entity_type,
+    entityId: row.entity_id,
+    action: row.action,
+    oldStatus: row.old_status,
+    newStatus: row.new_status,
+    reason: row.reason,
+    createdAt: row.created_at
+  };
+}
+
+export interface AuditFeedFilters {
+  entityType?: AuditEntityType | undefined;
+  actorId?: string | undefined;
+  limit?: number | undefined;
+}
+
+export function listAuditFeed(
+  database: WorkbenchDatabase,
+  filters: AuditFeedFilters = {}
+): AuditEvent[] {
+  const clauses: string[] = [];
+  const parameters: Array<string | number> = [];
+
+  if (filters.entityType) {
+    clauses.push("entity_type = ?");
+    parameters.push(filters.entityType);
+  }
+  if (filters.actorId) {
+    clauses.push("actor_id = ?");
+    parameters.push(filters.actorId);
+  }
+
+  const where = clauses.length > 0 ? `WHERE ${clauses.join(" AND ")}` : "";
+  const rows = database
+    .prepare(`
+      SELECT
+        id,
+        actor_id,
+        entity_type,
+        entity_id,
+        action,
+        old_status,
+        new_status,
+        reason,
+        created_at
+      FROM audit_events
+      ${where}
+      ORDER BY created_at DESC, id DESC
+      LIMIT ?
+    `)
+    .all(...parameters, filters.limit ?? 50) as AuditEventRow[];
+
+  return rows.map(mapAuditEvent);
+}
+
 export function listAuditEvents(
   database: WorkbenchDatabase,
   entityType: AuditEntityType,
@@ -82,15 +141,5 @@ export function listAuditEvents(
     `)
     .all(entityType, entityId) as AuditEventRow[];
 
-  return rows.map((row) => ({
-    id: row.id,
-    actorId: row.actor_id,
-    entityType: row.entity_type,
-    entityId: row.entity_id,
-    action: row.action,
-    oldStatus: row.old_status,
-    newStatus: row.new_status,
-    reason: row.reason,
-    createdAt: row.created_at
-  }));
+  return rows.map(mapAuditEvent);
 }

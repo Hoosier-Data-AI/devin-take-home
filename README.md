@@ -75,7 +75,9 @@ Unknown identities are rejected. Roles or permissions in request bodies are neve
 - **KYC review:** status/risk queue, case detail, and pending-only approval or rejection.
 - **Refunds dashboard:** status/risk queue prioritized by risk and amount, with pending-only approval or rejection.
 - **Feature-flag admin:** environment/state filters and versioned enable/disable actions against synthetic flags only.
-- **Platform overview:** read-only application inventory, ownership, risk, effective permissions, shared guardrails, app scaffolding, executable governance gates, a synthetic connector contract, and the app 4 extension path.
+- **Platform overview:** read-only application inventory, ownership, risk, effective permissions, shared guardrails, app scaffolding, executable governance gates, a synthetic connector contract, a cross-application activity log, and the app 4 extension path.
+
+Because every application writes to one append-only audit table, `GET /api/platform/audit` answers "who changed what" across all of them without per-application reporting code. It requires `platform:read` and accepts `entityType`, `actorId`, and `limit` filters.
 
 Every state change requires a non-blank trimmed reason and `expectedVersion`. The conditional update and append-only audit insert run in one SQLite transaction; stale, repeated, and no-op requests return HTTP `409`.
 
@@ -123,7 +125,10 @@ Tests use a new in-memory SQLite database for each case. They cover:
 - application scaffolder validation and generated-file coverage;
 - executable platform-governance checks;
 - strict synthetic connector and OpenAPI fixture alignment;
-- production-mode startup guard.
+- production-mode startup guard;
+- cross-application audit feed authorization, filtering, and validation.
+
+GitHub Actions runs `lint`, `typecheck`, `test`, `governance`, and `build` on every pull request (`.github/workflows/ci.yml`), so the platform guardrails are enforced by the pipeline rather than by review habit.
 
 Run:
 

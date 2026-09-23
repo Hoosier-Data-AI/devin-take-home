@@ -8,7 +8,7 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { z, ZodError } from "zod";
 import type { AuditWriter } from "./audit.js";
-import { insertAuditEvent } from "./audit.js";
+import { insertAuditEvent, listAuditFeed } from "./audit.js";
 import type { WorkbenchDatabase } from "./database.js";
 import { HttpError } from "./errors.js";
 import {
@@ -28,6 +28,7 @@ import {
 import { getPlatformOverview } from "./platform-catalog.js";
 import { runPlatformGovernanceChecks } from "./platform-governance.js";
 import { requirePermission } from "./policies.js";
+import { findRepositoryRoot } from "./repository-root.js";
 import {
   decideRefundRequest,
   getRefundRequest,
@@ -47,6 +48,14 @@ const decisionSchema = z
     expectedVersion: z.number().int().positive()
   })
   .strict();
+
+const auditFeedFiltersSchema = z.object({
+  entityType: z
+    .enum(["kyc_case", "refund_request", "feature_flag"])
+    .optional(),
+  actorId: z.string().trim().min(1).max(100).optional(),
+  limit: z.coerce.number().int().min(1).max(200).optional()
+});
 
 const featureFlagFiltersSchema = z.object({
   environment: z.enum(["development", "staging", "production"]).optional(),
@@ -97,7 +106,7 @@ export function createApp(options: AppOptions): express.Express {
   app.get("/api/platform/overview", (request, response, next) => {
     try {
       requirePermission(request.persona, "platform:read");
-      const governance = runPlatformGovernanceChecks(resolve("."));
+      const governance = runPlatformGovernanceChecks(findRepositoryRoot());
       response.json({
         ...getPlatformOverview(),
         accelerator: {
@@ -117,6 +126,16 @@ export function createApp(options: AppOptions): express.Express {
           passed: governance.passed
         }
       });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.get("/api/platform/audit", (request, response, next) => {
+    try {
+      requirePermission(request.persona, "platform:read");
+      const filters = auditFeedFiltersSchema.parse(request.query);
+      response.json({ events: listAuditFeed(options.database, filters) });
     } catch (error) {
       next(error);
     }

@@ -26,9 +26,13 @@ export interface KycCase {
   version: number;
 }
 
+export type AuditEntityType = "kyc_case" | "refund_request" | "feature_flag";
+
 export interface AuditEvent {
   id: number;
   actorId: string;
+  entityType: AuditEntityType;
+  entityId: string;
   action: string;
   oldStatus: KycStatus | RefundStatus | FeatureFlagState | null;
   newStatus: KycStatus | RefundStatus | FeatureFlagState;

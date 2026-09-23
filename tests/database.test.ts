@@ -1,7 +1,7 @@
 import Database from "better-sqlite3";
-import { existsSync, unlinkSync } from "node:fs";
-import { randomUUID } from "node:crypto";
-import { resolve } from "node:path";
+import { mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
   openDatabase,
@@ -55,10 +55,8 @@ describe("database reset", () => {
 
 describe("database migration", () => {
   it("preserves KYC audit history while widening the audit schema", () => {
-    const databasePath = resolve(
-      "data",
-      `migration-test-${randomUUID()}.sqlite`
-    );
+    const directory = mkdtempSync(join(tmpdir(), "workbench-migration-"));
+    const databasePath = join(directory, "migration-test.sqlite");
     const legacyDatabase = new Database(databasePath);
     legacyDatabase.exec(`
       CREATE TABLE kyc_cases (
@@ -156,9 +154,7 @@ describe("database migration", () => {
       ).not.toThrow();
     } finally {
       migratedDatabase.close();
-      if (existsSync(databasePath)) {
-        unlinkSync(databasePath);
-      }
+      rmSync(directory, { force: true, recursive: true });
     }
   });
 });

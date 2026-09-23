@@ -1,7 +1,7 @@
-import { resolve } from "node:path";
 import { runPlatformGovernanceChecks } from "../platform-governance.js";
+import { findRepositoryRoot } from "../repository-root.js";
 
-const report = runPlatformGovernanceChecks(resolve("."));
+const report = runPlatformGovernanceChecks(findRepositoryRoot());
 
 for (const check of report.checks) {
   const result = check.passed ? "PASS" : "FAIL";

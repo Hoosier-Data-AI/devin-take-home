@@ -1,4 +1,6 @@
 import type {
+  AuditEntityType,
+  AuditEvent,
   DemoPersona,
   FeatureFlag,
   FeatureFlagDetail,
@@ -56,6 +58,22 @@ export function fetchPlatformOverview(
   personaId: string
 ): Promise<PlatformOverview> {
   return request<PlatformOverview>("/api/platform/overview", personaId);
+}
+
+export async function fetchPlatformAudit(
+  personaId: string,
+  filters: { entityType: AuditEntityType | "" }
+): Promise<AuditEvent[]> {
+  const search = new URLSearchParams();
+  if (filters.entityType) {
+    search.set("entityType", filters.entityType);
+  }
+  const query = search.size > 0 ? `?${search.toString()}` : "";
+  const body = await request<{ events: AuditEvent[] }>(
+    `/api/platform/audit${query}`,
+    personaId
+  );
+  return body.events;
 }
 
 export async function fetchCases(
