@@ -1264,6 +1264,15 @@ td strong {
     grid-template-columns: 1fr;
   }
 
+  .platform-section .section-title-row {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .audit-source-filter {
+    min-width: min(190px, 100%);
+  }
+
   .topbar,
   .workspace-heading,
   .filters {
