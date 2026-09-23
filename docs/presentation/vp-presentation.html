@@ -1108,7 +1108,7 @@ details.a-disclosure[open] > summary::before {
       <header class="a-header">
         <div>
           <h1 class="a-header__title">Power Apps vs. Devin-assisted owned code</h1>
-          <p class="a-header__subtitle">A five-minute VP of Engineering presentation built around the recommendation, evidence, limits, and next step.</p>
+          <p class="a-header__subtitle">Five-minute VP briefing on the recommendation, evidence, risks, and next step.</p>
         </div>
         <button
           type="button"
@@ -1166,8 +1166,30 @@ details.a-disclosure[open] > summary::before {
   .cog-three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid currentColor;border-bottom:1px solid currentColor;margin-top:24px}.cog-three article{padding:22px;border-right:1px solid color-mix(in srgb,currentColor 18%,transparent)}.cog-three article:last-child{border-right:0}
   .cog-three strong{display:block;margin-bottom:8px}.cog-three p{margin:0;font-family:Georgia,"Times New Roman",serif;line-height:1.42}
   .cog-close{border-top:1px solid currentColor;border-bottom:1px solid currentColor;padding:22px 0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.2rem,2.4vw,1.75rem);line-height:1.36}
+  .a-section__title { font-family:ui-sans-serif,system-ui,sans-serif; font-size:clamp(1.5rem,2.5vw,2.25rem); font-weight:480; line-height:1.06; letter-spacing:-.035em; }
+  .a-grid { gap:0!important; margin-top:22px; border-top:1px solid currentColor; border-bottom:1px solid currentColor; }
+  .a-grid > .a-panel,.a-grid > .a-metric,.a-grid > .a-phase { min-width:0; margin:0; padding:22px; border:0; border-right:1px solid color-mix(in srgb,currentColor 18%,transparent); border-radius:0; background:transparent; box-shadow:none; }
+  .a-grid > :last-child { border-right:0; }
+  .a-panel__head { margin:0 0 14px; padding:0; border:0; }
+  .a-panel__title,.a-phase__title { font-family:ui-sans-serif,system-ui,sans-serif; font-size:1rem; font-weight:650; letter-spacing:-.015em; }
+  .a-prose,.a-panel li,.a-phase p { font-family:Georgia,"Times New Roman",serif; line-height:1.5; }
+  .a-prose li + li { margin-top:.45rem; }
+  .a-metric__label,.a-metric__delta { font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; letter-spacing:.04em; }
+  .a-metric__label { font-size:.67rem; font-weight:700; text-transform:uppercase; }
+  .a-metric__value { font-family:ui-sans-serif,system-ui,sans-serif; font-size:clamp(1.7rem,3vw,2.8rem); font-weight:450; line-height:1; letter-spacing:-.045em; }
+  .a-metric__delta { font-size:.68rem; opacity:.62; }
+  .a-phase { grid-template-columns:42px minmax(0,1fr); }
+  .a-phase__index { color:#2200ff; font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; font-size:.7rem; }
+  .a-callout { margin-top:20px; padding:18px 20px; border:0; border-top:1px solid currentColor; border-bottom:1px solid currentColor; border-left:2px solid #2200ff; border-radius:0; background:color-mix(in srgb,currentColor 3%,transparent); box-shadow:none; font-family:Georgia,"Times New Roman",serif; line-height:1.48; }
   @media(max-width:700px){.cog-three{grid-template-columns:1fr}.cog-three article{border-right:0;border-bottom:1px solid color-mix(in srgb,currentColor 18%,transparent)}.cog-three article:last-child{border-bottom:0}}
-  @media(max-width:620px){.cog-masthead{align-items:flex-start;flex-direction:column;gap:8px}.cog-meta{text-align:left}.cog-hero,.cog-slide-head{grid-template-columns:1fr;gap:6px}.cog-slide{min-height:auto}}
+  @media(max-width:620px){
+    .cog-masthead{align-items:flex-start;flex-direction:column;gap:8px}
+    .cog-meta{text-align:left}
+    .cog-hero,.cog-slide-head{grid-template-columns:1fr;gap:6px}
+    .cog-slide{min-height:auto}
+    .a-grid > .a-panel,.a-grid > .a-metric,.a-grid > .a-phase{border-right:0;border-bottom:1px solid color-mix(in srgb,currentColor 18%,transparent)}
+    .a-grid > :last-child{border-bottom:0}
+  }
   @media print{@page{size:A4 landscape;margin:9mm}.a-shell{max-width:none!important}.cog-slide{min-height:0;break-after:page;padding:18px 0}.cog-slide:last-child{break-after:auto}.cog-hero h2{font-size:30pt!important}.a-prose,li,p{font-size:10pt!important}footer{display:none!important}}
 </style>
 
@@ -1180,7 +1202,7 @@ details.a-disclosure[open] > summary::before {
   <div class="cog-index">00</div>
   <div>
     <h2>Should we replace Power Apps with Devin-built internal tools?</h2>
-    <p>A working prototype, an honest boundary, and a low-regret way to decide.</p>
+    <p>A recommendation and evidence for a 90-day pilot.</p>
     <span class="cog-screen-cue">Open with this page</span>
   </div>
 </section>
@@ -1191,27 +1213,27 @@ details.a-disclosure[open] > summary::before {
     <h2 class="a-section__title">Recommendation first</h2>
   </div>
   <p class="cog-quote">
-    “Run a 90-day code-first pilot. Do not make an immediate wholesale replacement.”
+    “Keep Power Apps while the team runs a 90-day code-first pilot.”
   </p>
   <div class="a-grid">
     <div class="a-metric"><div class="a-metric__label">Current spend</div><div class="a-metric__value">$250K/year</div><div class="a-metric__delta">client-provided</div></div>
     <div class="a-metric"><div class="a-metric__label">Current apps</div><div class="a-metric__value">3</div><div class="a-metric__delta">KYC · refunds · flags</div></div>
     <div class="a-metric"><div class="a-metric__label">Planned portfolio</div><div class="a-metric__value">10+</div><div class="a-metric__delta">reuse can compound</div></div>
   </div>
-  <p class="a-prose">The savings opportunity is real. The risk is mistaking a license for only a screen builder when it also transfers governance and operating responsibility.</p>
+  <p class="a-prose">At $250K per year, the savings justify a pilot. Replacement also transfers identity, deployment, monitoring, backup, and support to the engineering team.</p>
 </section>
 
 <section class="cog-slide">
   <div class="cog-slide-head">
     <div><div class="cog-index">02</div><div class="cog-time">0:40–1:25</div></div>
-    <h2 class="a-section__title">What Power Apps is really selling</h2>
+    <h2 class="a-section__title">What the Power Apps license includes</h2>
   </div>
   <div class="cog-three">
     <article><strong>Creation</strong><p>Canvas and model-driven builders, forms, views, dashboards, and workflows.</p></article>
     <article><strong>Connection</strong><p>Dataverse and a managed connector ecosystem for enterprise data and services.</p></article>
     <article><strong>Control</strong><p>Roles, environments, policies, audit, pipelines, backups, and administration.</p></article>
   </div>
-  <p class="cog-quote">“The difficult part to replace is the managed control plane—not the form.”</p>
+  <p class="cog-quote">“The replacement scope includes the control plane around each form.”</p>
   <span class="cog-screen-cue">Screen share: decision brief · comparison</span>
 </section>
 
@@ -1222,22 +1244,22 @@ details.a-disclosure[open] > summary::before {
   </div>
   <div class="a-grid a-grid--halves">
     <article class="a-panel"><div class="a-panel__head"><h3 class="a-panel__title">Three explicit applications</h3></div><p class="a-prose">KYC review, refund approval, and synthetic feature-flag administration share navigation, queue UI, authorization, audit, concurrency, persistence, and testing.</p></article>
-    <article class="a-panel"><div class="a-panel__head"><h3 class="a-panel__title">One governed extension path</h3></div><p class="a-prose">The App Accelerator generates a typed starter, runs 25 repository checks, and demonstrates a strict contract-tested connector boundary.</p></article>
+    <article class="a-panel"><div class="a-panel__head"><h3 class="a-panel__title">Scaffold and repository checks</h3></div><p class="a-prose">The App Accelerator generates a typed starter, runs 25 repository checks, and demonstrates a strict contract-tested connector boundary.</p></article>
   </div>
   <div class="a-callout a-callout--decision"><strong>Show:</strong> application sidebar → one decision and audit event → Platform overview → Generate / Enforce / Connect.</div>
-  <p class="cog-quote">“Devin created standard reviewable code with tests. It did not create another low-code platform.”</p>
+  <p class="cog-quote">“Devin produced ordinary TypeScript, tests, and repository controls that engineers can inspect and change.”</p>
   <span class="cog-screen-cue">Screen share: running workbench</span>
 </section>
 
 <section class="cog-slide">
   <div class="cog-slide-head">
     <div><div class="cog-index">04</div><div class="cog-time">2:40–3:40</div></div>
-    <h2 class="a-section__title">Replicable—and not replicable</h2>
+    <h2 class="a-section__title">Where owned code wins and Power Apps still leads</h2>
   </div>
   <div class="a-grid a-grid--halves">
     <article class="a-panel">
       <div class="a-panel__head"><h3 class="a-panel__title">Code-first strengths</h3></div>
-      <ul class="a-prose"><li>Custom domain logic and UX.</li><li>Native source control and automated tests.</li><li>Company-specific security and audit conventions.</li><li>No low-code ceiling when requirements become specialized.</li></ul>
+      <ul class="a-prose"><li>Custom domain logic and UX.</li><li>Native source control and automated tests.</li><li>Company-specific security and audit conventions.</li><li>Standard code for specialized requirements.</li></ul>
     </article>
     <article class="a-panel">
       <div class="a-panel__head"><h3 class="a-panel__title">Power Apps strengths</h3></div>
@@ -1258,7 +1280,7 @@ details.a-disclosure[open] > summary::before {
     <article class="a-phase"><div class="a-phase__index">03</div><div><div class="a-phase__head"><h3 class="a-phase__title">Build two apps</h3></div><p class="a-prose">One standard queue plus one integration-heavy workflow.</p></div></article>
     <article class="a-phase"><div class="a-phase__index">04</div><div><div class="a-phase__head"><h3 class="a-phase__title">Decide</h3></div><p class="a-prose">Reliability, security, operator burden, speed, and three-year TCO.</p></div></article>
   </div>
-  <p class="cog-quote">“Migrate only if repeatable delivery and platform ownership beat the managed alternative.”</p>
+  <p class="cog-quote">“Reduce licenses only if delivery repeats, security review passes, and the three-year cost is lower.”</p>
   <span class="cog-screen-cue">Screen share: decision brief · pilot</span>
 </section>
 
@@ -1268,16 +1290,16 @@ details.a-disclosure[open] > summary::before {
     <h2 class="a-section__title">Where Devin fits either way</h2>
   </div>
   <div class="cog-close">
-    If the pilot succeeds, Devin accelerates each new application and maintains
-    the shared foundation. If Power Apps remains, Devin still builds custom
+    If the pilot succeeds, Devin implements each new application against the
+    shared patterns and maintains the foundation. If Power Apps remains, Devin still builds custom
     extensions, tests, integrations, migration tooling, and the applications
     that exceed low-code constraints.
   </div>
-  <p class="cog-quote cog-accent">“The next step is not a platform bet. It is a measured pilot.”</p>
+  <p class="cog-quote cog-accent">“Keep current licenses during the pilot. Revisit them after two production-grade apps and a security review.”</p>
 </section>
 
 
-      <footer class="a-footnote">Presentation companion for the Fintech Operations Workbench take-home. Client spend and planned app count are client-provided; product capability claims are based on Microsoft Learn research. Synthetic prototype only. Visual language is adapted from Cognition's public website; this is take-home material, not official brand collateral.</footer>
+      <footer class="a-footnote">Presentation companion for the Fintech Operations Workbench take-home. Claims are limited to the working synthetic prototype and cited Microsoft Learn capabilities. Visual language is adapted from Cognition's public website; this is not official brand collateral.</footer>
     </main>
     <script>
 /* Devin artifact kit — self-contained behavior for standalone HTML artifacts.

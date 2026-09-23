@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content="Devin artifact kit" />
-    <title>Key decisions</title>
+    <title>Key decisions: Fintech Operations Workbench</title>
     <style>
 /* Devin artifact kit — self-contained styles for standalone HTML artifacts.
    Tokens are translated from the Devin product design system. Light is the
@@ -1107,8 +1107,8 @@ details.a-disclosure[open] > summary::before {
     <main class="a-shell">
       <header class="a-header">
         <div>
-          <h1 class="a-header__title">Key decisions</h1>
-          <p class="a-header__subtitle">The system boundary, architecture, tradeoffs, and recommendation behind the Fintech Operations Workbench.</p>
+          <h1 class="a-header__title">Key decisions: Fintech Operations Workbench</h1>
+          <p class="a-header__subtitle">Why the prototype uses one modular repo, explicit domains, and a code-first extension path.</p>
         </div>
         <button
           type="button"
@@ -1165,14 +1165,33 @@ details.a-disclosure[open] > summary::before {
   .cog-decision { border-top:1px solid currentColor; border-bottom:1px solid currentColor; padding:20px 0; font-family:Georgia,"Times New Roman",serif; font-size:1.18rem; line-height:1.42; }
   .cog-decision strong { display:block; margin-bottom:4px; color:#2200ff; font:700 .68rem ui-monospace,SFMono-Regular,Menlo,monospace; text-transform:uppercase; letter-spacing:.09em; }
   .cog-architecture { font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; font-size:.8rem; line-height:1.65; white-space:pre-wrap; border-left:2px solid #2200ff; padding-left:18px; }
-  @media(max-width:620px){.cog-masthead{align-items:flex-start;flex-direction:column;gap:8px}.cog-meta{text-align:left}.cog-hero,.cog-section-head{grid-template-columns:1fr;gap:6px}}
+  .a-section { margin:0; padding:30px 0 24px; border-top:1px solid color-mix(in srgb,currentColor 20%,transparent); }
+  .a-section__title { font-family:ui-sans-serif,system-ui,sans-serif; font-size:clamp(1.4rem,2.3vw,2rem); font-weight:480; line-height:1.06; letter-spacing:-.035em; }
+  .a-grid { gap:0!important; margin-top:18px; border-top:1px solid currentColor; border-bottom:1px solid currentColor; }
+  .a-grid > .a-panel { min-width:0; margin:0; padding:20px; border:0; border-right:1px solid color-mix(in srgb,currentColor 18%,transparent); border-radius:0; background:transparent; box-shadow:none; }
+  .a-grid > :last-child { border-right:0; }
+  .a-panel__head { margin:0 0 12px; padding:0; border:0; }
+  .a-panel__title { font-family:ui-sans-serif,system-ui,sans-serif; font-size:.98rem; font-weight:650; letter-spacing:-.015em; }
+  .a-prose,.a-panel li { font-family:Georgia,"Times New Roman",serif; line-height:1.48; }
+  .a-prose li + li { margin-top:.4rem; }
+  .a-callout { margin-top:18px; padding:17px 19px; border:0; border-top:1px solid currentColor; border-bottom:1px solid currentColor; border-left:2px solid #2200ff; border-radius:0; background:color-mix(in srgb,currentColor 3%,transparent); box-shadow:none; font-family:Georgia,"Times New Roman",serif; line-height:1.46; }
+  .cog-architecture { margin-top:18px; padding:16px 0 16px 20px; border-top:1px solid currentColor; border-bottom:1px solid currentColor; background:color-mix(in srgb,currentColor 2%,transparent); }
+  @media(max-width:620px){
+    .cog-masthead{align-items:flex-start;flex-direction:column;gap:8px}
+    .cog-meta{text-align:left}
+    .cog-hero,.cog-section-head{grid-template-columns:1fr;gap:6px}
+    .a-section{padding:26px 0 20px}
+    .a-grid > .a-panel{border-right:0;border-bottom:1px solid color-mix(in srgb,currentColor 18%,transparent)}
+    .a-grid > :last-child{border-bottom:0}
+  }
   @media print {
     @page { size:A4 portrait; margin:10mm; }
-    .a-shell { max-width:none !important; zoom:.74; }
-    .a-section { margin-block:8px !important; }
-    .a-panel,.a-callout { padding:8px !important; }
-    .a-prose,li,p { font-size:8.5pt !important; line-height:1.24 !important; }
-    .cog-hero { padding-top:12px; } .cog-hero h2 { font-size:28pt !important; }
+    .a-shell { max-width:none !important; zoom:.61; }
+    .a-section { margin-block:5px !important; padding-block:8px !important; }
+    .a-panel,.a-callout { padding:6px !important; }
+    .a-prose,li,p { font-size:8pt !important; line-height:1.2 !important; }
+    .cog-hero { padding-top:8px; } .cog-hero h2 { font-size:25pt !important; }
+    .cog-architecture { margin-top:8px; padding-block:8px; }
     footer { display:none !important; }
   }
 </style>
@@ -1185,10 +1204,10 @@ details.a-disclosure[open] > summary::before {
 <section class="cog-hero">
   <div class="cog-index">01</div>
   <div>
-    <h2>Build the reusable foundation—not another low-code platform.</h2>
+    <h2>Build shared code for the next internal applications.</h2>
     <p>
-      The prototype tests whether explicit, governed code can support a growing
-      internal-tool portfolio while preserving domain clarity and engineering control.
+      KYC, refunds, and feature flags share one React, Express, and SQLite
+      foundation. The app 4 scaffold shows which parts carry forward.
     </p>
   </div>
 </section>
@@ -1197,8 +1216,8 @@ details.a-disclosure[open] > summary::before {
   <div class="cog-decision">
     <strong>Scope decision</strong>
     Implement the client's three current use cases with synthetic data. Demonstrate
-    the path to app 4 through scaffolding and executable checks rather than building
-    a generic designer or workflow engine.
+    the path to app 4 through scaffolding and executable checks. A generic designer
+    and workflow engine are outside the prototype scope.
   </div>
 </section>
 
@@ -1217,8 +1236,8 @@ details.a-disclosure[open] > summary::before {
       <div class="a-panel__head"><h3 class="a-panel__title">Explicit domains</h3></div>
       <p class="a-prose">
         KYC, refunds, and feature flags retain their own services, routes, schemas,
-        permissions, tables, and workspaces. Reuse lives in infrastructure—not in
-        a lowest-common-denominator workflow abstraction.
+        permissions, tables, and workspaces. Shared infrastructure handles the
+        common controls without flattening domain behavior.
       </p>
     </article>
   </div>
@@ -1248,9 +1267,9 @@ details.a-disclosure[open] > summary::before {
     security review, incident response, support, and long-term maintenance.
   </div>
   <p class="a-prose">
-    Power Apps' durable advantage is its managed control plane and maker ecosystem,
-    not merely screen generation. This prototype deliberately does not claim
-    production readiness, compliance, real identity, or live integrations.
+    Power Apps' durable advantage comes from its managed control plane and maker
+    ecosystem. The prototype has no production identity, live integrations,
+    deployment system, compliance assessment, or production-readiness claim.
   </p>
 </section>
 
@@ -1271,7 +1290,7 @@ details.a-disclosure[open] > summary::before {
 </section>
 
 
-      <footer class="a-footnote">Prepared from the working prototype. Synthetic data only; the prototype is not a production identity system, live integration, compliance control, or claim of production readiness. Visual language is adapted from Cognition's public website; this is take-home material, not official brand collateral.</footer>
+      <footer class="a-footnote">Take-home decision record based on the working synthetic prototype. Visual language is adapted from Cognition's public website; this is not official brand collateral. No claim of compliance or production readiness.</footer>
     </main>
     <script>
 /* Devin artifact kit — self-contained behavior for standalone HTML artifacts.

@@ -1108,7 +1108,7 @@ details.a-disclosure[open] > summary::before {
       <header class="a-header">
         <div>
           <h1 class="a-header__title">Build vs. buy: fintech internal tools</h1>
-          <p class="a-header__subtitle">A measured recommendation for replacing—or retaining—Power Apps with Devin-assisted owned code.</p>
+          <p class="a-header__subtitle">Recommendation, evidence, and a 90-day decision gate.</p>
         </div>
         <button
           type="button"
@@ -1227,10 +1227,118 @@ details.a-disclosure[open] > summary::before {
   }
   .cog-verdict { font-weight: 650; color: #2200ff; }
   .cog-small { font-size: .84rem; opacity: .72; }
+  .a-section {
+    margin: 0;
+    padding: 34px 0 28px;
+    border-top: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  }
+  .a-section__title {
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: clamp(1.45rem, 2.4vw, 2.15rem);
+    font-weight: 480;
+    line-height: 1.06;
+    letter-spacing: -.035em;
+  }
+  .a-grid {
+    gap: 0 !important;
+    margin-top: 20px;
+    border-top: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+  }
+  .a-grid > .a-panel,
+  .a-grid > .a-metric,
+  .a-grid > .a-phase {
+    min-width: 0;
+    margin: 0;
+    padding: 22px;
+    border: 0;
+    border-right: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  .a-grid > :last-child { border-right: 0; }
+  .a-panel__head { margin: 0 0 14px; padding: 0; border: 0; }
+  .a-panel__title,
+  .a-phase__title {
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 1rem;
+    font-weight: 650;
+    letter-spacing: -.015em;
+  }
+  .a-prose,
+  .a-panel li,
+  .a-phase p {
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.5;
+  }
+  .a-prose li + li { margin-top: .45rem; }
+  .a-metric__label,
+  .a-metric__delta,
+  .a-status {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    letter-spacing: .04em;
+  }
+  .a-metric__label {
+    font-size: .67rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .a-metric__delta { font-size: .68rem; opacity: .62; }
+  .a-phase { grid-template-columns: 42px minmax(0, 1fr); }
+  .a-phase__index {
+    color: #2200ff;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: .7rem;
+  }
+  .a-status {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: #2200ff;
+    font-size: .66rem;
+    text-transform: uppercase;
+  }
+  .a-callout {
+    margin-top: 20px;
+    padding: 18px 20px;
+    border: 0;
+    border-top: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    border-left: 2px solid #2200ff;
+    border-radius: 0;
+    background: color-mix(in srgb, currentColor 3%, transparent);
+    box-shadow: none;
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.48;
+  }
+  .a-table-scroll {
+    margin-top: 20px;
+    border-top: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    border-radius: 0;
+  }
+  .a-table { font-family: Georgia, "Times New Roman", serif; }
+  .a-table thead th {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: .66rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+  .a-table th,
+  .a-table td { border-color: color-mix(in srgb, currentColor 14%, transparent); }
   @media (max-width: 620px) {
     .cog-hero, .cog-section-head { grid-template-columns: 1fr; gap: 6px; }
     .cog-meta { text-align: left; }
     .cog-masthead { align-items: flex-start; flex-direction: column; gap: 8px; }
+    .a-section { padding: 28px 0 22px; }
+    .a-grid > .a-panel,
+    .a-grid > .a-metric,
+    .a-grid > .a-phase {
+      border-right: 0;
+      border-bottom: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+    }
+    .a-grid > :last-child { border-bottom: 0; }
   }
   @media print {
     @page { size: A4 landscape; margin: 8mm; }
@@ -1255,11 +1363,11 @@ details.a-disclosure[open] > summary::before {
 <section class="cog-hero">
   <div class="cog-index">01</div>
   <div>
-    <h2>Do not replace Power Apps yet.</h2>
+    <h2>Keep Power Apps during a 90-day pilot.</h2>
     <p>
-      Run a 90-day code-first pilot while retaining the managed platform.
-      Reduce licenses only if Devin-assisted delivery proves repeatable,
-      secure to operate, and economically preferable across representative apps.
+      Build two representative applications with the shared codebase. Reduce
+      licenses only if the team can deliver them repeatedly, pass security review,
+      and operate them for less than the managed platform.
     </p>
   </div>
 </section>
@@ -1267,8 +1375,8 @@ details.a-disclosure[open] > summary::before {
 <section class="a-section">
   <div class="cog-decision">
     <strong>Decision in one line</strong>
-    The opportunity is credible, but the license buys a control plane—not just screens.
-    Validate the operating model before taking ownership of it.
+    The license covers governance and operations in addition to screens.
+    Prove the replacement operating model before taking ownership of those systems.
   </div>
 </section>
 
@@ -1304,7 +1412,7 @@ details.a-disclosure[open] > summary::before {
 <section class="a-section">
   <div class="cog-section-head">
     <div class="cog-index">03</div>
-    <h2 class="a-section__title">What each option actually buys</h2>
+    <h2 class="a-section__title">What each option includes</h2>
   </div>
   <div class="a-grid a-grid--halves">
     <article class="a-panel">
@@ -1312,29 +1420,29 @@ details.a-disclosure[open] > summary::before {
       <p class="a-prose">
         A visual maker, Dataverse, connectors, security roles, data policies,
         audit, environments, pipelines, backups, administration, and
-        non-engineer autonomy—operated by Microsoft.
+        non-engineer autonomy. Microsoft operates the control plane.
       </p>
     </article>
     <article class="a-panel">
       <div class="a-panel__head"><h3 class="a-panel__title">Devin + owned code</h3></div>
       <p class="a-prose">
         Full control of domain behavior and UX, native source control and tests,
-        reusable company-specific controls, fewer platform constraints—and
-        engineering ownership of every production layer.
+        reusable company-specific controls, and fewer platform constraints.
+        The engineering team owns every production layer.
       </p>
     </article>
   </div>
   <div class="a-callout a-callout--risk">
-    <strong>The real gap:</strong> screens are straightforward. SSO, provisioning,
+    <strong>Production ownership</strong> A replacement must cover SSO, provisioning,
     secrets, deployments, observability, backups, security review, support, and
-    incident response determine total cost.
+    incident response. Those systems determine the operating cost.
   </div>
 </section>
 
 <section class="a-section">
   <div class="cog-section-head">
     <div class="cog-index">04</div>
-    <h2 class="a-section__title">An honest comparison</h2>
+    <h2 class="a-section__title">Comparison by capability</h2>
   </div>
   <div class="a-table-scroll">
     <table class="a-table">
@@ -1374,7 +1482,7 @@ details.a-disclosure[open] > summary::before {
       </ul>
     </article>
     <article class="a-panel">
-      <div class="a-panel__head"><h3 class="a-panel__title">Not yet proven</h3></div>
+      <div class="a-panel__head"><h3 class="a-panel__title">Open production work</h3></div>
       <ul class="a-prose">
         <li>Production identity, provisioning, secrets, and integrations.</li>
         <li>Deployment, observability, backups, incident response, and security review.</li>

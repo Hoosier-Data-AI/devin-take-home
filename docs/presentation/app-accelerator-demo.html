@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content="Devin artifact kit" />
-    <title>App Accelerator demo guide</title>
+    <title>App Accelerator: live demo guide</title>
     <style>
 /* Devin artifact kit — self-contained styles for standalone HTML artifacts.
    Tokens are translated from the Devin product design system. Light is the
@@ -1107,8 +1107,8 @@ details.a-disclosure[open] > summary::before {
     <main class="a-shell">
       <header class="a-header">
         <div>
-          <h1 class="a-header__title">App Accelerator demo guide</h1>
-          <p class="a-header__subtitle">A precise speaker guide for explaining Generate → Enforce → Connect without overstating the prototype.</p>
+          <h1 class="a-header__title">App Accelerator: live demo guide</h1>
+          <p class="a-header__subtitle">Exact commands and speaker notes for the Generate, Enforce, and Connect demo.</p>
         </div>
         <button
           type="button"
@@ -1173,8 +1173,27 @@ details.a-disclosure[open] > summary::before {
   .cog-script::before { content:"SAY"; display:block; margin-bottom:8px; color:#2200ff; font:700 .66rem ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.09em; }
   .cog-boundary { border-top:1px solid currentColor; border-bottom:1px solid currentColor; padding:18px 0; }
   .cog-boundary strong { color:#2200ff; }
+  .a-section { margin:0; padding:34px 0 28px; border-top:1px solid color-mix(in srgb,currentColor 20%,transparent); }
+  .a-section__title { font-family:ui-sans-serif,system-ui,sans-serif; font-size:clamp(1.45rem,2.4vw,2.15rem); font-weight:480; line-height:1.06; letter-spacing:-.035em; }
+  .a-grid { gap:0!important; margin-top:20px; border-top:1px solid currentColor; border-bottom:1px solid currentColor; }
+  .a-grid > .a-panel { min-width:0; margin:0; padding:22px; border:0; border-right:1px solid color-mix(in srgb,currentColor 18%,transparent); border-radius:0; background:transparent; box-shadow:none; }
+  .a-grid > :last-child { border-right:0; }
+  .a-panel__head { margin:0 0 14px; padding:0; border:0; }
+  .a-panel__title { font-family:ui-sans-serif,system-ui,sans-serif; font-size:1rem; font-weight:650; letter-spacing:-.015em; }
+  .a-prose,.a-panel li { font-family:Georgia,"Times New Roman",serif; line-height:1.5; }
+  .a-prose li + li { margin-top:.45rem; }
+  .a-callout { margin-top:20px; padding:18px 20px; border:0; border-top:1px solid currentColor; border-bottom:1px solid currentColor; border-left:2px solid #2200ff; border-radius:0; background:color-mix(in srgb,currentColor 3%,transparent); box-shadow:none; font-family:Georgia,"Times New Roman",serif; line-height:1.48; }
+  .a-disclosure { margin-top:28px; border:0; border-top:1px solid currentColor; border-bottom:1px solid currentColor; border-radius:0; background:transparent; }
+  .a-disclosure summary { font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; }
   @media(max-width:700px){.cog-flow{grid-template-columns:1fr}.cog-flow article{border-right:0;border-bottom:1px solid color-mix(in srgb,currentColor 18%,transparent)}.cog-flow article:last-child{border-bottom:0}}
-  @media(max-width:620px){.cog-masthead{align-items:flex-start;flex-direction:column;gap:8px}.cog-meta{text-align:left}.cog-hero,.cog-section-head{grid-template-columns:1fr;gap:6px}}
+  @media(max-width:620px){
+    .cog-masthead{align-items:flex-start;flex-direction:column;gap:8px}
+    .cog-meta{text-align:left}
+    .cog-hero,.cog-section-head{grid-template-columns:1fr;gap:6px}
+    .a-section{padding:28px 0 22px}
+    .a-grid > .a-panel{border-right:0;border-bottom:1px solid color-mix(in srgb,currentColor 18%,transparent)}
+    .a-grid > :last-child{border-bottom:0}
+  }
   @media print { @page{size:A4 portrait;margin:10mm}.a-shell{max-width:none!important;zoom:.68}.a-section{margin-block:8px!important}.a-panel,.a-callout{padding:8px!important}.a-prose,li,p{font-size:8.2pt!important;line-height:1.22!important}.cog-hero{padding-top:12px}.cog-hero h2{font-size:26pt!important}.cog-command{font-size:7.5pt!important;padding:8px}.cog-flow article{padding:9px}footer{display:none!important} }
 </style>
 
@@ -1186,10 +1205,10 @@ details.a-disclosure[open] > summary::before {
 <section class="cog-hero">
   <div class="cog-index">01</div>
   <div>
-    <h2>A golden path for app 4—not a mini Power Apps.</h2>
+    <h2>A code-first starting point for app 4.</h2>
     <p>
-      The accelerator reduces repeatable engineering toil while keeping the output
-      typed, reviewable, and subject to the same repository controls as every other app.
+      Every new app starts with the same ownership, permission, service, workspace,
+      and test structure. Engineers still write and review the domain behavior.
     </p>
   </div>
 </section>
@@ -1229,7 +1248,7 @@ cat "$DEMO_DIR/app.manifest.json"</div>
       </ol>
     </article>
     <article class="a-panel">
-      <div class="a-panel__head"><h3 class="a-panel__title">Manifest establishes</h3></div>
+      <div class="a-panel__head"><h3 class="a-panel__title">Manifest records</h3></div>
       <ul class="a-prose">
         <li>Owner, risk tier, and data classification.</li>
         <li>Read and manage permissions.</li>
@@ -1237,7 +1256,7 @@ cat "$DEMO_DIR/app.manifest.json"</div>
       </ul>
     </article>
   </div>
-  <p class="cog-script">“Before domain implementation begins, the app has an owner, risk classification, explicit permissions, typed server and UI starting points, and a test.”</p>
+  <p class="cog-script">“Before anyone writes domain logic, the repo knows who owns the app, how risky it is, which permissions it needs, and which starter files must be reviewed.”</p>
 </section>
 
 <section class="a-section">
@@ -1261,15 +1280,15 @@ cat "$DEMO_DIR/app.manifest.json"</div>
       </ul>
     </article>
   </div>
-  <p class="cog-script">“These are executable guardrails. If a registered app loses its test, workspace, service, route permission, or assigned role, the command fails and can block CI.”</p>
-  <div class="a-callout a-callout--risk"><strong>Precision matters.</strong> `25/25` is a repository gate result—not a security score, compliance claim, or substitute for review.</div>
+  <p class="cog-script">“These checks can run in CI. Remove a test, service, route permission, or assigned role and the command fails.”</p>
+  <div class="a-callout a-callout--risk"><strong>Gate scope</strong> `25/25` reports repository policy checks. It does not measure security, compliance, or production readiness.</div>
 </section>
 
 <section class="a-section">
   <div class="cog-section-head"><div class="cog-index">04</div><h2 class="a-section__title">Demo: show the connector boundary</h2></div>
   <div class="a-grid a-grid--halves">
     <article class="a-panel">
-      <div class="a-panel__head"><h3 class="a-panel__title">What is real</h3></div>
+      <div class="a-panel__head"><h3 class="a-panel__title">Implemented in the prototype</h3></div>
       <ul class="a-prose">
         <li>Local OpenAPI contract.</li>
         <li>Strict Zod response schema.</li>
@@ -1278,7 +1297,7 @@ cat "$DEMO_DIR/app.manifest.json"</div>
       </ul>
     </article>
     <article class="a-panel">
-      <div class="a-panel__head"><h3 class="a-panel__title">What is not claimed</h3></div>
+      <div class="a-panel__head"><h3 class="a-panel__title">Production work omitted</h3></div>
       <ul class="a-prose">
         <li>No network call or production secret.</li>
         <li>No automatic OpenAPI code generation.</li>
@@ -1287,19 +1306,20 @@ cat "$DEMO_DIR/app.manifest.json"</div>
       </ul>
     </article>
   </div>
-  <p class="cog-script">“Devin can work from an API contract to implement typed boundaries, mocks, validation, and tests. This example remains synthetic and does not pretend the live integration is finished.”</p>
+  <p class="cog-script">“Devin can implement against an API contract. This demo stops at local fixtures, validation, and tests; there is no live integration.”</p>
 </section>
 
 <section class="a-section">
-  <div class="cog-section-head"><div class="cog-index">05</div><h2 class="a-section__title">Close in one sentence</h2></div>
+  <div class="cog-section-head"><div class="cog-index">05</div><h2 class="a-section__title">Use a precise claim</h2></div>
   <div class="cog-boundary">
-    <strong>Claim this:</strong> “We are showing a credible code-first path for
-    engineering-owned internal tools: repeatable starts, inherited controls,
-    contract-driven integrations, and reviewable source code.”
+    <strong>Accurate claim</strong> “The prototype gives engineers a repeatable
+    starting point, repository checks, a contract-driven integration pattern,
+    and source code they can review and change.”
   </div>
   <div class="cog-boundary">
-    <strong>Do not claim:</strong> a production-ready fourth app, a live connector,
-    a security certification, a generic workflow engine, or a complete Power Apps replacement.
+    <strong>Boundaries</strong> The demo does not include a production-ready fourth
+    app, live connector, security certification, generic workflow engine, or
+    complete Power Apps replacement.
   </div>
 </section>
 
@@ -1313,7 +1333,7 @@ cat "$DEMO_DIR/app.manifest.json"</div>
 </details>
 
 
-      <footer class="a-footnote">Commands and behavior are verified against the working repository. The connector is synthetic and no-network; the governance result is a repository guardrail, not a security or compliance score. Visual language is adapted from Cognition's public website; this is take-home material, not official brand collateral.</footer>
+      <footer class="a-footnote">Commands and claims are based on the working repository at the time of preparation. The connector is synthetic and makes no network calls. Visual language is adapted from Cognition's public website; this is not official brand collateral.</footer>
     </main>
     <script>
 /* Devin artifact kit — self-contained behavior for standalone HTML artifacts.
