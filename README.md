@@ -97,8 +97,12 @@ The generator writes a manifest, typed service, React workspace, starter test, a
 
 Take-home deliverables:
 
-- [Key decisions one-pager](docs/key-decisions.md)
-- [Five-minute presentation outline](docs/loom-outline.md)
+- [Cognition-styled five-minute presentation](docs/presentation/vp-presentation.html)
+- [Cognition-styled build-vs-buy brief](docs/presentation/build-vs-buy-brief.html)
+- [Cognition-styled Key Decisions one-pager](docs/presentation/key-decisions.html)
+- [Cognition-styled App Accelerator demo guide](docs/presentation/app-accelerator-demo.html)
+- [Screen-share package guide](docs/presentation/README.md)
+- Source notes: [Key Decisions](docs/key-decisions.md) and [presentation outline](docs/loom-outline.md)
 
 ## Tests
 
